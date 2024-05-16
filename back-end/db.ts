@@ -39,31 +39,30 @@ export const createTables = async (): Promise<void> => {
     "username" varchar,
     "created_at" timestamp,
     "email" varchar,
-    "passwordHash" varchar,
+    "password_hash" varchar,
     "phone_number" varchar,
     "address" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "reservation" (
-    "id" uuid PRIMARY KEY,
-    "userId" uuid,
-    "trackId" uuid,
-    "date" date,
-    "startTime" time,
-    "endTime" time,
-    "amount_of_players" integer,
-    "additional_info" varchar
-  );
-  
+  );  
+
   CREATE TABLE IF NOT EXISTS  "tracks" (
     "id" uuid PRIMARY KEY,
     "name" varchar,
     "usable" bool
   );
   
-  ALTER TABLE "reservation" ADD CONSTRAINT "reservation_user" FOREIGN KEY ("userId") REFERENCES "users" ("id");
-  
-  ALTER TABLE "reservation" ADD CONSTRAINT "reservation_track" FOREIGN KEY ("trackId") REFERENCES "tracks" ("id");`;
+  CREATE TABLE IF NOT EXISTS "reservations" (
+    "id" uuid PRIMARY KEY,
+    "user_id" uuid,
+    "track_id" uuid,
+    "date" date,
+    "start_time" time,
+    "end_time" time,
+    "amount_of_players" integer,
+    "additional_info" varchar,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (track_id) REFERENCES tracks(id)
+  );
+  `;
 	await executeQuery(query);
-	console.log("Products table initialized");
+	console.log("Database tables initialized");
 };
