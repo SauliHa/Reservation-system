@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
 import { createTables } from "./db";
-//import * as dao from "./dao";
+import userRouter from "./userRouter";
 
 const server = express();
 
-server.use(express.json());
+server.use("/user", userRouter);
 server.use(express.urlencoded({ extended: false }));
 
 const { PORT } = process.env;

@@ -1,6 +1,8 @@
 import pg, { Pool, QueryResult } from "pg";
 import dotenv from "dotenv";
+import exp from "constants";
 dotenv.config(); // This can be omitted, if dotenv is initialized on startup
+
 
 const { PG_HOST, PG_PORT, PG_USERNAME, PG_PASSWORD, PG_DATABASE } = process.env;
 
@@ -15,7 +17,7 @@ const poolConfig = {
 const pool = new pg.Pool(poolConfig);
 console.log(pool);
 
-const executeQuery = async (
+export const executeQuery = async (
 	query: string,
 	parameters?: any[]
 ): Promise<QueryResult> => {
