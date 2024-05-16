@@ -1,17 +1,18 @@
 import express, { Request, Response } from "express";
-//import * as dao from "./dao";
+import { createTables } from "./db";
+import userRouter from "./userRouter";
 
 const server = express();
 
-server.use(express.json());
+server.use("/user", userRouter);
 server.use(express.urlencoded({ extended: false }));
 
-
-const PORT  = 3000;
+const { PORT } = process.env;
 if (PORT) {
-  server.listen(PORT, () => {
-    console.log("Products API listening to port", PORT);
-  });
+	server.listen(PORT, () => {
+		console.log("Products API listening to port", PORT);
+	});
 } else {
-  console.error("Port number is not provided.");
+	console.error("Port number is not provided.");
 }
+createTables();
