@@ -1,0 +1,14 @@
+.header {
+	border-bottom: solid rgb(52, 52, 52) 1px;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	position: sticky;
+    top: 0;
+	display: flex;
+	justify-content: space-between;
+}
+
+.headerItem {
+	margin-right: 0.5rem;
+	margin-left: 0.5rem;
+}
