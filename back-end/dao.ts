@@ -1,5 +1,6 @@
 import {executeQuery} from './db'
 import { v4 as uuidv4 } from "uuid"
+import { format } from 'date-fns';
 
 export const findUser = async (id: string) => {
     console.log(`Requesting a user with id ${id}...`);
@@ -17,7 +18,8 @@ export const findUser = async (id: string) => {
   export const createUser = async (user: userType) => {
 
     const id = uuidv4();
-    const created_at = new Date().toISOString();
+    //const created_at = new Date().toDateString(); //.toISOString();
+    const created_at = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
 
     //Check for duplicate emails first
     const params = [id, created_at, ...Object.values(user)];
