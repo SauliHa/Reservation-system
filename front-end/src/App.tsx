@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./styles/App.css";
 import FrontPage from "./FrontPage";
 import UserPage from "./UserPage";
@@ -17,9 +17,15 @@ function App() {
 					<Routes>
 						<Route path="/" element={<FrontPage />} />
 						<Route path="/user" element={<UserPage />} />
-						<Route path="/calendar" element={<ReservationCalendarPage />} />
+						<Route
+							path="/calendar"
+							element={<ReservationCalendarPage />}
+						/>
 						<Route path="/login" element={<LoginPage />} />
-						<Route path="/confirm" element={<ConfirmReservationPage />} />
+						<Route
+							path="/confirm"
+							element={<ConfirmReservationPage />}
+						/>
 					</Routes>
 					<Footer />
 				</div>
