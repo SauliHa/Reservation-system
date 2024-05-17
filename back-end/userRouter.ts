@@ -13,7 +13,7 @@ userRouter.get("/:id", async (req, res) => {
     const user = req.body;
     console.log(req.body)
     const result = await dao.createUser(user);
-    const id = { result.rows[0] };
+    const id = { result };
     res.send(id);
   });
 
