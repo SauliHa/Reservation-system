@@ -18,7 +18,6 @@ export const findUser = async (id: string) => {
   export const createUser = async (user: userType) => {
 
     const id = uuidv4();
-    //const created_at = new Date().toDateString(); //.toISOString();
     const created_at = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
 
     //Check for duplicate emails first
@@ -31,4 +30,3 @@ export const findUser = async (id: string) => {
     const result = await executeQuery(query, params);
     return result;
   };
-
