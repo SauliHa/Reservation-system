@@ -1,7 +1,7 @@
 import {executeQuery} from './db'
+import { v4 as uuidv4 } from "uuid"
 
-
-export const findUser = async (id: number) => {
+export const findUser = async (id: string) => {
     console.log(`Requesting a user with id ${id}...`);
     const query = `SELECT * FROM users WHERE id = $1`;
     const params = [id];
@@ -9,14 +9,23 @@ export const findUser = async (id: number) => {
     return result;
   };
 
-  export const createUser = async (product) => {
-    console.log(product)
-    const id = uuidv4();
-    const params = [id, ...Object.values(product)];
-    const query = `INSERT INTO products (id, name, price) VALUES ($1, $2, $3)`
-    console.log(`Inserting a new product ${params[0]}...`);
+  interface userType{
+    id: string;
+    created_at: string; //Date
+  }
+
+  export const createUser = async (user: userType) => {
+    //console.log(user)
+
+    //Check for duplicate emails first
+    const params = [...Object.values(user)]; //id, created_at,
+    const query = 
+    `INSERT INTO users (id, created_at, username, email, password_hash, phone_number, address) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7) 
+    RETURNING id`;
+    console.log(`Inserting a new user ${params[0]}...`);
     const result = await executeQuery(query, params);
-    console.log(`New product ${id} inserted succesfully.`);
+    //console.log(`New user ${id} inserted succesfully.`);
     return result;
   };
 
