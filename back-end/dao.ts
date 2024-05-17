@@ -11,21 +11,22 @@ export const findUser = async (id: string) => {
 
   interface userType{
     id: string;
-    created_at: string; //Date
+    created_at: Date;
   }
 
   export const createUser = async (user: userType) => {
-    //console.log(user)
+
+    const id = uuidv4();
+    const created_at = new Date().toISOString();
 
     //Check for duplicate emails first
-    const params = [...Object.values(user)]; //id, created_at,
+    const params = [id, created_at, ...Object.values(user)];
     const query = 
     `INSERT INTO users (id, created_at, username, email, password_hash, phone_number, address) 
     VALUES ($1, $2, $3, $4, $5, $6, $7) 
     RETURNING id`;
     console.log(`Inserting a new user ${params[0]}...`);
     const result = await executeQuery(query, params);
-    //console.log(`New user ${id} inserted succesfully.`);
     return result;
   };
 
