@@ -1,6 +1,5 @@
-import pg, { Pool, QueryResult } from "pg";
+import pg, {QueryResult } from "pg";
 import dotenv from "dotenv";
-import exp from "constants";
 dotenv.config(); // This can be omitted, if dotenv is initialized on startup
 
 
@@ -19,12 +18,13 @@ console.log(pool);
 
 export const executeQuery = async (
 	query: string,
-	parameters?: any[]
+	parameters?: Array<string | number | Date>
 ): Promise<QueryResult> => {
 	const client = await pool.connect();
 	try {
 		const result = await client.query(query, parameters);
 		return result;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		console.error(error.stack);
 		error.name = "dbError";
