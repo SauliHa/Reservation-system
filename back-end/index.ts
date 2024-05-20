@@ -11,7 +11,7 @@ server.use(express.urlencoded({ extended: false }));
 const { PORT } = process.env;
 if (PORT) {
 	server.listen(PORT, () => {
-		console.log("Products API listening to port", PORT);
+		console.log("Listening to port", PORT);
 	});
 } else {
 	console.error("Port number is not provided.");
