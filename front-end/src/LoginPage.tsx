@@ -7,9 +7,9 @@ import BackendService from "./BackendService";
 
 export interface User {
 	username: string;
-	password: string;
+	password_hash: string;
 	email: string;
-	phone: string;
+	phone_number: string;
 	address?: string;
 }
 
@@ -29,12 +29,14 @@ const LoginPage = () => {
 	) => {
 		const newUser: User = {
 			username: username,
-			password: password,
 			email: email,
-			phone: phone,
+			password_hash: password,
+			phone_number: phone,
 			address: address,
 		};
-		BackendService.createUser(newUser);
+		console.log("testi");
+		const createdUser = BackendService.createUser(newUser);
+		console.log(createdUser);
 	};
 
 	const login = (username: string, password: string) => {
