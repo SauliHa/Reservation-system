@@ -1,6 +1,7 @@
-import pg, { Pool, QueryResult } from "pg";
+import pg, {QueryResult } from "pg";
 import dotenv from "dotenv";
 dotenv.config(); // This can be omitted, if dotenv is initialized on startup
+
 
 const { PG_HOST, PG_PORT, PG_USERNAME, PG_PASSWORD, PG_DATABASE } = process.env;
 
@@ -15,14 +16,15 @@ const poolConfig = {
 const pool = new pg.Pool(poolConfig);
 console.log(pool);
 
-const executeQuery = async (
+export const executeQuery = async (
 	query: string,
-	parameters?: any[]
+	parameters?: Array<string | number | Date>
 ): Promise<QueryResult> => {
 	const client = await pool.connect();
 	try {
 		const result = await client.query(query, parameters);
 		return result;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		console.error(error.stack);
 		error.name = "dbError";
