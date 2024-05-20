@@ -1,14 +1,39 @@
-.header {
-	border-bottom: solid rgb(52, 52, 52) 1px;
-	padding-top: 2rem;
-	padding-bottom: 2rem;
-	position: sticky;
-    top: 0;
+.superheader{
 	display: flex;
+	flex-flow: row;
 	justify-content: space-between;
+	background-color: white;
+	border-bottom: solid 1px rgb(132, 132, 132);
+}
+.header {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-end;
+	
+	list-style: none;
+	margin: 0; 
+	background-color: white;
+}
+#headerTitle {
+	align-self: left;
+	margin-top: 0.5rem;
+	margin-left: 1em;
+}
+#loginButton {
+	margin-top: 0.7rem;
+	margin-right:1em;
 }
 
 .headerItem {
-	margin-right: 0.5rem;
-	margin-left: 0.5rem;
+	text-decoration: none;
+	display: block;
+	padding: 1em;
+	margin-right:1em;
 }
+
+.headerItem:hover {
+	color:white;
+	background-color: #1565C0;
+  }
+
+  
