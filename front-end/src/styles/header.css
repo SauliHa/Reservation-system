@@ -4,12 +4,13 @@
 	justify-content: space-between;
 	background-color: white;
 	border-bottom: solid 1px rgb(132, 132, 132);
+	position: sticky;
+    top: 0;
 }
 .header {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: flex-end;
-	
 	list-style: none;
 	margin: 0; 
 	background-color: white;

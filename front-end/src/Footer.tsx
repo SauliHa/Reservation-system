@@ -5,6 +5,7 @@ export function Footer () {
 	return (
 		<div className="footer">
 			<p className="footerItem">Super-sport</p>
+			<a href="#top">Back to top</a>
 			<div className="footerItem">
 				<MDBBtn tag='a' color='none' className='m-1' style={{ color: "#3b5998" }}>
 					<MDBIcon fab icon='facebook-f' size='lg' />
