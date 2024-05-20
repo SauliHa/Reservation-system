@@ -1,12 +1,14 @@
 import express from "express";
 import { createTables } from "./db";
 import userRouter from "./userRouter";
+import cors from "cors";
 
 const server = express();
 
 server.use(express.json());
 server.use("/user", userRouter);
 server.use(express.urlencoded({ extended: false }));
+server.use(cors());
 
 const { PORT } = process.env;
 if (PORT) {
