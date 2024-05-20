@@ -11,10 +11,7 @@ const LoginForm = (props: {
 	return (
 		<div className="accountForm">
 			<div className="mb-3">
-				<Form.Group
-					className="mb-3"
-					controlId="exampleForm.ControlInput1"
-				>
+				<Form.Group className="mb-3">
 					<Form.Label>Username</Form.Label>
 					<Form.Control
 						value={username}
@@ -24,10 +21,7 @@ const LoginForm = (props: {
 						type="text"
 					/>
 				</Form.Group>
-				<Form.Group
-					className="mb-3"
-					controlId="exampleForm.ControlInput1"
-				>
+				<Form.Group className="mb-3">
 					<Form.Label>Password</Form.Label>
 					<Form.Control
 						value={password}
