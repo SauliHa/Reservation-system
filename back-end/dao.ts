@@ -1,4 +1,4 @@
-import {executeQuery} from "./db";
+import { executeQuery } from "./db";
 import { v4 as uuidv4 } from "uuid";
 import { format } from "date-fns";
 
@@ -10,10 +10,10 @@ export const findUser = async (id: string) => {
 	return result;
 };
 
-  interface userType{
-    id: string;
-    created_at: Date;
-  }
+interface userType {
+	id: string;
+	created_at: Date;
+}
 
  export const checkEmail = async (email : string) => {
 	const emailQuery = `SELECT * FROM users WHERE email = $1`;
@@ -25,7 +25,6 @@ export const findUser = async (id: string) => {
   
 
 export const createUser = async (user: userType) => {
-
 	const id = uuidv4();
 	const created_at = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
 
@@ -39,4 +38,3 @@ export const createUser = async (user: userType) => {
 	const result = await executeQuery(query, params);
 	return result;
 };
-	
