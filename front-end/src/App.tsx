@@ -13,6 +13,7 @@ function App() {
 		<>
 			<Router>
 				<div className="content">
+					<a id="top"></a>
 					<Header />
 					<Routes>
 						<Route path="/" element={<FrontPage />} />

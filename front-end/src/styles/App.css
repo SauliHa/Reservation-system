@@ -7,3 +7,18 @@
   #main {
 	flex: 1;
   }
+
+  .frontImage{
+	max-width: 100%;
+  }
+
+  .frontPageContentItem {
+
+  }
+
+  #frontPageTitle{
+	text-align: center;
+	margin-top: 2rem;
+	margin-bottom: 3rem;
+  }
+
