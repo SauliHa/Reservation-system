@@ -20,8 +20,14 @@ export const createUser = async (user: userType) => {
 	const id = uuidv4();
 	const created_at = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
 
+
 	//Check for duplicate emails first
 	const params = [id, created_at, ...Object.values(user)];
+	const emailQuery = `SELECT * FROM users WHERE email = $4`;
+	const emailResult = await executeQuery(emailQuery, params);
+		if (emailResult.rows.length > 0){
+			console.log("This email is already in use")
+		}
 	const query = 
     `INSERT INTO users (id, created_at, username, email, password_hash, phone_number, address) 
     VALUES ($1, $2, $3, $4, $5, $6, $7) 
@@ -30,3 +36,4 @@ export const createUser = async (user: userType) => {
 	const result = await executeQuery(query, params);
 	return result;
 };
+	

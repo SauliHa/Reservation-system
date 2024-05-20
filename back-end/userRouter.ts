@@ -9,7 +9,7 @@ userRouter.get("/:id", async (req, res) => {
 	res.send(user);
 });
 
-userRouter.post("/:create", async (req, res) => {
+userRouter.post("/create", async (req, res) => {
 	const user = req.body;
 	console.log(req.body);
 	const result = await dao.createUser(user);
