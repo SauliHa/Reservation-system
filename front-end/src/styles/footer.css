@@ -1,11 +1,12 @@
 .footer {
-	border-top: solid rgb(52, 52, 52) 1px;
 	padding-top: 2rem;
 	padding-bottom: 2rem;
 
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
+	background-color: rgb(231, 231, 231);
+	align-self: flex-end;
 }
 
 .footerItem {
