@@ -3,6 +3,15 @@ import { useState } from "react";
 import "./styles/loginPage.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import BackendService from "./BackendService";
+
+export interface User {
+	username: string;
+	password: string;
+	email: string;
+	phone: string;
+	address?: string;
+}
 
 const LoginPage = () => {
 	const [registerMode, setRegisterMode] = useState(false);
@@ -11,11 +20,21 @@ const LoginPage = () => {
 		setRegisterMode(mode);
 	};
 
-	const register = (username: string, password: string) => {
-		//todo: lisää tähän kutsu backendiin ja poista tämä placeholderina toimiva console.log
-		console.log(
-			"Register, username: " + username + ", password: " + password
-		);
+	const register = (
+		username: string,
+		password: string,
+		email: string,
+		phone: string,
+		address: string
+	) => {
+		const newUser: User = {
+			username: username,
+			password: password,
+			email: email,
+			phone: phone,
+			address: address,
+		};
+		BackendService.createUser(newUser);
 	};
 
 	const login = (username: string, password: string) => {
