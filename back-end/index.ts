@@ -6,9 +6,9 @@ import cors from "cors";
 const server = express();
 
 server.use(express.json());
-server.use("/user", userRouter);
-server.use(express.urlencoded({ extended: false }));
 server.use(cors());
+server.use(express.urlencoded({ extended: false }));
+server.use("/user", userRouter);
 
 const { PORT } = process.env;
 if (PORT) {

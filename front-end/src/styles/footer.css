@@ -1,0 +1,15 @@
+.footer {
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	background-color: rgb(231, 231, 231);
+	align-self: flex-end;
+}
+
+.footerItem {
+	margin-right: 1rem;
+	margin-left: 1rem;
+}
