@@ -38,8 +38,9 @@ const LoginPage = () => {
 	};
 
 	const login = (username: string, password: string) => {
-		//todo: lisää tähän kutsu backendiin ja poista tämä placeholderina toimiva console.log
-		console.log("Login, username: " + username + ", password: " + password);
+		const loginObject = { username: username, password: password };
+
+		BackendService.login(loginObject);
 	};
 
 	return !registerMode ? (
