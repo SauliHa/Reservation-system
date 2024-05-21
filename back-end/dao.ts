@@ -15,13 +15,13 @@ interface userType {
 	created_at: Date;
 }
 
- export const checkEmail = async (email: string) => {
-	const emailQuery = `SELECT * FROM users WHERE email = $1`;
-	const params = [email]
-  	const emailResult = await executeQuery(emailQuery, params);
- 	console.log(emailResult)
+export const checkEmail = async (email: string) => {
+	const emailQuery = "SELECT * FROM users WHERE email = $1";
+	const params = [email];
+	const emailResult = await executeQuery(emailQuery, params);
+	console.log(emailResult);
 	return emailResult;
-  }
+};
 
 export const createUser = async (user: userType) => {
 	const id = uuidv4();
