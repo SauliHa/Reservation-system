@@ -41,15 +41,8 @@ export const createUser = async (username: string, password: string, email: stri
 
 export const comparePassword = async (email: string) => {
 	const params = [email];
-	
 	const query =  "SELECT * FROM users WHERE email = $1";
 	const result = await executeQuery (query, params);
 	return result;
 };
 
-export const logIn = async (email: string) => {
-	const params = [email];
-	const query =  "SELECT * FROM users WHERE email = $1";
-	const result =  await executeQuery(query, params);
-	return result;
-};
