@@ -1,10 +1,5 @@
 import axios from "axios";
-//import dotenv from "dotenv";
 import { User } from "./LoginPage";
-
-//dotenv.config();
-
-//const { PORT } = process.env;
 
 const userBaseURL = "http://localhost:3000/user";
 
