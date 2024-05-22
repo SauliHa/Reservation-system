@@ -29,7 +29,7 @@ export const createUser = async (username: string, password: string, email: stri
 	const id = uuidv4();
 	const created_at = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
 	const password_hash = await argon2.hash(password);
-	const params = [id, created_at, username, email, password_hash, phone_number, address ]; //...Object.values(user)
+	const params = [id, created_at, username, email, password_hash, phone_number, address ];
 	const query = 
     `INSERT INTO users (id, created_at, username, email, password_hash, phone_number, address) 
     VALUES ($1, $2, $3, $4, $5, $6, $7) 
@@ -46,3 +46,22 @@ export const comparePassword = async (email: string) => {
 	return result;
 };
 
+
+export const deleteUser = async (id: string) => {
+	console.log(`Deleting user with id ${id}...`);
+	const query = "DELETE FROM users WHERE id = $1 RETURNING id"; //delete 	RETURNING id
+	const params = [id];
+	
+	try {
+		const result = await executeQuery(query, params);
+		if (result.rowCount === 0) {
+			console.log(`User with id ${id} not found.`);
+			return result;
+		}
+		console.log(`User ${id} deleted successfully.`);
+		return result;
+	} catch (error) {
+		console.error(`Error deleting user with id ${id}:`, error);
+		throw error;
+	}
+};
