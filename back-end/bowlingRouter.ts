@@ -1,5 +1,5 @@
 import express from "express";
-import {findLane} from "./bowling-dao";
+import {findLane, findDate } from "./bowling-dao";
 
 const bowlingRouter = express.Router();
 
@@ -8,5 +8,12 @@ bowlingRouter.get("/:id", async (req, res) => {
 	const lane = result.rows[0];
 	res.send(lane);
 });
+
+bowlingRouter.get("/date/:date", async (req, res) => {
+	const result = await findDate(req.params.date);
+	const dateinfo = result.rows[0];
+	res.send(dateinfo);
+});
+
 
 export default bowlingRouter;
