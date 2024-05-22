@@ -1,7 +1,13 @@
 import express from "express";
-import {findLane, findDate } from "./bowling-dao";
+import { findAllLanes, findLane, findDate } from "./bowling-dao";
 
 const bowlingRouter = express.Router();
+
+bowlingRouter.get("/", async (req, res) => {
+	const result = await findAllLanes();
+	const lanes= result.rows[0];
+	res.send(lanes);
+});
 
 bowlingRouter.get("/:id", async (req, res) => {
 	const result = await findLane(req.params.id);
