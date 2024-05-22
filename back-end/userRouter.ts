@@ -62,4 +62,27 @@ userRouter.delete("/delete/:id", async (req, res) => {
 	}
 });
 
+userRouter.put("/put/:id", async (req, res) => {
+	const { username, password, email, phone_number, address} = req.body;
+
+	const checkedEmail = await dao.checkEmail(email);
+	if (checkedEmail.rows.length > 0) {
+		res.status(401).send("This email is already in use");
+		return;
+	}
+	const userId = req.params.id;
+	console.log(`Request to change user with id ${userId}`);
+  
+	try {
+		const result = await dao.updateUser(userId, username, password, email, phone_number, address);
+		if (result.rowCount === 0) {
+			res.status(404).send("Error: User not found");
+		} else {
+			res.status(200).send(`User with id ${userId} updated successfully.`);
+		}
+	} catch (error) {
+		res.status(500).send("Error updating user.");
+	}
+});
+
 export default userRouter;	
