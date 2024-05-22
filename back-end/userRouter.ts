@@ -38,7 +38,7 @@ userRouter.post("/login", async (req, res) => {
 		const payload: string = email.toString()  ;
 		const secret: string | undefined = process.env.SECRET;
 		//const options = { expiresIn: "1h"};
-		if (secret===undefined){return;}
+		if (secret===undefined){res.status(401).send("The secret is undefined"); return;}
 		const token = jwt.sign(payload, secret);
 		console.log(token);
 		res.send(result.rows[0].id);
