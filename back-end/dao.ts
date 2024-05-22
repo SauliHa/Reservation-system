@@ -65,3 +65,52 @@ export const deleteUser = async (id: string) => {
 		throw error;
 	}
 };
+
+export const updateUser = async (id: string, username: string, password: string, email: string, phone_number: string, address: string) => {
+	console.log(`Updating user with id ${id}...`);
+
+	const updates: string[] = [];
+	const params: (string)[] = [id];
+  
+	if (username) {
+		updates.push(`username = $${updates.length + 2}`);
+		params.push(username);
+	}
+	if (password) {
+		const hashedPassword = await argon2.hash(password);
+		updates.push(`password_hash = $${updates.length + 2}`);
+		params.push(hashedPassword);
+	}
+	if (email) {
+		updates.push(`email = $${updates.length + 2}`);
+		params.push(email);
+	}
+	if (phone_number) {
+		updates.push(`phone_number = $${updates.length + 2}`);
+		params.push(phone_number);
+	}
+	if (address) {
+		updates.push(`address = $${updates.length + 2}`);
+		params.push(address);
+	}
+  
+	if (updates.length === 0) {
+		throw new Error("No valid fields provided for update.");
+	}
+  
+	const query = `UPDATE users SET ${updates.join(", ")} WHERE id = $1`;
+  
+
+	try {
+		const result = await executeQuery(query, params);
+		if (result.rowCount === 0) {
+			console.log(`User with id ${id} not found.`);
+			return result;
+		}
+		console.log(`User ${id} updated successfully.`);
+		return result;
+	} catch (error) {
+		console.error(`Error updating user with id ${id}:`, error);
+		throw error;
+	}
+};

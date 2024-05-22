@@ -1,5 +1,13 @@
 import { executeQuery } from "./db";
 
+const findAllLanes = async () => {
+	console.log("Requesting all lanes...");
+	const query = "SELECT * FROM lanes";
+	const result = await executeQuery(query);
+	return result;
+};
+
+
 const findLane = async (id: string) => {
 	console.log(`Requesting a lane with id ${id}...`);
 	const query = "SELECT * FROM lanes WHERE id = $1";
@@ -8,4 +16,16 @@ const findLane = async (id: string) => {
 	return result;
 };
 
-export { findLane };
+const findDate = async (date: string) => {
+	console.log(`Requesting date info for ${date}...`);
+	const query = `SELECT r.start_time, r.end_time, l.id, l.name
+    FROM reservations AS r
+    JOIN lanes AS l ON r.lane_id = l.id
+    WHERE r.date = $1;`;
+    
+	const params = [date];
+	const result = await executeQuery(query, params);
+	return result;
+};
+
+export { findAllLanes, findLane, findDate };
