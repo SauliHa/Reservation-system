@@ -1,5 +1,13 @@
 import { executeQuery } from "./db";
 
+const findAllLanes = async () => {
+	console.log("Requesting all lanes...");
+	const query = "SELECT * FROM lanes";
+	const result = await executeQuery(query);
+	return result;
+};
+
+
 const findLane = async (id: string) => {
 	console.log(`Requesting a lane with id ${id}...`);
 	const query = "SELECT * FROM lanes WHERE id = $1";
@@ -20,4 +28,4 @@ const findDate = async (date: string) => {
 	return result;
 };
 
-export { findLane, findDate };
+export { findAllLanes, findLane, findDate };
