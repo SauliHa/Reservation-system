@@ -7,6 +7,7 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
+	const [validated, setValidated] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -19,9 +20,22 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 			}
 			if (response.status == 200) {
 				localStorage.setItem("token", response.data);
+				console.log(response.data);
 				navigate("/");
 			}
 		});
+	};
+
+	const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
+		const form = event.currentTarget;
+		event.preventDefault();
+		event.stopPropagation();
+		if (form.checkValidity() === false) {
+			setValidated(false);
+		} else {
+			login(email, password);
+		}
+		setValidated(true);
 	};
 
 	return (
@@ -32,29 +46,33 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 				""
 			)}
 			<div className="mb-3">
-				<Form.Group className="mb-3">
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						value={email}
-						onChange={(e) => {
-							setEmail(e.target.value);
-							setShowErrorMessage(false);
-						}}
-						type="text"
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						value={password}
-						onChange={(e) => {
-							setPassword(e.target.value);
-							setShowErrorMessage(false);
-						}}
-						type="password"
-					/>
-				</Form.Group>
-				<Button onClick={() => login(email, password)}>Log in</Button>
+				<Form noValidate validated={validated} onSubmit={validateForm}>
+					<Form.Group className="mb-3">
+						<Form.Label>Email</Form.Label>
+						<Form.Control
+							value={email}
+							onChange={(e) => {
+								setEmail(e.target.value);
+								setShowErrorMessage(false);
+							}}
+							type="text"
+							required
+						/>
+					</Form.Group>
+					<Form.Group className="mb-3">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							value={password}
+							onChange={(e) => {
+								setPassword(e.target.value);
+								setShowErrorMessage(false);
+							}}
+							type="password"
+							required
+						/>
+					</Form.Group>
+					<Button type="submit">Log in</Button>
+				</Form>
 			</div>
 			<div>
 				<h3 className="mb-3">Need an account?</h3>
