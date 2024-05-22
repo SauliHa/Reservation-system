@@ -46,7 +46,7 @@ export const createTables = async (): Promise<void> => {
     "address" varchar
   );  
 
-  CREATE TABLE IF NOT EXISTS  "tracks" (
+  CREATE TABLE IF NOT EXISTS  "lanes" (
     "id" uuid PRIMARY KEY,
     "name" varchar,
     "usable" bool
@@ -55,14 +55,14 @@ export const createTables = async (): Promise<void> => {
   CREATE TABLE IF NOT EXISTS "reservations" (
     "id" uuid PRIMARY KEY,
     "user_id" uuid,
-    "track_id" uuid,
+    "lane_id" uuid,
     "date" date,
     "start_time" time,
     "end_time" time,
     "amount_of_players" integer,
     "additional_info" varchar,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (track_id) REFERENCES tracks(id)
+    FOREIGN KEY (lane_id) REFERENCES lanes(id)
   );
   `;
 	await executeQuery(query);
