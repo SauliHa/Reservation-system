@@ -46,4 +46,20 @@ userRouter.post("/login", async (req, res) => {
 	else{res.status(401).send("Unauthorized");}
 });
 
+userRouter.delete("/delete/:id", async (req, res) => {
+	const userId = req.params.id;
+	console.log(`Request to delete user with id ${userId}`);
+  
+	try {
+		const result = await dao.deleteUser(userId);
+		if (result.rowCount === 0) {
+			res.status(404).send("Error: User not found");
+		} else {
+			res.status(200).send(`User with id ${userId} deleted successfully.`);
+		}
+	} catch (error) {
+		res.status(500).send("Error deleting user.");
+	}
+});
+
 export default userRouter;	
