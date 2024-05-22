@@ -14,7 +14,7 @@ userRouter.get("/:id", async (req, res) => {
 });
 
 userRouter.post("/create", async (req, res) => {
-	const { username, password, email, phone_number, address} = req.body;
+	const { username, password, email, phone_number, address } = req.body;
 	console.log(req.body);
 
 	const checkedEmail = await dao.checkEmail(email);
@@ -23,7 +23,13 @@ userRouter.post("/create", async (req, res) => {
 		return;
 	}
 
-	const result = await dao.createUser(username, password, email, phone_number, address);
+	const result = await dao.createUser(
+		username,
+		password,
+		email,
+		phone_number,
+		address
+	);
 	res.send(result.rows[0]);
 });
 
@@ -35,15 +41,18 @@ userRouter.post("/login", async (req, res) => {
 	const passwordMatchesHash = await argon2.verify(storedPassword, password);
 
 	if (passwordMatchesHash) {
-		const payload: string = email.toString()  ;
+		const payload: string = email.toString();
 		const secret: string | undefined = process.env.SECRET;
 		//const options = { expiresIn: "1h"};
-		if (secret===undefined){return;}
+		if (secret === undefined) {
+			return;
+		}
 		const token = jwt.sign(payload, secret);
 		console.log(token);
 		res.send(result.rows[0].id);
-	}	 
-	else{res.status(401).send("Unauthorized");}
+	} else {
+		res.status(401).send("Unauthorized");
+	}
 });
 
-export default userRouter;	
+export default userRouter;

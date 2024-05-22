@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import BackendService from "./BackendService";
+import { User } from "./LoginPage";
 
 const RegisterForm = (props: {
-	register: (
-		username: string,
-		password: string,
-		email: string,
-		phone: string,
-		address: string
-	) => void;
+	changeRegisterMode: (mode: boolean) => void;
 }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -17,6 +13,10 @@ const RegisterForm = (props: {
 	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
 	const [validated, setValidated] = useState(false);
+	const [showPasswordMatchingError, setShowPasswordMatchingError] =
+		useState(false);
+	const [showDuplicateEmailError, setShowDuplicateEmailError] =
+		useState(false);
 
 	const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
 		const form = event.currentTarget;
@@ -26,28 +26,52 @@ const RegisterForm = (props: {
 			setValidated(false);
 		} else {
 			if (password === passwordRepeat) {
-				props.register(username, password, email, phone, address);
+				register(username, password, email, phone, address);
 			} else {
-				//todo: viestitä käyttäjälle että salasanat eivät täsmää (esim. input muuttuu punaseksi?)
-				console.log("Salasanat eivät täsmää");
+				setShowPasswordMatchingError(true);
 			}
 		}
 		setValidated(true);
 	};
 
-	/*const validatePasswords = () => {
-		if (
-			password === passwordRepeat &&
-			password !== "" &&
-			passwordRepeat !== ""
-		) {
-			return true;
-		}
-		return false;
-	};*/
+	const register = (
+		username: string,
+		password: string,
+		email: string,
+		phone: string,
+		address: string
+	) => {
+		const newUser: User = {
+			username: username,
+			email: email,
+			password: password,
+			phone_number: phone,
+			address: address,
+		};
+		BackendService.createUser(newUser).then((response) => {
+			if (response === 401) {
+				setShowDuplicateEmailError(true);
+			}
+			if (response === 200) {
+				props.changeRegisterMode(false);
+			}
+		});
+	};
 
 	return (
 		<div className="accountForm">
+			{showPasswordMatchingError ? (
+				<p style={{ color: "red" }}>Passwords do not match</p>
+			) : (
+				""
+			)}
+			{showDuplicateEmailError ? (
+				<p style={{ color: "red" }}>
+					User with this email already exists
+				</p>
+			) : (
+				""
+			)}
 			<Form noValidate validated={validated} onSubmit={validateForm}>
 				<Form.Group className="mb-3">
 					<Form.Label>Username</Form.Label>
@@ -70,6 +94,7 @@ const RegisterForm = (props: {
 						value={password}
 						onChange={(e) => {
 							setPassword(e.target.value);
+							setShowPasswordMatchingError(false);
 						}}
 						type="password"
 					/>
@@ -84,10 +109,9 @@ const RegisterForm = (props: {
 						value={passwordRepeat}
 						onChange={(e) => {
 							setPasswordRepeat(e.target.value);
+							setShowPasswordMatchingError(false);
 						}}
 						type="password"
-						//This validation doesn't really work with HTML5 default validation, figure out better way
-						//isValid={validatePasswords()}
 					/>
 					<Form.Control.Feedback type="invalid">
 						Please repeat the password.
@@ -100,6 +124,7 @@ const RegisterForm = (props: {
 						value={email}
 						onChange={(e) => {
 							setEmail(e.target.value);
+							setShowDuplicateEmailError(false);
 						}}
 						type="text"
 					/>

@@ -3,7 +3,6 @@ import { useState } from "react";
 import "./styles/loginPage.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import BackendService from "./BackendService";
 
 export interface User {
 	username: string;
@@ -20,33 +19,10 @@ const LoginPage = () => {
 		setRegisterMode(mode);
 	};
 
-	const register = (
-		username: string,
-		password: string,
-		email: string,
-		phone: string,
-		address: string
-	) => {
-		const newUser: User = {
-			username: username,
-			email: email,
-			password: password,
-			phone_number: phone,
-			address: address,
-		};
-		BackendService.createUser(newUser);
-	};
-
-	const login = (email: string, password: string) => {
-		const loginObject = { email: email, password: password };
-
-		BackendService.login(loginObject);
-	};
-
 	return !registerMode ? (
-		<LoginForm changeRegisterMode={changeRegisterMode} login={login} />
+		<LoginForm changeRegisterMode={changeRegisterMode} />
 	) : (
-		<RegisterForm register={register} />
+		<RegisterForm changeRegisterMode={changeRegisterMode} />
 	);
 };
 
