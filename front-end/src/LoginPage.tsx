@@ -37,8 +37,8 @@ const LoginPage = () => {
 		BackendService.createUser(newUser);
 	};
 
-	const login = (username: string, password: string) => {
-		const loginObject = { username: username, password: password };
+	const login = (email: string, password: string) => {
+		const loginObject = { email: email, password: password };
 
 		BackendService.login(loginObject);
 	};

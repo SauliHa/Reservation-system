@@ -5,18 +5,18 @@ const LoginForm = (props: {
 	changeRegisterMode: (mode: boolean) => void;
 	login: (username: string, password: string) => void;
 }) => {
-	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	return (
 		<div className="accountForm">
 			<div className="mb-3">
 				<Form.Group className="mb-3">
-					<Form.Label>Username</Form.Label>
+					<Form.Label>Email</Form.Label>
 					<Form.Control
-						value={username}
+						value={email}
 						onChange={(e) => {
-							setUsername(e.target.value);
+							setEmail(e.target.value);
 						}}
 						type="text"
 					/>
@@ -31,7 +31,7 @@ const LoginForm = (props: {
 						type="password"
 					/>
 				</Form.Group>
-				<Button onClick={() => props.login(username, password)}>
+				<Button onClick={() => props.login(email, password)}>
 					Log in
 				</Button>
 			</div>

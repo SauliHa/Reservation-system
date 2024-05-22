@@ -8,7 +8,7 @@ const createUser = (newUser: User) => {
 	return request.then((response) => response.status);
 };
 
-const login = (loginObject: { username: string; password: string }) => {
+const login = (loginObject: { email: string; password: string }) => {
 	const request = axios.post(`${userBaseURL}/login`, loginObject);
 	return request.then((response) => response.data);
 };
