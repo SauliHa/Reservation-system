@@ -14,10 +14,11 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 		const loginObject = { email: email, password: password };
 
 		BackendService.login(loginObject).then((response) => {
-			if (response === 401) {
+			if (response.status === 401) {
 				setShowErrorMessage(true);
 			}
-			if (response == 200) {
+			if (response.status == 200) {
+				localStorage.setItem("token", response.data);
 				navigate("/");
 			}
 		});

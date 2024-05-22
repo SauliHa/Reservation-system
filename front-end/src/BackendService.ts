@@ -13,8 +13,12 @@ const createUser = (newUser: User) => {
 const login = (loginObject: { email: string; password: string }) => {
 	const request = axios.post(`${userBaseURL}/login`, loginObject);
 	return request
-		.then((response) => response.status)
-		.catch((error) => error.response.status);
+		.then((response) => {
+			return { status: response.status, data: response.data };
+		})
+		.catch((error) => {
+			return { status: error.response.status, data: "" };
+		});
 };
 
 export default { createUser, login };

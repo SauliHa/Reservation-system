@@ -49,7 +49,7 @@ userRouter.post("/login", async (req, res) => {
 		}
 		const token = jwt.sign(payload, secret);
 		console.log(token);
-		res.send(result.rows[0].id);
+		res.send(token);
 	} else {
 		res.status(401).send("Unauthorized");
 	}
