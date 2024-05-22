@@ -56,7 +56,7 @@ export const deleteUser = async (id: string) => {
 		const result = await executeQuery(query, params);
 		if (result.rowCount === 0) {
 			console.log(`User with id ${id} not found.`);
-			return;
+			return result;
 		}
 		console.log(`User ${id} deleted successfully.`);
 		return result;

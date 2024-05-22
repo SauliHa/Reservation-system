@@ -52,8 +52,8 @@ userRouter.delete("/delete/:id", async (req, res) => {
   
 	try {
 		const result = await dao.deleteUser(userId);
-		if (result) {
-			res.status(404).send(result);
+		if (result.rowCount === 0) {
+			res.status(404).send("Error: User not found");
 		} else {
 			res.status(200).send(`User with id ${userId} deleted successfully.`);
 		}
