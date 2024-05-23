@@ -49,7 +49,8 @@ export const comparePassword = async (email: string) => {
 
 export const deleteUser = async (id: string) => {
 	console.log(`Deleting user with id ${id}...`);
-	const query = "DELETE FROM users WHERE id = $1 RETURNING id"; //delete 	RETURNING id
+	const query = `WITH deleted_user AS (DELETE FROM users WHERE id = $1 RETURNING id)
+	  DELETE FROM reservations WHERE user_id = (SELECT id FROM deleted_user) RETURNING user_id;`;
 	const params = [id];
 	
 	try {
