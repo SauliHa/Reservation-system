@@ -21,4 +21,9 @@ const login = (loginObject: { email: string; password: string }) => {
 		});
 };
 
-export default { createUser, login };
+const checkToken = (token: string) => {
+	const request = axios.get(`${userBaseURL}/token/${token}`);
+	return request.then((response) => response.data).catch((error) => error);
+};
+
+export default { createUser, login, checkToken };

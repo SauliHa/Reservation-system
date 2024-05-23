@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import "./styles/loginPage.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import { AppContext } from "./App";
+import { Button } from "react-bootstrap";
 
 export interface User {
 	username: string;
@@ -14,12 +16,21 @@ export interface User {
 
 const LoginPage = () => {
 	const [registerMode, setRegisterMode] = useState(false);
+	const userInfo = useContext(AppContext);
 
 	const changeRegisterMode = (mode: boolean) => {
 		setRegisterMode(mode);
 	};
 
-	return !registerMode ? (
+	const logOut = () => {
+		localStorage.removeItem("token");
+	};
+
+	return userInfo.loggedIn ? (
+		<Button className="w-25 p-3" onClick={logOut}>
+			Log out
+		</Button>
+	) : !registerMode ? (
 		<LoginForm changeRegisterMode={changeRegisterMode} />
 	) : (
 		<RegisterForm changeRegisterMode={changeRegisterMode} />
