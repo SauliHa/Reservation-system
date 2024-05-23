@@ -35,18 +35,18 @@ userRouter.post("/login", async (req, res) => {
 	const passwordMatchesHash = await argon2.verify(storedPassword, password);
 
 	if (passwordMatchesHash) {
-		const payload: string = email.toString()  ;
-		const secret: string | undefined = process.env.SECRET;
-		//const options = { expiresIn: "1h"};
+		const payload = { email };
+		const secret = process.env.secret;
+		const options = { expiresIn: "1h" };
 		if (secret===undefined){return;}
-		const token = jwt.sign(payload, secret);
+		const token = jwt.sign(payload, secret, options);
 		console.log(token);
 		res.send(result.rows[0].id);
 	}	 
 	else{res.status(401).send("Unauthorized");}
 });
 
-userRouter.delete("/delete/:id", async (req, res) => {
+userRouter.delete("/:id", async (req, res) => {
 	const userId = req.params.id;
 	console.log(`Request to delete user with id ${userId}`);
   
@@ -62,7 +62,7 @@ userRouter.delete("/delete/:id", async (req, res) => {
 	}
 });
 
-userRouter.put("/put/:id", async (req, res) => {
+userRouter.put("/:id", async (req, res) => {
 	const { username, password, email, phone_number, address} = req.body;
 
 	const checkedEmail = await dao.checkEmail(email);
