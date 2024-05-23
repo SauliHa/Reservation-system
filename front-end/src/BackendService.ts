@@ -10,7 +10,7 @@ const createUser = (newUser: User) => {
 		.catch((error) => error.response.status);
 };
 
-const login = (loginObject: { email: string; password: string }) => {
+const sendLoginRequest = (loginObject: { email: string; password: string }) => {
 	const request = axios.post(`${userBaseURL}/login`, loginObject);
 	return request
 		.then((response) => {
@@ -40,4 +40,10 @@ const getReservationInfoByDate = async (date: string) => {
 	return request;
 };
 
-export { createUser, getLanes, getReservationInfoByDate, login, checkToken };
+export {
+	createUser,
+	getLanes,
+	getReservationInfoByDate,
+	sendLoginRequest,
+	checkToken,
+};

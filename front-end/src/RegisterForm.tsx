@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import BackendService from "./BackendService";
+import { createUser } from "./BackendService";
 import { User } from "./LoginPage";
 
 const RegisterForm = (props: {
@@ -48,7 +48,7 @@ const RegisterForm = (props: {
 			phone_number: phone,
 			address: address,
 		};
-		BackendService.createUser(newUser).then((response) => {
+		createUser(newUser).then((response) => {
 			if (response === 401) {
 				setShowDuplicateEmailError(true);
 			}

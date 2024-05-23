@@ -9,7 +9,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import axios from "axios";
 import { useEffect, useState, createContext } from "react";
-import BackendService from "./BackendService";
+import { checkToken } from "./BackendService";
 
 export const setAuthToken = (token: string) => {
 	if (token) {
@@ -31,7 +31,7 @@ function App() {
 		const token = localStorage.getItem("token");
 		if (token) {
 			setAuthToken(token);
-			const response = await BackendService.checkToken(token);
+			const response = await checkToken(token);
 			if (response.error === "Invalid token") {
 				localStorage.removeItem("token");
 				return;

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import BackendService from "./BackendService";
+import { sendLoginRequest } from "./BackendService";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "./App";
 
@@ -17,7 +17,7 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 	const login = (email: string, password: string) => {
 		const loginObject = { email: email, password: password };
 
-		BackendService.login(loginObject).then((response) => {
+		sendLoginRequest(loginObject).then((response) => {
 			if (response.status === 401) {
 				setShowErrorMessage(true);
 			}
