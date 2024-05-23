@@ -3,6 +3,7 @@ import { createTables } from "./db";
 import userRouter from "./userRouter";
 import bowlingRouter from "./bowlingRouter";
 import cors from "cors";
+import reservationRouter from "./reservationRouter";
 
 const server = express();
 
@@ -11,6 +12,7 @@ server.use(cors());
 server.use(express.urlencoded({ extended: false }));
 server.use("/user", userRouter);
 server.use("/bowling", bowlingRouter);
+server.use("/reservations", reservationRouter);
 
 const { PORT } = process.env;
 if (PORT) {

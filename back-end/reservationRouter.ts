@@ -1,5 +1,5 @@
 import express from "express";
-import {findReservation} from "./reservation-dao";
+import {findReservation, createReservation} from "./reservation-dao";
 
 const reservationRouter = express.Router();
 
@@ -12,11 +12,16 @@ reservationRouter.get("/:id", async (req, res) => {
 
 
 reservationRouter.post("/create", async (req, res) => {
-	const {userId, players, start_time, end_time} = req.body;
+	const {user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
 	console.log(req.body);
 
-	const result = await dao.createReservation(userId, players, start_time, end_time);
-	res.send(result.rows[0]);
+	try {
+		const result = await createReservation(user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info);
+		res.status(201).send(result.rows[0]);
+	} catch (error) {
+		console.error("Error creating reservation:", error);
+		res.status(500).send("Error creating reservation");
+	}
 });
 
 export default reservationRouter;
