@@ -26,6 +26,11 @@ const checkToken = (token: string) => {
 	return request.then((response) => response.data).catch((error) => error);
 };
 
+const getUserDetails = (id: string) => {
+	const request = axios.get(`${userBaseURL}/${id}`);
+	return request.then((response) => response.data);
+};
+
 const bowlingBaseURL = "http://localhost:3000/bowling/";
 
 const getLanes = async () => {
@@ -44,4 +49,5 @@ export {
 	getReservationInfoByDate,
 	sendLoginRequest,
 	checkToken,
+	getUserDetails,
 };
