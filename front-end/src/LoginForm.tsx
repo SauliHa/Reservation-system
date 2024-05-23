@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import BackendService from "./BackendService";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "./App";
 
 const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const [validated, setValidated] = useState(false);
+
+	const userInfo = useContext(AppContext);
 
 	const navigate = useNavigate();
 
@@ -20,6 +23,7 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 			}
 			if (response.status == 200) {
 				localStorage.setItem("token", response.data);
+				userInfo.hook();
 				console.log(response.data);
 				navigate("/");
 			}

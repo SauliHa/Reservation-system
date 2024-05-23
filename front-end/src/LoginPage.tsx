@@ -24,12 +24,18 @@ const LoginPage = () => {
 
 	const logOut = () => {
 		localStorage.removeItem("token");
+		userInfo.hook();
 	};
 
-	return userInfo.loggedIn ? (
-		<Button className="w-25 p-3" onClick={logOut}>
-			Log out
-		</Button>
+	return userInfo.state.loggedIn ? (
+		<div className="accountForm">
+			<h3>
+				You are currently logged in with email {userInfo.state.email}
+			</h3>
+			<Button style={{ width: "50%" }} onClick={logOut}>
+				Log out
+			</Button>
+		</div>
 	) : !registerMode ? (
 		<LoginForm changeRegisterMode={changeRegisterMode} />
 	) : (

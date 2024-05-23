@@ -17,14 +17,15 @@ export const setAuthToken = (token: string) => {
 	} else delete axios.defaults.headers.common["Authorization"];
 };
 
-export const AppContext = createContext({ id: "", email: "", loggedIn: false });
+const defaultState = {
+	state: { id: "", email: "", loggedIn: false },
+	hook: () => {},
+};
+
+export const AppContext = createContext(defaultState);
 
 function App() {
-	const [userInfo, setUserInfo] = useState({
-		id: "",
-		email: "",
-		loggedIn: false,
-	});
+	const [userInfo, setUserInfo] = useState(defaultState.state);
 
 	const hook = async () => {
 		const token = localStorage.getItem("token");
@@ -50,7 +51,7 @@ function App() {
 	}, []);
 
 	return (
-		<AppContext.Provider value={userInfo}>
+		<AppContext.Provider value={{ state: userInfo, hook: hook }}>
 			<Router>
 				<div className="content">
 					<a id="top"></a>
