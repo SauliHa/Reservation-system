@@ -26,6 +26,9 @@ export function Header() {
 						Reservation Calendar
 					</Link>
 				</li>
+				{userInfo.state.loggedIn && (
+					<li className="userName">{userInfo.state.username}</li>
+				)}
 				<Link to="/login" id="loginButton">
 					<Button variant="dark">
 						{userInfo.state.loggedIn ? "Log out" : "Log in"}

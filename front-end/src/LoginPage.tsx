@@ -29,9 +29,7 @@ const LoginPage = () => {
 
 	return userInfo.state.loggedIn ? (
 		<div className="accountForm">
-			<h3>
-				You are currently logged in with email {userInfo.state.email}
-			</h3>
+			<h3>You are currently logged in as {userInfo.state.username}</h3>
 			<Button style={{ width: "50%" }} onClick={logOut}>
 				Log out
 			</Button>
