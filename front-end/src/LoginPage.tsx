@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./styles/loginPage.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import BackendService from "./BackendService";
+import { createUser } from "./BackendService";
 
 export interface User {
 	username: string;
@@ -34,7 +34,7 @@ const LoginPage = () => {
 			phone_number: phone,
 			address: address,
 		};
-		BackendService.createUser(newUser);
+		createUser(newUser);
 	};
 
 	const login = (username: string, password: string) => {
