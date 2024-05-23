@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import "./styles/loginPage.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import BackendService from "./BackendService";
+import { AppContext } from "./App";
+import { Button } from "react-bootstrap";
 
 export interface User {
 	username: string;
@@ -15,37 +16,30 @@ export interface User {
 
 const LoginPage = () => {
 	const [registerMode, setRegisterMode] = useState(false);
+	const userInfo = useContext(AppContext);
 
 	const changeRegisterMode = (mode: boolean) => {
 		setRegisterMode(mode);
 	};
 
-	const register = (
-		username: string,
-		password: string,
-		email: string,
-		phone: string,
-		address: string
-	) => {
-		const newUser: User = {
-			username: username,
-			email: email,
-			password: password,
-			phone_number: phone,
-			address: address,
-		};
-		BackendService.createUser(newUser);
+	const logOut = () => {
+		localStorage.removeItem("token");
+		userInfo.hook();
 	};
 
-	const login = (username: string, password: string) => {
-		//todo: lisää tähän kutsu backendiin ja poista tämä placeholderina toimiva console.log
-		console.log("Login, username: " + username + ", password: " + password);
-	};
-
-	return !registerMode ? (
-		<LoginForm changeRegisterMode={changeRegisterMode} login={login} />
+	return userInfo.state.loggedIn ? (
+		<div className="accountForm">
+			<h3>
+				You are currently logged in with email {userInfo.state.email}
+			</h3>
+			<Button style={{ width: "50%" }} onClick={logOut}>
+				Log out
+			</Button>
+		</div>
+	) : !registerMode ? (
+		<LoginForm changeRegisterMode={changeRegisterMode} />
 	) : (
-		<RegisterForm register={register} />
+		<RegisterForm changeRegisterMode={changeRegisterMode} />
 	);
 };
 
