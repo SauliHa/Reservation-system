@@ -137,4 +137,11 @@ userRouter.get("/token/:token", async (req, res) => {
 	}
 });
 
+userRouter.get("/:id/reservations", async (req, res) => {
+	const result = await dao.findReservations(req.params.id);
+	const reservations = result.rows;
+	res.send(reservations);
+});
+
+
 export default userRouter;
