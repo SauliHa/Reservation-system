@@ -39,14 +39,6 @@ export const createUser = async (username: string, password: string, email: stri
 	return result;
 };
 
-export const comparePassword = async (email: string) => {
-	const params = [email];
-	const query =  "SELECT * FROM users WHERE email = $1";
-	const result = await executeQuery (query, params);
-	return result;
-};
-
-
 export const deleteUser = async (id: string) => {
 	console.log(`Deleting user with id ${id}...`);
 	const query = "DELETE FROM users WHERE id = $1 RETURNING id"; //delete 	RETURNING id
