@@ -21,7 +21,6 @@ export const checkEmail = async (email: string) => {
 	const emailQuery = "SELECT * FROM users WHERE email = $1";
 	const params = [email];
 	const emailResult = await executeQuery(emailQuery, params);
-	console.log(emailResult);
 	return emailResult;
 };
 

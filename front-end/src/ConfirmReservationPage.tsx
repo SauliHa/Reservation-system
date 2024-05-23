@@ -1,7 +1,10 @@
-import React from "react";
+import ReservationForm from "./ReservationForm";
+import "./styles/reservationPage.css";
 
 const ConfirmReservationPage = () => {
-	return <p>Placeholder for confirm reservation page</p>;
+	return  (
+		<ReservationForm/>
+	);
 };
 
 export default ConfirmReservationPage;
