@@ -106,3 +106,11 @@ export const updateUser = async (id: string, username: string, password: string,
 		throw error;
 	}
 };
+
+export const findReservations = async (id: string) => {
+	console.log(`Requesting reservations with userId ${id}...`);
+	const query = "SELECT * FROM reservations WHERE user_id = $1";
+	const params = [id];
+	const result = await executeQuery(query, params);
+	return result;
+};
