@@ -5,7 +5,7 @@ const bowlingRouter = express.Router();
 
 bowlingRouter.get("/", async (req, res) => {
 	const result = await findAllLanes();
-	const lanes= result.rows[0];
+	const lanes= result.rows;
 	res.send(lanes);
 });
 
@@ -17,7 +17,7 @@ bowlingRouter.get("/:id", async (req, res) => {
 
 bowlingRouter.get("/date/:date", async (req, res) => {
 	const result = await findDate(req.params.date);
-	const dateinfo = result.rows[0];
+	const dateinfo = result.rows;
 	res.send(dateinfo);
 });
 

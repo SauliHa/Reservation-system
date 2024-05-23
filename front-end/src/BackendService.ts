@@ -15,8 +15,6 @@ const getLanes = async () => {
 	return request;
 };
 
-//http://localhost:3000/bowling/date/2024-05-22
-
 const getReservationInfoByDate = async (date:string) => {
 	const request = axios.get(`${bowlingBaseURL}date/${date}`);
 	return request;

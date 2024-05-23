@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { LaneTimeTable } from "./LaneTimeTable";
 import { Button } from "react-bootstrap";
 import { getLanes, getReservationInfoByDate } from "./BackendService.ts";
+import { Link } from "react-router-dom";
 
 
 export class timeButton {
@@ -175,7 +176,7 @@ const ReservationCalendarPage = () => {
 			</div>
 			<div className="reservationDiv mb-5">
 				{renderTimes()}
-				<Button variant="dark">Valitse ajat</Button>
+				<Link to="/confirm"><Button variant="dark">Valitse ajat</Button></Link>
 			</div>
 		</div>
 	);
