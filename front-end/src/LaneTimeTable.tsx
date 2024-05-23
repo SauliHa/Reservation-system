@@ -1,17 +1,4 @@
-class timeButton {
-	reserved: boolean;
-	clicked: boolean;
-	startTime: number;
-	endTime: number;
-	laneId: number;
-	constructor (reserved:boolean, startTime:number, endTime:number, laneId:number){
-		this.reserved = reserved;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.clicked = false;
-		this.laneId = laneId;
-	} 
-}
+import { timeButton } from "./ReservationCalendarPage";
 
 export const LaneTimeTable = ( {laneName: laneName, laneArray: laneArray, handleClick}:PropsValidation) => {
 	
