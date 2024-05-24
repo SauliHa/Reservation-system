@@ -31,6 +31,15 @@ const getUserDetails = (id: string) => {
 	return request.then((response) => response.data);
 };
 
+const sendEditUserRequest = (editedUser: User) => {
+	const request = axios.put(`${userBaseURL}/${editedUser.id}`, editedUser);
+	return request
+		.then((response) => response.status)
+		.catch((error) => {
+			error.response.status;
+		});
+};
+
 const bowlingBaseURL = "http://localhost:3000/bowling/";
 
 const getLanes = async () => {
@@ -50,4 +59,5 @@ export {
 	sendLoginRequest,
 	checkToken,
 	getUserDetails,
+	sendEditUserRequest,
 };

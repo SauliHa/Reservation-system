@@ -7,10 +7,11 @@ import { AppContext } from "./App";
 import { Button } from "react-bootstrap";
 
 export interface User {
-	username: string;
-	password: string;
-	email: string;
-	phone_number: string;
+	id?: string;
+	username?: string;
+	password?: string;
+	email?: string;
+	phonenumber?: string;
 	address?: string;
 }
 

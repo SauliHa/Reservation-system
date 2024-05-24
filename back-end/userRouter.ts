@@ -1,6 +1,6 @@
 import express from "express";
 import * as dao from "./dao";
-import jwt, { TokenExpiredError, JsonWebTokenError  } from "jsonwebtoken";
+import jwt, { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 import argon2 from "argon2";
 import dotenv from "dotenv";
 dotenv.config();
@@ -43,10 +43,12 @@ userRouter.post("/login", async (req, res) => {
 	if (passwordMatchesHash) {
 		const id = result.rows[0].id;
 		const username = result.rows[0].username;
-		const payload = { id, username, email, };
+		const payload = { id, username, email };
 		const secret = process.env.secret;
 		const options = { expiresIn: "1h" };
-		if (secret===undefined){return;}
+		if (secret === undefined) {
+			return;
+		}
 		const token = jwt.sign(payload, secret, options);
 		console.log(token);
 		res.send(token);
@@ -74,7 +76,7 @@ userRouter.delete("/:id", async (req, res) => {
 });
 
 userRouter.put("/:id", async (req, res) => {
-	const { username, password, email, phone_number, address} = req.body;
+	const { username, password, email, phone_number, address } = req.body;
 
 	const checkedEmail = await dao.checkEmail(email);
 	if (checkedEmail.rows.length > 0) {
@@ -101,6 +103,7 @@ userRouter.put("/:id", async (req, res) => {
 			);
 		}
 	} catch (error) {
+		console.log(error);
 		res.status(500).send("Error updating user.");
 	}
 });
