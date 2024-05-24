@@ -18,7 +18,7 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 		const loginObject = { email: email, password: password };
 
 		sendLoginRequest(loginObject).then((response) => {
-			if (response.status === 401) {
+			if (response.status === 401 || response.status === 404) {
 				setShowErrorMessage(true);
 			}
 			if (response.status == 200) {

@@ -1,17 +1,18 @@
-import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { createUser } from "./BackendService";
 import { User } from "./LoginPage";
+import { useState } from "react";
+import { sendEditUserRequest } from "./BackendService";
 
-const RegisterForm = (props: {
-	changeRegisterMode: (mode: boolean) => void;
+const EditUserDetailsComponent = (props: {
+	userData: User;
+	changeEditMode: (mode: boolean) => void;
 }) => {
-	const [username, setUsername] = useState("");
+	const [username, setUsername] = useState(props.userData.username);
 	const [password, setPassword] = useState("");
 	const [passwordRepeat, setPasswordRepeat] = useState("");
-	const [email, setEmail] = useState("");
-	const [phone, setPhone] = useState("");
-	const [address, setAddress] = useState("");
+	const [email, setEmail] = useState(props.userData.email);
+	const [phone, setPhone] = useState(props.userData.phonenumber);
+	const [address, setAddress] = useState(props.userData.address);
 	const [validated, setValidated] = useState(false);
 	const [showPasswordMatchingError, setShowPasswordMatchingError] =
 		useState(false);
@@ -26,7 +27,7 @@ const RegisterForm = (props: {
 			setValidated(false);
 		} else {
 			if (password === passwordRepeat) {
-				register(username, password, email, phone, address);
+				editUser();
 			} else {
 				setShowPasswordMatchingError(true);
 			}
@@ -34,32 +35,34 @@ const RegisterForm = (props: {
 		setValidated(true);
 	};
 
-	const register = (
-		username: string,
-		password: string,
-		email: string,
-		phone: string,
-		address: string
-	) => {
-		const newUser: User = {
+	const editUser = () => {
+		const editedUser: User = {
+			id: props.userData.id,
 			username: username,
-			email: email,
-			password: password,
 			phonenumber: phone,
-			address: address,
 		};
-		createUser(newUser).then((response) => {
+		if (password.length > 0) {
+			editedUser.password = password;
+		}
+		if (email !== props.userData.email) {
+			editedUser.email = email;
+		}
+		if (address !== undefined && address.length > 0) {
+			editedUser.address = address;
+		}
+
+		sendEditUserRequest(editedUser).then((response) => {
 			if (response === 401) {
 				setShowDuplicateEmailError(true);
 			}
 			if (response === 200) {
-				props.changeRegisterMode(false);
+				props.changeEditMode(false);
 			}
 		});
 	};
 
 	return (
-		<div className="accountForm">
+		<div className="editUserForm">
 			{showPasswordMatchingError ? (
 				<p style={{ color: "red" }}>Passwords do not match</p>
 			) : (
@@ -71,7 +74,7 @@ const RegisterForm = (props: {
 				</p>
 			) : (
 				""
-			)}
+			)}{" "}
 			<Form noValidate validated={validated} onSubmit={validateForm}>
 				<Form.Group className="mb-3">
 					<Form.Label>Username</Form.Label>
@@ -87,36 +90,7 @@ const RegisterForm = (props: {
 						Please set a username.
 					</Form.Control.Feedback>
 				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						required
-						value={password}
-						onChange={(e) => {
-							setPassword(e.target.value);
-							setShowPasswordMatchingError(false);
-						}}
-						type="password"
-					/>
-					<Form.Control.Feedback type="invalid">
-						Please give a password.
-					</Form.Control.Feedback>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Password again</Form.Label>
-					<Form.Control
-						required
-						value={passwordRepeat}
-						onChange={(e) => {
-							setPasswordRepeat(e.target.value);
-							setShowPasswordMatchingError(false);
-						}}
-						type="password"
-					/>
-					<Form.Control.Feedback type="invalid">
-						Please repeat the password.
-					</Form.Control.Feedback>
-				</Form.Group>
+
 				<Form.Group className="mb-3">
 					<Form.Label>Email</Form.Label>
 					<Form.Control
@@ -156,10 +130,32 @@ const RegisterForm = (props: {
 						type="text"
 					/>
 				</Form.Group>
-				<Button type="submit">Register</Button>
+				<Form.Group className="mb-3">
+					<Form.Label>Password</Form.Label>
+					<Form.Control
+						value={password}
+						onChange={(e) => {
+							setPassword(e.target.value);
+							setShowPasswordMatchingError(false);
+						}}
+						type="password"
+					/>
+				</Form.Group>
+				<Form.Group className="mb-3">
+					<Form.Label>Password again</Form.Label>
+					<Form.Control
+						value={passwordRepeat}
+						onChange={(e) => {
+							setPasswordRepeat(e.target.value);
+							setShowPasswordMatchingError(false);
+						}}
+						type="password"
+					/>
+				</Form.Group>
+				<Button type="submit">Edit User</Button>
 			</Form>
 		</div>
 	);
 };
 
-export default RegisterForm;
+export default EditUserDetailsComponent;
