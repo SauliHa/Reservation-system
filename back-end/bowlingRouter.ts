@@ -1,5 +1,5 @@
 import express from "express";
-import { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane} from "./bowling-dao";
+import { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane, checkName} from "./bowling-dao";
 
 const bowlingRouter = express.Router();
 
@@ -23,6 +23,12 @@ bowlingRouter.get("/date/:date", async (req, res) => {
 
 bowlingRouter.post("/create", async (req, res) => {
 	const {name} = req.body;
+
+	const checkedName = await checkName(name);
+	if (checkedName.rows.length > 0) {
+		res.status(401).send("This name is already in use");
+		return;
+	}
 	const result = await createLane(name);
 	res.send(result.rows[0]);
 });
@@ -45,9 +51,14 @@ bowlingRouter.delete("/delete/:id", async (req, res) => {
 
 bowlingRouter.put("/:id", async (req, res) => {
 	const {name, usable} = req.body;
-
 	const userId = req.params.id;
-	console.log(`Request to change user with id ${userId}`);
+
+	const checkedName = await checkName(name);
+	if (checkedName.rows.length > 0) {
+		res.status(401).send("This name is already in use");
+		return;
+	}
+	console.log(`Request to change lane with id ${userId}`);
 
 	try {
 		const result = await updateLane(
