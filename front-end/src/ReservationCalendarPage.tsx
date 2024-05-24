@@ -52,7 +52,9 @@ const ReservationCalendarPage = () => {
 
 	const hook = async () => {
 		const response = await getLanes();
-		generateLanes(response.data);
+		console.log(response.data);
+		const filterUnusableLanes = response.data.filter(element => element.usable);
+		generateLanes(filterUnusableLanes);
 		const dateString = `${startDate.getFullYear()}-
 		${startDate.getMonth()+1}-
 		${startDate.getDate()}`;
