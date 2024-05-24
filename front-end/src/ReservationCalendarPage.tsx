@@ -44,7 +44,6 @@ const ReservationCalendarPage = () => {
 	const hook = async () => {
 		const response = await getLanes();
 		generateLanes(response.data);
-		console.log(startDate);
 		const dateString = `${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}`;
 		const reservations = await getReservationInfoByDate(dateString);
 		
@@ -77,7 +76,6 @@ const ReservationCalendarPage = () => {
 			return {laneName: Number(element.name) , startTime:0, endTime:0, laneId: element.id};
 		});
 		setSelectedTimes(newSelectionArray);
-		console.log(newSelectionArray);
 	};
 
 	const generateHourlyArray = (data:Array<number>) => {
@@ -176,7 +174,7 @@ const ReservationCalendarPage = () => {
 			</div>
 			<div className="reservationDiv mb-5">
 				{renderTimes()}
-				<Link to="/confirm"><Button variant="dark">Valitse ajat</Button></Link>
+				<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">Valitse ajat</Button></Link>
 			</div>
 		</div>
 	);
