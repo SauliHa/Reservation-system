@@ -30,7 +30,7 @@ const findDate = async (date: string) => {
 
 const createLane = async (name: number) => {
 	const id: string = uuidv4();
-	const usable: string = "true";
+	const usable: boolean = true;
 	const params = [id, name, usable];
 	const query = 
     `INSERT INTO lanes (id, name, usable) 
@@ -49,4 +49,36 @@ const deleteLane = async (id: string) => {
 	return result;
 };
 
-export { findAllLanes, findLane, findDate, createLane, deleteLane};
+const updateLane  = async (id: string, name: number, usable: boolean) => {
+	console.log(`Updating lane with id ${id}...`);
+
+	const updates: string[] = [];
+	const params: (string | boolean | number)[] = [id];
+  
+	if (name) {
+		updates.push(`name = $${updates.length + 2}`);
+		params.push(name);
+	}
+	if (typeof usable !== "undefined") {
+		updates.push(`usable = $${updates.length + 2}`);
+		params.push(usable);
+	}
+
+	const query = `UPDATE lanes SET ${updates.join(", ")} WHERE id = $1`;
+
+
+	try {
+		const result = await executeQuery(query, params);
+		if (result.rowCount === 0) {
+			console.log(`Lane with id ${id} not found.`);
+			return result;
+		}
+		console.log(`Lane ${id} updated successfully.`);
+		return result;
+	} catch (error) {
+		console.error(`Error updating lane with id ${id}:`, error);
+		throw error;
+	}
+};
+
+export { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane};

@@ -1,5 +1,5 @@
 import express from "express";
-import { findAllLanes, findLane, findDate, createLane, deleteLane} from "./bowling-dao";
+import { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane} from "./bowling-dao";
 
 const bowlingRouter = express.Router();
 
@@ -42,5 +42,30 @@ bowlingRouter.delete("/delete/:id", async (req, res) => {
 		res.status(500).send("Error deleting lane.");
 	}
 });
+
+bowlingRouter.put("/:id", async (req, res) => {
+	const {name, usable} = req.body;
+
+	const userId = req.params.id;
+	console.log(`Request to change user with id ${userId}`);
+
+	try {
+		const result = await updateLane(
+			userId,
+			name,
+			usable
+		);
+		if (result.rowCount === 0) {
+			res.status(404).send("Error: User not found");
+		} else {
+			res.status(200).send(
+				`Lane with id ${userId} updated successfully.`
+			);
+		}
+	} catch (error) {
+		res.status(500).send("Error updating user.");
+	}
+});
+
 
 export default bowlingRouter;
