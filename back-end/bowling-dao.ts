@@ -1,4 +1,5 @@
 import { executeQuery } from "./db";
+import { v4 as uuidv4 } from "uuid";
 
 const findAllLanes = async () => {
 	console.log("Requesting all lanes...");
@@ -6,7 +7,6 @@ const findAllLanes = async () => {
 	const result = await executeQuery(query);
 	return result;
 };
-
 
 const findLane = async (id: string) => {
 	console.log(`Requesting a lane with id ${id}...`);
@@ -28,4 +28,17 @@ const findDate = async (date: string) => {
 	return result;
 };
 
-export { findAllLanes, findLane, findDate };
+const createLane = async (name: number) => {
+	const id: string = uuidv4();
+	const usable: string = "true";
+	const params = [id, name, usable];
+	const query = 
+    `INSERT INTO lanes (id, name, usable) 
+    VALUES ($1, $2, $3) 
+    RETURNING id`;
+	console.log(`Inserting a new lane ${params[0]}...`);
+	const result = await executeQuery(query, params);
+	return result;
+};
+
+export { findAllLanes, findLane, findDate, createLane };

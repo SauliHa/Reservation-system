@@ -18,7 +18,7 @@ export const setAuthToken = (token: string) => {
 };
 
 const defaultState = {
-	state: { id: "", email: "", loggedIn: false },
+	state: { id: "", email: "", username: "", loggedIn: false },
 	hook: () => {},
 };
 
@@ -40,10 +40,11 @@ function App() {
 			setUserInfo({
 				id: response.id,
 				email: response.email,
+				username: response.username,
 				loggedIn: true,
 			});
 		} else {
-			setUserInfo({ id: "", email: "", loggedIn: false });
+			setUserInfo({ id: "", email: "", username: "", loggedIn: false });
 		}
 	};
 	useEffect(() => {
