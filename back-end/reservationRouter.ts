@@ -1,5 +1,5 @@
 import express from "express";
-import {findReservation, createReservation, deleteReservation} from "./reservation-dao";
+import {findReservation, createReservation, deleteReservation, updateReservation} from "./reservation-dao";
 
 const reservationRouter = express.Router();
 
@@ -37,5 +37,25 @@ reservationRouter.delete("/delete/:id", async (req, res) => {
 		res.status(500).send("Error deleting reservation.");
 	}
 });
+
+reservationRouter.put("/put/:id", async (req, res) => {
+	const {lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
+
+
+	const reservationId = req.params.id;
+	console.log(`Request to change reservation with id ${reservationId}`);
+  
+	try {
+		const result = await updateReservation(reservationId, lane_id, date, start_time, end_time, amount_of_players, additional_info);
+		if (result.rowCount === 0) {
+			res.status(404).send("Error: Reservation not found");
+		} else {
+			res.status(200).send(`Reservation with id ${reservationId} updated successfully.`);
+		}
+	} catch (error) {
+		res.status(500).send("Error updating reservation.");
+	}
+});
+
 
 export default reservationRouter;
