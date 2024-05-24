@@ -1,5 +1,5 @@
 import express from "express";
-import {findReservation, createReservation, deleteReservation, updateReservation} from "./reservation-dao";
+import {findReservation, createReservation, deleteReservation, updateReservation, checkTime} from "./reservation-dao";
 
 const reservationRouter = express.Router();
 
@@ -12,7 +12,10 @@ reservationRouter.get("/:id", async (req, res) => {
 reservationRouter.post("/create", async (req, res) => {
 	const {user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
 	console.log(req.body);
-
+	const timeChecked = await checkTime(lane_id, date, start_time, end_time);
+	if ( timeChecked.rows.length > 0 ) {
+		return res.send("Chosen time is not available");
+	}
 	try {
 		const result = await createReservation(user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info);
 		res.status(201).send(result.rows[0]);
@@ -40,8 +43,6 @@ reservationRouter.delete("/delete/:id", async (req, res) => {
 
 reservationRouter.put("/put/:id", async (req, res) => {
 	const {lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
-
-
 	const reservationId = req.params.id;
 	console.log(`Request to change reservation with id ${reservationId}`);
   
@@ -56,6 +57,5 @@ reservationRouter.put("/put/:id", async (req, res) => {
 		res.status(500).send("Error updating reservation.");
 	}
 });
-
 
 export default reservationRouter;
