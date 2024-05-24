@@ -4,7 +4,7 @@ import { createReservation } from "./BackendService";
 import { useContext, useState } from "react";
 import { AppContext } from "./App";
 
-const ReservationForm = ({selectedTimes, pickedDate}:PropsValidation) => {
+const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation) => {
 	const context = useContext(AppContext);
 	console.log(context.state);
 	const [amountOfPlayers, setAmountOfPlayers] = useState(0);
@@ -16,7 +16,15 @@ const ReservationForm = ({selectedTimes, pickedDate}:PropsValidation) => {
 	const handleSubmit = (event:any) => {
 		event.preventDefault();
 		const dateString = `${pickedDate.getFullYear()}-${pickedDate.getMonth()+1}-${pickedDate.getDate()}`;
-		createReservation("7f674c99-9895-4e02-8951-7da2f0bc70ef",selectedTimes[0].laneId, dateString, selectedTimes[0].startTime.toString(), selectedTimes[0].endTime.toString(), amountOfPlayers, additionalInfo);
+		selectedTimes.forEach(element => {
+			try {
+				createReservation(context.state.id,element.laneId, dateString, element.startTime.toString(), element.endTime.toString(), amountOfPlayers, additionalInfo);
+				changePage(false);
+			} catch(error) {
+				console.log((error));
+			}
+		});
+		
 	};
 
 	return (
@@ -48,6 +56,7 @@ const ReservationForm = ({selectedTimes, pickedDate}:PropsValidation) => {
 interface PropsValidation {
 	selectedTimes: Array<timeButton>;
 	pickedDate: Date;
+	changePage: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default ReservationForm;
