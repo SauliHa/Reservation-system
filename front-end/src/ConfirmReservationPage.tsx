@@ -10,8 +10,6 @@ const ConfirmReservationPage = () => {
 	const location = useLocation();
 	const { selectedTimes, pickedDate } = location.state;
 	const reservationTimes = selectedTimes.filter(element => element.startTime !== 0);
-	console.log(pickedDate);
-	console.log(reservationTimes);
 	return  (
 		<>
 			{showForm ?
