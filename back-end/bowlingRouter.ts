@@ -1,5 +1,5 @@
 import express from "express";
-import { findAllLanes, findLane, findDate, createLane } from "./bowling-dao";
+import { findAllLanes, findLane, findDate, createLane, deleteLane} from "./bowling-dao";
 
 const bowlingRouter = express.Router();
 
@@ -25,6 +25,22 @@ bowlingRouter.post("/create", async (req, res) => {
 	const {name} = req.body;
 	const result = await createLane(name);
 	res.send(result.rows[0]);
+});
+
+bowlingRouter.delete("/delete/:id", async (req, res) => {
+	const laneId = req.params.id;
+	console.log(`Request to delete resevation with id ${laneId}`);
+  
+	try {
+		const result = await deleteLane(laneId);
+		if (result.rowCount === 0) {
+			res.status(404).send("Error: Lane not found");
+		} else {
+			res.status(200).send(`Lane with id ${laneId} deleted successfully.`);
+		}
+	} catch (error) {
+		res.status(500).send("Error deleting lane.");
+	}
 });
 
 export default bowlingRouter;

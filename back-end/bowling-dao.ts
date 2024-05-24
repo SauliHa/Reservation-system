@@ -41,4 +41,12 @@ const createLane = async (name: number) => {
 	return result;
 };
 
-export { findAllLanes, findLane, findDate, createLane };
+const deleteLane = async (id: string) => {
+	console.log(`Deleting lane with id ${id}...`);
+	const query = "DELETE FROM lanes WHERE id = $1";
+	const params = [id];
+	const result = await executeQuery(query, params);
+	return result;
+};
+
+export { findAllLanes, findLane, findDate, createLane, deleteLane};
