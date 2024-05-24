@@ -41,6 +41,7 @@ const sendEditUserRequest = (editedUser: User) => {
 };
 
 const bowlingBaseURL = "http://localhost:3000/bowling/";
+const reservationbaseURL = "http://localhost:3000/reservations/";
 
 const getLanes = async () => {
 	const request = axios.get(bowlingBaseURL);
@@ -52,12 +53,39 @@ const getReservationInfoByDate = async (date: string) => {
 	return request;
 };
 
+const createReservation = (
+	user_id: string,
+	lane_id: string,
+	date: string,
+	start_time: string,
+	end_time: string,
+	amount_of_players: number,
+	additional_info: string
+) => {
+	const postData = {
+		user_id: user_id,
+		lane_id: lane_id,
+		date: date,
+		start_time: start_time.toString() + ":00",
+		end_time: end_time.toString() + ":00",
+		amount_of_players: amount_of_players,
+		additional_info: additional_info,
+	};
+	try {
+		const request = axios.post(`${reservationbaseURL}create`, postData);
+		return request;
+	} catch (error) {
+		return { status: error.response.status, data: "" };
+	}
+};
+
 export {
 	createUser,
 	getLanes,
 	getReservationInfoByDate,
 	sendLoginRequest,
 	checkToken,
+	createReservation,
 	getUserDetails,
 	sendEditUserRequest,
 };

@@ -13,13 +13,13 @@ export class timeButton {
 	clicked: boolean;
 	startTime: number;
 	endTime: number;
-	laneName: number;
+	laneName: string;
 	laneId: string;
 	constructor(
 		reserved: boolean,
 		startTime: number,
 		endTime: number,
-		laneName: number,
+		laneName: string,
 		laneId: string
 	) {
 		this.reserved = reserved;
@@ -32,7 +32,7 @@ export class timeButton {
 }
 
 interface selectedTime {
-	laneName: number;
+	laneName: string;
 	startTime: number;
 	endTime: number;
 	laneId: string;
@@ -41,7 +41,7 @@ interface selectedTime {
 const ReservationCalendarPage = () => {
 	const [lanesCount, setLanesCount] = useState(10);
 	const [buttonsToDisable, setButtonsToDisable] = useState<
-		Array<Array<Array<number>>>
+		Array<Array<Array<string | number>>>
 	>([]);
 	const [startDate, setStartDate] = useState(new Date());
 	const [selectedTimes, setSelectedTimes] = useState<Array<selectedTime>>();
@@ -52,18 +52,16 @@ const ReservationCalendarPage = () => {
 
 	const hook = async () => {
 		const response = await getLanes();
-		console.log(response.data);
 		generateLanes(response.data);
-		console.log(startDate);
-		const dateString = `${startDate.getFullYear()}-${
-			startDate.getMonth() + 1
-		}-${startDate.getDate()}`;
+		const dateString = `${startDate.getFullYear()}-
+		${startDate.getMonth()+1}-
+		${startDate.getDate()}`;
 		const reservations = await getReservationInfoByDate(dateString);
 
 		if (reservations.data.length > 0) {
 			const reservedTimes = reservations.data.map((element) => {
 				return generateHourlyArray([
-					Number(element.name),
+					element.name,
 					Number(element.start_time.slice(0, 2)),
 					Number(element.end_time.slice(0, 2)),
 				]);
@@ -93,7 +91,7 @@ const ReservationCalendarPage = () => {
 						false,
 						index,
 						index + 1,
-						Number(element.name),
+						element.name,
 						element.id
 					)
 				);
@@ -107,17 +105,16 @@ const ReservationCalendarPage = () => {
 	const generateSelectedTimes = (data: Array<any>) => {
 		const newSelectionArray = data.map((element) => {
 			return {
-				laneName: Number(element.name),
+				laneName: element.name,
 				startTime: 0,
 				endTime: 0,
 				laneId: element.id,
 			};
 		});
 		setSelectedTimes(newSelectionArray);
-		console.log(newSelectionArray);
 	};
 
-	const generateHourlyArray = (data: Array<number>) => {
+	const generateHourlyArray = (data: Array<string | number>) => {
 		const hourlyArray = [];
 
 		for (let time = data[1]; time <= data[2]; time++) {
@@ -131,7 +128,7 @@ const ReservationCalendarPage = () => {
 			const newButtons = [...timeButtons];
 			newButtons.map((element) => {
 				for (let index = 0; index < buttonsToDisable.length; index++) {
-					for (let i = 0; i < buttonsToDisable[index].length; i++) {
+					for (let i = 0; i < buttonsToDisable[index].length-1; i++) {
 						if (
 							element.laneName ===
 								buttonsToDisable[index][i][0] &&
@@ -148,7 +145,7 @@ const ReservationCalendarPage = () => {
 	};
 
 	const handleClick = (
-		laneName: number,
+		laneName: string,
 		startTime: number,
 		endTime: number
 	) => {
@@ -201,24 +198,24 @@ const ReservationCalendarPage = () => {
 	};
 
 	const renderLanes = () => {
-		const lanes = [];
-		if (timeButtons !== undefined) {
-			for (let index = 0; index < lanesCount; index++) {
-				const laneArray = timeButtons.filter(
-					(element) => element.laneName === index + 1
+		if (timeButtons !== undefined && selectedTimes !== undefined) {
+			const lanes = selectedTimes.map(lane => {
+				const laneArray = timeButtons.filter( (element) => {
+					return element.laneId=== lane.laneId;
+				}
 				);
-				lanes.push(
-					<LaneTimeTable
-						key={index + 1}
-						laneName={index + 1}
-						laneArray={laneArray}
-						handleClick={handleClick}
-					/>
-				);
-			}
+				const timeTableElement = 
+				<LaneTimeTable
+					key={lane.laneId}
+					laneName={lane.laneName}
+					laneArray={laneArray}
+					handleClick={handleClick}
+				/>;
+				return timeTableElement;
+			});
+			return lanes;
 		}
 
-		return lanes;
 	};
 
 	const renderTimes = () => {
@@ -250,9 +247,7 @@ const ReservationCalendarPage = () => {
 			<div className="tracks mb-4">{renderLanes()}</div>
 			<div className="reservationDiv mb-5">
 				{renderTimes()}
-				<Link to="/confirm">
-					<Button variant="dark">Valitse ajat</Button>
-				</Link>
+				<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">Valitse ajat</Button></Link>
 			</div>
 		</div>
 	) : (
