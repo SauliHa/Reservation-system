@@ -5,7 +5,6 @@ export const LaneTimeTable = ( {laneName: laneName, laneArray: laneArray, handle
 	const handleButtonClick = (startTime: number) => {
 		handleClick(laneName, startTime, (startTime+1));
 	};
-
 	const boxes = laneArray.map(element =>{
 		if (element.reserved) {
 			return <button key={(element.startTime)} 
@@ -34,7 +33,7 @@ export const LaneTimeTable = ( {laneName: laneName, laneArray: laneArray, handle
 };
 
 interface PropsValidation {
-	laneName: number;
+	laneName: string;
 	laneArray:timeButton[];
-	handleClick: (laneId:number, startTime:number, endTime:number) => void;
+	handleClick: (laneId:string, startTime:number, endTime:number) => void;
 }
