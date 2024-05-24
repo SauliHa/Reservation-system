@@ -3,14 +3,21 @@ import { timeButton } from "./ReservationCalendarPage";
 import { createReservation } from "./BackendService";
 import { useContext, useState } from "react";
 import { AppContext } from "./App";
+import { Table } from "react-bootstrap";
 
 const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation) => {
 	const context = useContext(AppContext);
 	console.log(context.state);
 	const [amountOfPlayers, setAmountOfPlayers] = useState(0);
 	const [additionalInfo, setAdditionalInfo] = useState("");
+
 	const renderDates = selectedTimes.map(element => {
-		return <p key={element.laneId}>lane:{element.laneName} start time:{element.startTime} end time:{element.endTime}</p>;
+		return (
+			<tr  key={element.laneId}>
+				<th>{element.laneName}</th>
+				<th>{element.startTime}:00</th>
+				<th>{element.endTime}:00</th>
+			</tr>);
 	});
 
 	const handleSubmit = (event:any) => {
@@ -29,8 +36,24 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 
 	return (
 		<div className="container">
-			{renderDates}
-			<p>valitsit päivän {pickedDate.toDateString()}</p>
+			<h3>Varausksen ajankohta: {pickedDate.getDay()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
+			<h3>Varatut radat</h3>
+			<div>
+				<Table>
+					<thead>
+						<tr>
+							<th>Radan nimi</th>
+							<th>Varauksen aloitus</th>
+							<th>Varaus päättyy</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{renderDates}
+						
+					</tbody>
+				</Table>
+			</div>
 			<div className="reservationForm">
 				<Form onSubmit={handleSubmit}>
 					<Form.Group className="mb-3">
