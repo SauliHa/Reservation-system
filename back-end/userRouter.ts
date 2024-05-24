@@ -41,7 +41,9 @@ userRouter.post("/login", async (req, res) => {
 	const passwordMatchesHash = await argon2.verify(storedPassword, password);
 
 	if (passwordMatchesHash) {
-		const payload = { email };
+		const id = result.rows[0].id;
+		const username = result.rows[0].username;
+		const payload = { id, username, email, };
 		const secret = process.env.secret;
 		const options = { expiresIn: "1h" };
 		if (secret===undefined){return;}
@@ -103,12 +105,6 @@ userRouter.put("/:id", async (req, res) => {
 	}
 });
 
-interface userData {
-	id: string;
-	username: string;
-	email: string;
-}
-
 userRouter.get("/token/:token", async (req, res) => {
 	const token = req.params.token;
 	try {
@@ -116,21 +112,8 @@ userRouter.get("/token/:token", async (req, res) => {
 		if (secret === undefined) {
 			return res.status(500);
 		}
-		const decodedPayload = jwt.verify(token, secret);
-		if (typeof decodedPayload === "string") {
-			const result = await dao.checkEmail(decodedPayload);
-			if (result.rows.length === 0) {
-				return res.status(404).send("Error: 'User not found");
-			}
-			const user: userData = {
-				id: result.rows[0].id,
-				username: result.rows[0].username,
-				email: result.rows[0].email,
-			};
-			res.send(user);
-		} else {
-			res.send("Error");
-		}
+		const decoded = jwt.verify(token, secret);
+		res.status(201).send(decoded);
 	} catch (err) {
 		console.log("Error: Invalid token", err);
 		res.status(400).send("Error: Invalid token");
