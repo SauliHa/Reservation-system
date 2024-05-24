@@ -28,7 +28,7 @@ export const createUser = async (username: string, password: string, email: stri
 	const id = uuidv4();
 	const created_at = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
 	const password_hash = await argon2.hash(password);
-	const params = [id, created_at, username, email, password_hash, phone_number, address ];
+	const params = [id, created_at, username, email, password_hash, phone_number, address];
 	const query = 
     `INSERT INTO users (id, created_at, username, email, password_hash, phone_number, address) 
     VALUES ($1, $2, $3, $4, $5, $6, $7) 
@@ -69,9 +69,9 @@ export const updateUser = async (id: string, username: string, password: string,
 		params.push(username);
 	}
 	if (password) {
-		const hashedPassword = await argon2.hash(password);
+		const password_hash = await argon2.hash(password);
 		updates.push(`password_hash = $${updates.length + 2}`);
-		params.push(hashedPassword);
+		params.push(password_hash);
 	}
 	if (email) {
 		updates.push(`email = $${updates.length + 2}`);
