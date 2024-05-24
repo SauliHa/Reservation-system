@@ -18,7 +18,7 @@ console.log(pool);
 
 export const executeQuery = async (
 	query: string,
-	parameters?: Array<string | number | Date>
+	parameters?: Array<string | number | Date | boolean>
 ): Promise<QueryResult> => {
 	const client = await pool.connect();
 	try {
