@@ -40,6 +40,11 @@ const sendEditUserRequest = (editedUser: User) => {
 		});
 };
 
+const sendDeleteUserRequest = (id: string) => {
+	const request = axios.delete(`${userBaseURL}/${id}`);
+	return request.then((response) => response.status);
+};
+
 const bowlingBaseURL = "http://localhost:3000/bowling/";
 const reservationbaseURL = "http://localhost:3000/reservations/";
 
@@ -88,4 +93,5 @@ export {
 	createReservation,
 	getUserDetails,
 	sendEditUserRequest,
+	sendDeleteUserRequest,
 };

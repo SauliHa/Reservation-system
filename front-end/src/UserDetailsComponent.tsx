@@ -1,10 +1,29 @@
 import { Button } from "react-bootstrap";
 import { User } from "./LoginPage";
+import { useContext, useState } from "react";
+import { sendDeleteUserRequest } from "./BackendService";
+import { AppContext } from "./App";
 
 const UserDetailsComponent = (props: {
 	userData: User;
 	changeEditMode: (mode: boolean) => void;
 }) => {
+	const [deleteMode, setDeleteMode] = useState(false);
+	const userInfo = useContext(AppContext);
+
+	const deleteAccount = () => {
+		if (props.userData.id === undefined) {
+			return;
+		}
+
+		sendDeleteUserRequest(props.userData.id).then((response) => {
+			if (response === 200) {
+				localStorage.removeItem("token");
+				userInfo.hook();
+			}
+		});
+	};
+
 	return (
 		<div className="userPageContainer">
 			<div className="userDetails">
@@ -31,9 +50,31 @@ const UserDetailsComponent = (props: {
 					Change user info
 				</Button>
 				<br />
-				<Button variant="danger" className="mb-3">
-					Delete account
-				</Button>
+				{deleteMode ? (
+					<>
+						<h4>Really delete your account?</h4>
+						<Button
+							variant="danger"
+							onClick={() => deleteAccount()}
+						>
+							Delete
+						</Button>
+						<Button
+							variant="secondary"
+							onClick={() => setDeleteMode(false)}
+						>
+							Cancel
+						</Button>
+					</>
+				) : (
+					<Button
+						onClick={() => setDeleteMode(true)}
+						variant="danger"
+						className="mb-3"
+					>
+						Delete account
+					</Button>
+				)}
 			</div>
 		</div>
 	);
