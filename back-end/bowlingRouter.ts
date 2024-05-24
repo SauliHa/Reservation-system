@@ -35,7 +35,7 @@ bowlingRouter.post("/create", async (req, res) => {
 
 bowlingRouter.delete("/delete/:id", async (req, res) => {
 	const laneId = req.params.id;
-	console.log(`Request to delete resevation with id ${laneId}`);
+	console.log(`Request to delete lane with id ${laneId}`);
   
 	try {
 		const result = await deleteLane(laneId);
@@ -51,30 +51,30 @@ bowlingRouter.delete("/delete/:id", async (req, res) => {
 
 bowlingRouter.put("/:id", async (req, res) => {
 	const {name, usable} = req.body;
-	const userId = req.params.id;
+	const laneId = req.params.id;
 
 	const checkedName = await checkName(name);
 	if (checkedName.rows.length > 0) {
 		res.status(401).send("This name is already in use");
 		return;
 	}
-	console.log(`Request to change lane with id ${userId}`);
+	console.log(`Request to change lane with id ${laneId}`);
 
 	try {
 		const result = await updateLane(
-			userId,
+			laneId,
 			name,
 			usable
 		);
 		if (result.rowCount === 0) {
-			res.status(404).send("Error: User not found");
+			res.status(404).send("Error: Lane not found");
 		} else {
 			res.status(200).send(
-				`Lane with id ${userId} updated successfully.`
+				`Lane with id ${laneId} updated successfully.`
 			);
 		}
 	} catch (error) {
-		res.status(500).send("Error updating user.");
+		res.status(500).send("Error updating lane.");
 	}
 });
 
