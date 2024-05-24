@@ -17,6 +17,21 @@ const deleteReservation = async (id: string) => {
 	return result;
 };
 
+const checkTime = async (lane_id: string, date: string, start_time: string, end_time: string) => {
+	const params = [date, start_time, end_time, lane_id];
+	const query = `SELECT * FROM reservations
+	WHERE date = $1
+	AND (
+		(start_time < $2 AND end_time > $2) OR
+		(start_time < $3 AND end_time > $3) OR
+		(start_time >= $2 AND end_time <= $3)
+	)
+	AND
+	lane_id = $4`;
+	const result = await executeQuery(query, params);
+	return result;
+};
+
 const createReservation = async (user_id: string, lane_id: string, date:string ,start_time: string, end_time: string, amount_of_players: number, additional_info: string) => {
 	const id = uuidv4();
 	const params = [id, user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info];
@@ -85,4 +100,4 @@ export const updateReservation = async (id: string, lane_id: string, date:string
 	}
 };
 
-export { findReservation, deleteReservation, createReservation };
+export { findReservation, deleteReservation, createReservation, checkTime };

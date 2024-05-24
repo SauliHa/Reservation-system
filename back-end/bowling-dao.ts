@@ -1,6 +1,13 @@
 import { executeQuery } from "./db";
 import { v4 as uuidv4 } from "uuid";
 
+export const checkName = async (name: number) => {
+	const nameQuery = "SELECT * FROM lanes WHERE name = $1";
+	const params = [name];
+	const nameResult = await executeQuery(nameQuery, params);
+	return nameResult;
+};
+
 const findAllLanes = async () => {
 	console.log("Requesting all lanes...");
 	const query = "SELECT * FROM lanes";
@@ -28,7 +35,7 @@ const findDate = async (date: string) => {
 	return result;
 };
 
-const createLane = async (name: number) => {
+const createLane = async (name: string) => {
 	const id: string = uuidv4();
 	const usable: boolean = true;
 	const params = [id, name, usable];

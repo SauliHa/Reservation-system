@@ -37,8 +37,11 @@ userRouter.post("/login", async (req, res) => {
 	const { email, password } = req.body;
 
 	const result = await dao.checkEmail(email);
-	const storedPassword = result.rows[0].password_hash;
-	const passwordMatchesHash = await argon2.verify(storedPassword, password);
+	if (result.rows.length === 0) {
+		res.status(404).send("E-mail not found");
+	} else {
+		const storedPassword = result.rows[0].password_hash;
+		const passwordMatchesHash = await argon2.verify(storedPassword, password);
 
 	if (passwordMatchesHash) {
 		const id = result.rows[0].id;
@@ -56,6 +59,20 @@ userRouter.post("/login", async (req, res) => {
 		res.status(401).send("Unauthorized");
 	}
 });
+		if (passwordMatchesHash) {
+			const id = result.rows[0].id;
+			const username = result.rows[0].username;
+			const payload = { id, username, email, };
+			const secret = process.env.secret;
+			const options = { expiresIn: "1h" };
+			if (secret===undefined){return;}
+			const token = jwt.sign(payload, secret, options);
+			console.log(token);
+			res.send(token);
+		} else {
+			res.status(401).send("Unauthorized");
+		}
+	}});
 
 userRouter.delete("/:id", async (req, res) => {
 	const userId = req.params.id;
