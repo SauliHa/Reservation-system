@@ -1,6 +1,6 @@
 import express from "express";
 import * as dao from "./dao";
-import jwt from "jsonwebtoken";
+import jwt, { TokenExpiredError, JsonWebTokenError  } from "jsonwebtoken";
 import argon2 from "argon2";
 import dotenv from "dotenv";
 dotenv.config();
@@ -107,6 +107,9 @@ userRouter.put("/:id", async (req, res) => {
 
 userRouter.get("/token/:token", async (req, res) => {
 	const token = req.params.token;
+	if (!token) {
+		return res.status(401).send("Error: No token provided");
+	}
 	try {
 		const secret: string | undefined = process.env.SECRET;
 		if (secret === undefined) {
@@ -116,7 +119,13 @@ userRouter.get("/token/:token", async (req, res) => {
 		res.status(201).send(decoded);
 	} catch (err) {
 		console.log("Error: Invalid token", err);
-		res.status(400).send("Error: Invalid token");
+		if (err instanceof TokenExpiredError) {
+			return res.status(401).send("Error: Token expired");
+		} else if (err instanceof JsonWebTokenError) {
+			return res.status(400).send("Error: Invalid token");
+		} else {
+			return res.status(500).send("Internal server error");
+		}
 	}
 });
 
@@ -125,6 +134,5 @@ userRouter.get("/:id/reservations", async (req, res) => {
 	const reservations = result.rows;
 	res.send(reservations);
 });
-
 
 export default userRouter;
