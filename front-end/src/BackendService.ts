@@ -42,7 +42,9 @@ const sendEditUserRequest = (editedUser: User) => {
 
 const sendDeleteUserRequest = (id: string) => {
 	const request = axios.delete(`${userBaseURL}/${id}`);
-	return request.then((response) => response.status);
+	return request
+		.then((response) => response.status)
+		.catch((error) => error.response.status);
 };
 
 const bowlingBaseURL = "http://localhost:3000/bowling/";
