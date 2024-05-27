@@ -1,7 +1,8 @@
 import { Button, Form } from "react-bootstrap";
 import { User } from "./LoginPage";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { sendEditUserRequest } from "./BackendService";
+import { AppContext } from "./App";
 
 const EditUserDetailsComponent = (props: {
 	userData: User;
@@ -18,6 +19,8 @@ const EditUserDetailsComponent = (props: {
 		useState(false);
 	const [showDuplicateEmailError, setShowDuplicateEmailError] =
 		useState(false);
+
+	const userInfo = useContext(AppContext);
 
 	const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
 		const form = event.currentTarget;
@@ -52,10 +55,12 @@ const EditUserDetailsComponent = (props: {
 		}
 
 		sendEditUserRequest(editedUser).then((response) => {
-			if (response === 401) {
+			if (response.status === 401) {
 				setShowDuplicateEmailError(true);
 			}
-			if (response === 200) {
+			if (response.status === 200) {
+				localStorage.setItem("token", response.data);
+				userInfo.hook();
 				props.changeEditMode(false);
 			}
 		});

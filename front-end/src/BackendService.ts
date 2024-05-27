@@ -36,9 +36,11 @@ const getUserDetails = (id: string) => {
 const sendEditUserRequest = (editedUser: User) => {
 	const request = axios.put(`${userBaseURL}/${editedUser.id}`, editedUser);
 	return request
-		.then((response) => response.status)
+		.then((response) => {
+			return { status: response.status, data: response.data };
+		})
 		.catch((error) => {
-			error.response.status;
+			return { status: error.response.status, data: error };
 		});
 };
 
