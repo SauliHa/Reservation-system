@@ -64,7 +64,7 @@ userRouter.post("/login", async (req, res) => {
 	}
 });
 
-userRouter.delete("/:id", async (req, res) => {
+userRouter.delete("/delete/:id", async (req, res) => {
 	const userId = req.params.id;
 	console.log(`Request to delete user with id ${userId}`);
 

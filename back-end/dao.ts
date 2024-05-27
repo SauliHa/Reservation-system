@@ -40,17 +40,19 @@ export const createUser = async (username: string, password: string, email: stri
 
 export const deleteUser = async (id: string) => {
 	console.log(`Deleting user with id ${id}...`);
-	const query = `WITH deleted_user AS (DELETE FROM users WHERE id = $1 RETURNING id)
-	  DELETE FROM reservations WHERE user_id = (SELECT id FROM deleted_user) RETURNING user_id;`;
+	const query = `
+		WITH deleted_user AS (
+			DELETE FROM users WHERE id = $1 RETURNING id
+		),
+		deleted_reservations AS (
+			DELETE FROM reservations WHERE user_id = $1
+		)
+		SELECT id FROM deleted_user
+	`;
 	const params = [id];
-	
+
 	try {
 		const result = await executeQuery(query, params);
-		if (result.rowCount === 0) {
-			console.log(`User with id ${id} not found.`);
-			return result;
-		}
-		console.log(`User ${id} deleted successfully.`);
 		return result;
 	} catch (error) {
 		console.error(`Error deleting user with id ${id}:`, error);
