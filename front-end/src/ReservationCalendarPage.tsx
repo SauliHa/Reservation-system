@@ -39,7 +39,6 @@ interface selectedTime {
 }
 
 const ReservationCalendarPage = () => {
-	const [lanesCount, setLanesCount] = useState(10);
 	const [buttonsToDisable, setButtonsToDisable] = useState<
 		Array<Array<Array<string | number>>>
 	>([]);
@@ -79,8 +78,8 @@ const ReservationCalendarPage = () => {
 		disableButtons();
 	}, [buttonsToDisable]);
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const generateLanes = (data: Array<any>) => {
-		setLanesCount(data.length);
 		const timesArray: Array<timeButton> = [];
 		data.map((element) => {
 			for (
@@ -199,6 +198,16 @@ const ReservationCalendarPage = () => {
 		}
 	};
 
+	const isButtonReady = () => {
+		if(selectedTimes !== undefined){
+			const sum = selectedTimes.reduce( (acc, cur) => acc + cur.startTime, 0);
+			if(sum > 0){
+				return true;
+			}
+		}
+		return false;
+	};
+
 	const renderLanes = () => {
 		if (timeButtons !== undefined && selectedTimes !== undefined) {
 			const lanes = selectedTimes.map(lane => {
@@ -220,24 +229,18 @@ const ReservationCalendarPage = () => {
 
 	};
 
-	const renderTimes = () => {
-		const timeText = selectedTimes?.map((element) => {
-			if (element.startTime !== undefined && element.startTime !== 0) {
-				return (
-					<p key={element.laneName}>
-						Lane number:{element.laneName} {element.startTime}:00 -{" "}
-						{element.endTime}:00 {element.laneId}
-					</p>
-				);
-			}
-		});
-		return timeText;
-	};
-
 	return userInfo.state.loggedIn ? (
 		<div className="container">
 			<div className="reservationDiv">
 				<h1 className="mt-3">Ajanarauskalenteri</h1>
+				<p>Voit valita aikoja usealta radalta mutta yhdellä radalla ajanvarus pitää olla yhtäjaksoisesti.</p>
+				<p>Ohje</p>
+				<button className="box mb-2">14 - 15</button> 
+				<p>Vapaa aika</p>
+				<button className="box boxClicked mb-2">14 - 15</button> 
+				<p>Valitsemasi aika</p>
+				<button className="box mb-2" disabled>14 - 15</button>	
+				<p className="mb-4">Varattu aika</p> 
 				<p className="mb-3">Valitse aika</p>
 				<div id="datePicker">
 					<DatePicker
@@ -248,8 +251,10 @@ const ReservationCalendarPage = () => {
 			</div>
 			<div className="tracks mb-4">{renderLanes()}</div>
 			<div className="reservationDiv mb-5">
-				{renderTimes()}
-				<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">Valitse ajat</Button></Link>
+				{isButtonReady() ?
+					<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">Valitse ajat</Button></Link>:
+					<Button variant="dark" disabled>Valitse ajat</Button>
+				}
 			</div>
 		</div>
 	) : (

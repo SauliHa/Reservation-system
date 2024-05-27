@@ -4,6 +4,13 @@
 	align-items: center;
 }
 
+.buttonExample {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+
 #datePicker {
 	margin-bottom: 5rem;
 }
