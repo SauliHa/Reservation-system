@@ -105,9 +105,15 @@ userRouter.put("/:id", async (req, res) => {
 		if (result.rowCount === 0) {
 			res.status(404).send("Error: User not found");
 		} else {
-			res.status(200).send(
-				`User with id ${userId} updated successfully.`
-			);
+			const payload = { userId, username, email };
+			const secret = process.env.secret;
+			const options = { expiresIn: "1h" };
+			if (secret === undefined) {
+				return;
+			}
+			const token = jwt.sign(payload, secret, options);
+			res.status(200).send(token);
+				
 		}
 	} catch (error) {
 		res.status(500).send("Error updating user.");
