@@ -7,6 +7,17 @@ dotenv.config();
 
 const userRouter = express.Router();
 
+const createToken = (id: string, username: string, email: string) => {
+	const payload = { id, username, email };
+	const secret = process.env.secret;
+	const options = { expiresIn: "1h" };
+	if (secret === undefined) {
+		return;
+	}
+	const token = jwt.sign(payload, secret, options);
+	return token;
+};
+
 userRouter.get("/:id", async (req, res) => {
 	const result = await dao.findUser(req.params.id);
 	const user = result.rows[0];
@@ -49,13 +60,7 @@ userRouter.post("/login", async (req, res) => {
 		if (passwordMatchesHash) {
 			const id = result.rows[0].id;
 			const username = result.rows[0].username;
-			const payload = { id, username, email };
-			const secret = process.env.secret;
-			const options = { expiresIn: "1h" };
-			if (secret === undefined) {
-				return;
-			}
-			const token = jwt.sign(payload, secret, options);
+			const token = createToken(id, username, email);
 			console.log(token);
 			res.send(token);
 		} else {
@@ -105,15 +110,8 @@ userRouter.put("/:id", async (req, res) => {
 		if (result.rowCount === 0) {
 			res.status(404).send("Error: User not found");
 		} else {
-			const payload = { userId, username, email };
-			const secret = process.env.secret;
-			const options = { expiresIn: "1h" };
-			if (secret === undefined) {
-				return;
-			}
-			const token = jwt.sign(payload, secret, options);
-			res.status(200).send(token);
-				
+			const token = createToken(userId, username, email);
+			res.status(200).send(token);	
 		}
 	} catch (error) {
 		res.status(500).send("Error updating user.");
