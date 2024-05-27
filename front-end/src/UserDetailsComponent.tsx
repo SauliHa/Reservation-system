@@ -27,7 +27,7 @@ const UserDetailsComponent = (props: {
 	return (
 		<div className="userPageContainer">
 			<div className="userDetails">
-				<h3>User details:</h3>
+				<h3 className="mb-3">User details:</h3>
 				<p>
 					<b>Username:</b> {props.userData.username}
 				</p>
@@ -45,7 +45,7 @@ const UserDetailsComponent = (props: {
 				<Button
 					variant="primary"
 					onClick={() => props.changeEditMode(true)}
-					className="mb-3"
+					className="mb-3 mt-2"
 				>
 					Change user info
 				</Button>

@@ -33,7 +33,7 @@ function App() {
 			setAuthToken(token);
 			const response = await checkToken(token);
 			if (
-				response === "Invalid token" ||
+				response === "Error: Invalid token" ||
 				response == "Error: Token expired"
 			) {
 				localStorage.removeItem("token");
@@ -65,7 +65,7 @@ function App() {
 			<Router>
 				<div className="content">
 					<a id="top"></a>
-					<Header/>
+					<Header />
 					<Routes>
 						<Route path="/" element={<FrontPage />} />
 						<Route path="/user" element={<UserPage />} />
