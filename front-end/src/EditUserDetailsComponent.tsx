@@ -11,7 +11,7 @@ const EditUserDetailsComponent = (props: {
 	const [password, setPassword] = useState("");
 	const [passwordRepeat, setPasswordRepeat] = useState("");
 	const [email, setEmail] = useState(props.userData.email);
-	const [phone, setPhone] = useState(props.userData.phonenumber);
+	const [phone, setPhone] = useState(props.userData.phone_number);
 	const [address, setAddress] = useState(props.userData.address);
 	const [validated, setValidated] = useState(false);
 	const [showPasswordMatchingError, setShowPasswordMatchingError] =
@@ -39,7 +39,7 @@ const EditUserDetailsComponent = (props: {
 		const editedUser: User = {
 			id: props.userData.id,
 			username: username,
-			phonenumber: phone,
+			phone_number: phone,
 		};
 		if (password.length > 0) {
 			editedUser.password = password;

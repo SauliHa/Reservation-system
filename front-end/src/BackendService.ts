@@ -23,7 +23,9 @@ const sendLoginRequest = (loginObject: { email: string; password: string }) => {
 
 const checkToken = (token: string) => {
 	const request = axios.get(`${userBaseURL}/token/${token}`);
-	return request.then((response) => response.data).catch((error) => error);
+	return request
+		.then((response) => response.data)
+		.catch((error) => error.response.data);
 };
 
 const getUserDetails = (id: string) => {

@@ -32,8 +32,17 @@ function App() {
 		if (token) {
 			setAuthToken(token);
 			const response = await checkToken(token);
-			if (response.error === "Invalid token") {
+			if (
+				response === "Invalid token" ||
+				response == "Error: Token expired"
+			) {
 				localStorage.removeItem("token");
+				setUserInfo({
+					id: "",
+					email: "",
+					username: "",
+					loggedIn: false,
+				});
 				return;
 			}
 			console.log(response);

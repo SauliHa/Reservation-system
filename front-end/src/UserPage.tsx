@@ -12,7 +12,7 @@ const UserPage = () => {
 		id: "",
 		email: "",
 		username: "",
-		phonenumber: "",
+		phone_number: "",
 		address: "",
 	});
 	const [editMode, setEditMode] = useState(false);
@@ -29,13 +29,13 @@ const UserPage = () => {
 			id: data.id,
 			email: data.email,
 			username: data.username,
-			phonenumber: data.phone_number,
+			phone_number: data.phone_number,
 			address: data.address,
 		});
 	};
 	useEffect(() => {
 		getData();
-	}, []);
+	}, [userInfo]);
 
 	return userInfo.state.loggedIn ? (
 		editMode ? (
