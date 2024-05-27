@@ -25,7 +25,7 @@ reservationRouter.post("/create", async (req, res) => {
 	}
 });
 
-reservationRouter.delete("/delete/:id", async (req, res) => {
+reservationRouter.delete("/:id", async (req, res) => {
 	const reservationId = req.params.id;
 	console.log(`Request to delete resevation with id ${reservationId}`);
   
@@ -41,10 +41,14 @@ reservationRouter.delete("/delete/:id", async (req, res) => {
 	}
 });
 
-reservationRouter.put("/put/:id", async (req, res) => {
+reservationRouter.put("/:id", async (req, res) => {
 	const {lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
 	const reservationId = req.params.id;
 	console.log(`Request to change reservation with id ${reservationId}`);
+	const timeChecked = await checkTime(lane_id, date, start_time, end_time);
+	if ( timeChecked.rows.length > 0 ) {
+		return res.send("Chosen time is not available");
+	}
   
 	try {
 		const result = await updateReservation(reservationId, lane_id, date, start_time, end_time, amount_of_players, additional_info);
