@@ -7,10 +7,8 @@ import { Table } from "react-bootstrap";
 
 const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation) => {
 	const context = useContext(AppContext);
-	console.log(context.state);
 	const [amountOfPlayers, setAmountOfPlayers] = useState(0);
 	const [additionalInfo, setAdditionalInfo] = useState("");
-
 	const renderDates = selectedTimes.map(element => {
 		return (
 			<tr  key={element.laneId}>
@@ -36,7 +34,7 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 
 	return (
 		<div className="container">
-			<h3>Varausksen ajankohta: {pickedDate.getDay()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
+			<h3>Varauksien ajankohdat: {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
 			<h3>Varatut radat</h3>
 			<div>
 				<Table>

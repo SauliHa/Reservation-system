@@ -2,6 +2,7 @@ import { Table } from "react-bootstrap";
 import { timeButton } from "./ReservationCalendarPage";
 
 const ReservationConfirmation = ({selectedTimes, pickedDate}:PropsValidation) => {
+	
 	const renderDates = selectedTimes.map(element => {
 		return (
 			<tr  key={element.laneId}>
@@ -14,7 +15,7 @@ const ReservationConfirmation = ({selectedTimes, pickedDate}:PropsValidation) =>
 	return(
 		<div className="container">
 			<h1 className="mt-4 mb-3">Varaus onnistui!</h1>
-			<h3>Varausksen ajankohta: {pickedDate.getDay()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
+			<h3>Varauksien ajankohdat: {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
 			<div>
 				<Table>
 					<thead>
