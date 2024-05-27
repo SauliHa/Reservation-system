@@ -23,6 +23,9 @@ const UserPage = () => {
 	};
 
 	const getData = async () => {
+		if (userInfo.state.id === undefined) {
+			return;
+		}
 		const data = await getUserDetails(userInfo.state.id);
 		console.log(data);
 		setUserData({

@@ -95,12 +95,12 @@ userRouter.put("/:id", async (req, res) => {
 		res.status(401).send("This email is already in use");
 		return;
 	}
-	const userId = req.params.id;
-	console.log(`Request to change user with id ${userId}`);
+	const id = req.params.id;
+	console.log(`Request to change user with id ${id}`);
 
 	try {
 		const result = await dao.updateUser(
-			userId,
+			id,
 			username,
 			password,
 			email,
@@ -110,8 +110,8 @@ userRouter.put("/:id", async (req, res) => {
 		if (result.rowCount === 0) {
 			res.status(404).send("Error: User not found");
 		} else {
-			const token = createToken(userId, username, email);
-			res.status(200).send(token);	
+			const token = createToken(id, username, email);
+			res.status(200).send(token);
 		}
 	} catch (error) {
 		res.status(500).send("Error updating user.");
