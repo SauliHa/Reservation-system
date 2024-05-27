@@ -65,7 +65,7 @@ function App() {
 			<Router>
 				<div className="content">
 					<a id="top"></a>
-					<Header />
+					<Header/>
 					<Routes>
 						<Route path="/" element={<FrontPage />} />
 						<Route path="/user" element={<UserPage />} />
