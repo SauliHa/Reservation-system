@@ -1,7 +1,8 @@
 import { Button, Form } from "react-bootstrap";
 import { User } from "./LoginPage";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { sendEditUserRequest } from "./BackendService";
+import { AppContext } from "./App";
 
 const EditUserDetailsComponent = (props: {
 	userData: User;
@@ -11,13 +12,15 @@ const EditUserDetailsComponent = (props: {
 	const [password, setPassword] = useState("");
 	const [passwordRepeat, setPasswordRepeat] = useState("");
 	const [email, setEmail] = useState(props.userData.email);
-	const [phone, setPhone] = useState(props.userData.phonenumber);
+	const [phone, setPhone] = useState(props.userData.phone_number);
 	const [address, setAddress] = useState(props.userData.address);
 	const [validated, setValidated] = useState(false);
 	const [showPasswordMatchingError, setShowPasswordMatchingError] =
 		useState(false);
 	const [showDuplicateEmailError, setShowDuplicateEmailError] =
 		useState(false);
+
+	const userInfo = useContext(AppContext);
 
 	const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
 		const form = event.currentTarget;
@@ -39,7 +42,7 @@ const EditUserDetailsComponent = (props: {
 		const editedUser: User = {
 			id: props.userData.id,
 			username: username,
-			phonenumber: phone,
+			phone_number: phone,
 		};
 		if (password.length > 0) {
 			editedUser.password = password;
@@ -52,10 +55,12 @@ const EditUserDetailsComponent = (props: {
 		}
 
 		sendEditUserRequest(editedUser).then((response) => {
-			if (response === 401) {
+			if (response.status === 401) {
 				setShowDuplicateEmailError(true);
 			}
-			if (response === 200) {
+			if (response.status === 200) {
+				localStorage.setItem("token", response.data);
+				userInfo.hook();
 				props.changeEditMode(false);
 			}
 		});

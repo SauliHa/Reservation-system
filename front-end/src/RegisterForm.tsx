@@ -45,7 +45,7 @@ const RegisterForm = (props: {
 			username: username,
 			email: email,
 			password: password,
-			phonenumber: phone,
+			phone_number: phone,
 			address: address,
 		};
 		createUser(newUser).then((response) => {

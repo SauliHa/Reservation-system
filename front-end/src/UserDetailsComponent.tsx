@@ -35,7 +35,7 @@ const UserDetailsComponent = (props: {
 					<b>Email:</b> {props.userData.email}
 				</p>
 				<p>
-					<b>Phone number:</b> {props.userData.phonenumber}
+					<b>Phone number:</b> {props.userData.phone_number}
 				</p>
 				<p>
 					<b>Address:</b> {props.userData.address}

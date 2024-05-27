@@ -11,7 +11,7 @@ export interface User {
 	username?: string;
 	password?: string;
 	email?: string;
-	phonenumber?: string;
+	phone_number?: string;
 	address?: string;
 }
 

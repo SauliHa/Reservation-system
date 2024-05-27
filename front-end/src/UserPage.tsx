@@ -12,7 +12,7 @@ const UserPage = () => {
 		id: "",
 		email: "",
 		username: "",
-		phonenumber: "",
+		phone_number: "",
 		address: "",
 	});
 	const [editMode, setEditMode] = useState(false);
@@ -23,19 +23,22 @@ const UserPage = () => {
 	};
 
 	const getData = async () => {
+		if (userInfo.state.id === undefined) {
+			return;
+		}
 		const data = await getUserDetails(userInfo.state.id);
 		console.log(data);
 		setUserData({
 			id: data.id,
 			email: data.email,
 			username: data.username,
-			phonenumber: data.phone_number,
+			phone_number: data.phone_number,
 			address: data.address,
 		});
 	};
 	useEffect(() => {
 		getData();
-	}, []);
+	}, [userInfo]);
 
 	return userInfo.state.loggedIn ? (
 		editMode ? (
