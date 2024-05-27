@@ -11,12 +11,6 @@ export const findUser = async (id: string) => {
 	return result;
 };
 
-// interface userType {
-// 	id: string;
-// 	created_at: Date;
-// 	password: string;
-// }
-
 export const checkEmail = async (email: string) => {
 	const emailQuery = "SELECT * FROM users WHERE email = $1";
 	const params = [email];
@@ -44,9 +38,7 @@ export const deleteUser = async (id: string) => {
 		WITH deleted_user AS (
 			DELETE FROM users WHERE id = $1 RETURNING id
 		),
-		deleted_reservations AS (
-			DELETE FROM reservations WHERE user_id = $1
-		)
+			DELETE FROM reservations WHERE user_id = $1,
 		SELECT id FROM deleted_user
 	`;
 	const params = [id];
