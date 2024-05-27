@@ -14,15 +14,18 @@
 		"axios": "^1.7.0",
 		"bootstrap": "^5.3.3",
 		"dotenv": "^16.4.5",
+		"i18next": "^23.11.5",
 		"mdb-react-ui-kit": "^8.0.0",
 		"react": "^18.2.0",
 		"react-bootstrap": "^2.10.2",
 		"react-datepicker": "^6.9.0",
 		"react-dom": "^18.2.0",
+		"react-i18next": "^14.1.2",
 		"react-router": "^6.23.1",
 		"react-router-dom": "^6.23.1"
 	},
 	"devDependencies": {
+		"@types/i18next": "^13.0.0",
 		"@types/node": "^20.12.12",
 		"@types/react": "^18.2.66",
 		"@types/react-datepicker": "^6.2.0",
