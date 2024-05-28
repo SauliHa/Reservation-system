@@ -15,6 +15,7 @@ export class timeButton {
 	endTime: number;
 	laneName: string;
 	laneId: string;
+	ownReservation?: boolean;
 	constructor(
 		reserved: boolean,
 		startTime: number,
@@ -38,9 +39,16 @@ interface selectedTime {
 	laneId: string;
 }
 
+interface disableButton {
+	name: string;
+	start: number;
+	end: number;
+	own: boolean;
+}
+
 const ReservationCalendarPage = () => {
 	const [buttonsToDisable, setButtonsToDisable] = useState<
-		Array<Array<Array<string | number>>>
+		Array<Array<disableButton>>
 	>([]);
 	const [startDate, setStartDate] = useState(new Date());
 	const [selectedTimes, setSelectedTimes] = useState<Array<selectedTime>>();
@@ -51,32 +59,36 @@ const ReservationCalendarPage = () => {
 
 	const hook = async () => {
 		const response = await getLanes();
-		console.log(response.data);
 		const filterUnusableLanes = response.data.filter(element => element.usable);
 		generateLanes(filterUnusableLanes);
-		const dateString = `${startDate.getFullYear()}-
-		${startDate.getMonth()+1}-
-		${startDate.getDate()}`;
-		const reservations = await getReservationInfoByDate(dateString);
-
-		if (reservations.data.length > 0) {
-			const reservedTimes = reservations.data.map((element) => {
-				return generateHourlyArray([
-					element.name,
-					Number(element.start_time.slice(0, 2)),
-					Number(element.end_time.slice(0, 2)),
-				]);
-			});
-			setButtonsToDisable(reservedTimes);
-		}
+		getReservations();
 	};
 	useEffect(() => {
 		hook();
-	}, [startDate]);
+	}, [startDate, userInfo.state.id]);
 
 	useEffect(() => {
 		disableButtons();
 	}, [buttonsToDisable]);
+	
+	const getReservations = async () => {
+		const dateString = `${startDate.getFullYear()}-
+		${startDate.getMonth()+1}-
+		${startDate.getDate()}`;
+		const reservations = await getReservationInfoByDate(dateString);
+		if (reservations.data.length > 0) {
+			const reservedTimes = reservations.data.map((element) => {
+				const ownReservation = element.user_id === userInfo.state.id ? true : false;
+				return generateHourlyArray({
+					name: element.name,
+					start: Number(element.start_time.slice(0, 2)),
+					end: Number(element.end_time.slice(0, 2)),
+					own: ownReservation,
+				});
+			});
+			setButtonsToDisable(reservedTimes);
+		}
+	};
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const generateLanes = (data: Array<any>) => {
@@ -115,11 +127,11 @@ const ReservationCalendarPage = () => {
 		setSelectedTimes(newSelectionArray);
 	};
 
-	const generateHourlyArray = (data: Array<string | number>) => {
+	const generateHourlyArray = (data: disableButton) => {
 		const hourlyArray = [];
 
-		for (let time = data[1]; time <= data[2]; time++) {
-			hourlyArray.push([data[0], time]);
+		for (let time = data.start; time <= data.end; time++) {
+			hourlyArray.push({name:data.name, start:time, end:time+1, own:data.own});
 		}
 		return hourlyArray;
 	};
@@ -132,10 +144,14 @@ const ReservationCalendarPage = () => {
 					for (let i = 0; i < buttonsToDisable[index].length-1; i++) {
 						if (
 							element.laneName ===
-								buttonsToDisable[index][i][0] &&
-							element.startTime === buttonsToDisable[index][i][1]
+								buttonsToDisable[index][i].name &&
+							element.startTime === buttonsToDisable[index][i].start
+							
 						) {
 							element.reserved = true;
+							if(buttonsToDisable[index][i].own) {
+								element.ownReservation = true;	
+							}
 						}
 					}
 				}
@@ -195,6 +211,8 @@ const ReservationCalendarPage = () => {
 				}
 			});
 			setSelectedTimes(newTimes);
+		} else {
+			window.alert("You can only select a time next to the current one");
 		}
 	};
 
@@ -232,16 +250,9 @@ const ReservationCalendarPage = () => {
 	return userInfo.state.loggedIn ? (
 		<div className="container">
 			<div className="reservationDiv">
-				<h1 className="mt-3">Ajanarauskalenteri</h1>
-				<p>Voit valita aikoja usealta radalta mutta yhdellä radalla ajanvarus pitää olla yhtäjaksoisesti.</p>
-				<p>Ohje</p>
-				<button className="box mb-2">14 - 15</button> 
-				<p>Vapaa aika</p>
-				<button className="box boxClicked mb-2">14 - 15</button> 
-				<p>Valitsemasi aika</p>
-				<button className="box mb-2" disabled>14 - 15</button>	
-				<p className="mb-4">Varattu aika</p> 
-				<p className="mb-3">Valitse aika</p>
+				<h1 className="mt-3">Ajanvarauskalenteri</h1>
+				<p>Voit valita aikoja usealta radalta mutta yhdellä radalla ajanvaraus pitää olla yhtäjaksoisesti.</p>
+				<h4 className="mb-3 mt-3">Valitse aika</h4>
 				<div id="datePicker">
 					<DatePicker
 						selected={startDate}
@@ -255,6 +266,19 @@ const ReservationCalendarPage = () => {
 					<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">Valitse ajat</Button></Link>:
 					<Button variant="dark" disabled>Valitse ajat</Button>
 				}
+			</div>
+			<div className="reservationDiv mb-5">
+				<h4>Ohje</h4>
+				<div id="guide">
+					<button className="box mb-2">14 - 15</button> 
+					<p>Vapaa aika</p>
+					<button className="box boxClicked mb-2">14 - 15</button> 
+					<p>Valitsemasi aika</p>
+					<button className="box mb-2" disabled>14 - 15</button>	
+					<p>Muiden varaukset</p> 
+					<button className="ownReservation mb-2" disabled>14 - 15</button>	
+					<p>Omat varuksesi</p> 
+				</div>
 			</div>
 		</div>
 	) : (
