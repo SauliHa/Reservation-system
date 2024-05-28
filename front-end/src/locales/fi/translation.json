@@ -12,6 +12,20 @@
     "come_bowling_title" : "Tule keilaamaan",
     "come_bowling_info" : "Meillä on avoinna useita ratoja joten suurempikin porukka mahtuu keilaamaan. Kirjaudu sisään ja varaa ratoja täältä!",
     "find_us_title" : "Löydä meidät",
-    "back-to-top" : "Takaisin ylös"
+    "back-to-top" : "Takaisin ylös",
+    "header": {
+      "front-page": "Etusivu",
+      "user-page": "Käyttäjäsivu",
+      "reservation-calendar": "Varauskalenteri",
+      "log-in" : "Kirjaudu sisään",
+      "log-out" : "Kirjaudu ulos"
+    },
+    "user-details":{
+      "user-details": "Käyttäjätiedot:",
+      "username" : "Käyttäjänimi",
+      "email":"Sähköposti",
+      "phone-number":"Puhelinnumero",
+      "address" :"Osoite"
+    }
   }
   

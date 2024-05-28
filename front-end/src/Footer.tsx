@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "./styles/footer.css";
 
 export function Footer () {
-	const {i18n } = useTranslation();
+	const {t, i18n } = useTranslation();
 
 	const changeLanguage = (lng: string) => {
 		i18n.changeLanguage(lng);
@@ -11,7 +11,7 @@ export function Footer () {
 	return (
 		<div className="footer">
 			<p className="footerItem">Super-sport</p>
-			<a href="#top">Back to top</a>
+			<a href="#top">{t("back-to-top")}</a>
 			<div className="footerItem">
 				<MDBBtn tag='a' color='none' className='m-1' style={{ color: "#3b5998" }}>
 					<MDBIcon fab icon='facebook-f' size='lg' />
