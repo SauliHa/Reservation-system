@@ -7,15 +7,26 @@ export const findUser = async (id: string) => {
 	console.log(`Requesting a user with id ${id}...`);
 	const query = "SELECT * FROM users WHERE id = $1";
 	const params = [id];
-	const result = await executeQuery(query, params);
-	return result;
+	try{
+		const result = await executeQuery(query, params);
+		return result;
+	}
+	catch (error) {
+		console.log(`Error finding user with id ${id}`);
+		throw error;
+	}
 };
 
 export const checkEmail = async (email: string) => {
 	const emailQuery = "SELECT * FROM users WHERE email = $1";
 	const params = [email];
-	const emailResult = await executeQuery(emailQuery, params);
-	return emailResult;
+	try {
+		const emailResult = await executeQuery(emailQuery, params);
+		return emailResult;
+	} catch (error) {
+		console.log(`Error finding user with email ${email}`);
+		throw error;
+	}
 };
 
 export const createUser = async (username: string, password: string, email: string, phone_number: string, address: string) => {
@@ -28,8 +39,13 @@ export const createUser = async (username: string, password: string, email: stri
     VALUES ($1, $2, $3, $4, $5, $6, $7) 
     RETURNING id`;
 	console.log(`Inserting a new user ${params[0]}...`);
-	const result = await executeQuery(query, params);
-	return result;
+	try {
+		const result = await executeQuery(query, params);
+		return result;
+	} catch (error) {
+		console.error("Error creating user", error);
+		throw error;
+	}
 };
 
 export const deleteUser = async (id: string) => {
@@ -37,12 +53,10 @@ export const deleteUser = async (id: string) => {
 	const query = `
 		WITH deleted_user AS (
 			DELETE FROM users WHERE id = $1 RETURNING id
-		),
-			DELETE FROM reservations WHERE user_id = $1,
-		SELECT id FROM deleted_user
+		)
+			DELETE FROM reservations WHERE user_id = $1;
 	`;
 	const params = [id];
-
 	try {
 		const result = await executeQuery(query, params);
 		return result;
@@ -79,21 +93,14 @@ export const updateUser = async (id: string, username: string, password: string,
 		updates.push(`address = $${updates.length + 2}`);
 		params.push(address);
 	}
-  
+
 	if (updates.length === 0) {
 		throw new Error("No valid fields provided for update.");
 	}
-  
-	const query = `UPDATE users SET ${updates.join(", ")} WHERE id = $1`;
-  
 
+	const query = `UPDATE users SET ${updates.join(", ")} WHERE id = $1`;
 	try {
 		const result = await executeQuery(query, params);
-		if (result.rowCount === 0) {
-			console.log(`User with id ${id} not found.`);
-			return result;
-		}
-		console.log(`User ${id} updated successfully.`);
 		return result;
 	} catch (error) {
 		console.error(`Error updating user with id ${id}:`, error);
@@ -105,6 +112,13 @@ export const findReservations = async (id: string) => {
 	console.log(`Requesting reservations with userId ${id}...`);
 	const query = "SELECT * FROM reservations WHERE user_id = $1";
 	const params = [id];
-	const result = await executeQuery(query, params);
-	return result;
+
+	try {
+		const result = await executeQuery(query, params);
+		return result;
+	}
+	catch (error) {
+		console.error(`Error updating reservation with id ${id}:`, error);
+		throw error;
+	}
 };
