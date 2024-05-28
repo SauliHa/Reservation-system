@@ -3,11 +3,14 @@ import { User } from "./LoginPage";
 import { useContext, useState } from "react";
 import { sendDeleteUserRequest } from "./BackendService";
 import { AppContext } from "./App";
+import { useTranslation } from "react-i18next";
 
 const UserDetailsComponent = (props: {
 	userData: User;
 	changeEditMode: (mode: boolean) => void;
 }) => {
+
+	const {t} = useTranslation();
 	const [deleteMode, setDeleteMode] = useState(false);
 	const userInfo = useContext(AppContext);
 
@@ -27,18 +30,18 @@ const UserDetailsComponent = (props: {
 	return (
 		<div className="userPageContainer">
 			<div className="userDetails">
-				<h3 className="mb-3">User details:</h3>
+				<h3 className="mb-3">{t("user-details.user-details")}</h3>
 				<p>
-					<b>Username:</b> {props.userData.username}
+					<b>{t("user-details.username")}:</b> {props.userData.username}
 				</p>
 				<p>
-					<b>Email:</b> {props.userData.email}
+					<b>{t("user-details.email")}:</b> {props.userData.email}
 				</p>
 				<p>
-					<b>Phone number:</b> {props.userData.phone_number}
+					<b>{t("user-details.phone-number")}:</b> {props.userData.phone_number}
 				</p>
 				<p>
-					<b>Address:</b> {props.userData.address}
+					<b>{t("user-details.address")}:</b> {props.userData.address}
 				</p>
 			</div>
 			<div>

@@ -6,13 +6,20 @@ export const LaneTimeTable = ( {laneName: laneName, laneArray: laneArray, handle
 		handleClick(laneName, startTime, (startTime+1));
 	};
 	const boxes = laneArray.map(element =>{
-		if (element.reserved) {
+		if (element.ownReservation) {
+			return <button key={(element.startTime)} 
+				id={element.startTime.toString()} 
+				className="ownReservation"
+				disabled>
+				{element.startTime} - {element.endTime}
+			</button>;
+		} else if (element.reserved) {
 			return <button key={(element.startTime)} 
 				id={element.startTime.toString()} 
 				className="box" disabled>
 				{element.startTime} - {element.endTime}
 			</button>;
-		} else {
+		} else{
 
 			return <button key={(element.startTime)} 
 				id={element.startTime.toString()} 

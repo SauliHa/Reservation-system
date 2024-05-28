@@ -8,6 +8,7 @@ import UserDetailsComponent from "./UserDetailsComponent";
 import UserReservations from "./UserReservations";
 
 const UserPage = () => {
+
 	const userInfo = useContext(AppContext);
 	const [userData, setUserData] = useState<User>({
 		id: "",
