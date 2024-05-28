@@ -51,6 +51,11 @@ const sendDeleteUserRequest = (id: string) => {
 		.catch((error) => error.response.status);
 };
 
+const getUserReservations = (id: string) => {
+	const request = axios.get(`${userBaseURL}/${id}/reservations`);
+	return request.then((response) => response.data);
+};
+
 const bowlingBaseURL = "http://localhost:3000/bowling/";
 const reservationbaseURL = "http://localhost:3000/reservations/";
 
@@ -100,4 +105,5 @@ export {
 	getUserDetails,
 	sendEditUserRequest,
 	sendDeleteUserRequest,
+	getUserReservations,
 };
