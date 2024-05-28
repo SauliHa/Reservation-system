@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import "./styles/footer.css";
 
 export function Footer () {
-	const { t, i18n } = useTranslation();
+	const {i18n } = useTranslation();
 
 	const changeLanguage = (lng: string) => {
 		i18n.changeLanguage(lng);
@@ -30,7 +30,6 @@ export function Footer () {
 				</MDBBtn>
 			</div>
 			<div className="footerItem">
-				<h1>{t("welcome")}</h1>
 				<MDBIcon flag='us' /> <button onClick={() => changeLanguage("en")}>English</button>
 				<MDBIcon flag='finland' /><button onClick={() => changeLanguage("fi")}>Suomi</button>
 			</div>

@@ -1,5 +1,17 @@
 {
     "welcome": "Welcome",
-    "changeLanguage": "Change Language"
+    "changeLanguage": "Change Language",
+    "reservationsystem": "Reservation system",
+    "supersports_title": "Super-sports Sports Center",
+    "super-sport_bowling" : "Super sport bowling",
+    "location_info": "We are a sports center located in Jyväskylä, far from everything and in the middle of nowhere.",
+    "rental_info": "You can rent equipment and facilities for various sports and hobbies from us, so you can do anything as long as it's bowling!",
+    "login_info": "Log in and start using our facilities right away!",
+    "register_button": "Create a new user!",
+    "book_here_button" : "Book here!",
+    "come_bowling_title" : "Come bowling",
+    "come_bowling_info" : "We have multiple lanes open so even a bigger group will fit in to bowl. Log in a book a lane from here!",
+    "find_us_title" : "Find us",
+    "back-to-top" : "Back to top"
   }
   

@@ -1,5 +1,17 @@
 {
     "welcome": "Tervetuloa",
-    "changeLanguage": "Vaihda kieli"
+    "changeLanguage": "Vaihda kieli",
+    "reservationsystem": "Ajanvarausjärjestelmä",
+    "supersports_title": "Super-sports urheilukeskus",
+    "super-sport_bowling" : "Super sport bowling",
+    "location_info": "Olemme Jyväskylässä sijaitseva urheilukeskus kaukana kaikesta ja keskellä ei mitään.",
+    "rental_info": "Meiltä voit vuokrata välineitä ja tiloja useille eri lajeille ja harrastuksille, joten voit harrastaa mitä vain kunhan mitä vain on keilaamista!",
+    "login_info": "Kirjaudu sisään ja ala käytämään meidän tiloja vaikka heti!",
+    "register_button": "Tee uusi käyttäjä!",
+    "book_here_button" : "Varaa tästä!",
+    "come_bowling_title" : "Tule keilaamaan",
+    "come_bowling_info" : "Meillä on avoinna useita ratoja joten suurempikin porukka mahtuu keilaamaan. Kirjaudu sisään ja varaa ratoja täältä!",
+    "find_us_title" : "Löydä meidät",
+    "back-to-top" : "Takaisin ylös"
   }
   
