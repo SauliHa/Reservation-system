@@ -7,6 +7,7 @@ import EditUserDetailsComponent from "./EditUserDetailsComponent";
 import UserDetailsComponent from "./UserDetailsComponent";
 
 const UserPage = () => {
+
 	const userInfo = useContext(AppContext);
 	const [userData, setUserData] = useState<User>({
 		id: "",

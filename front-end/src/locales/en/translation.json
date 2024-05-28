@@ -12,6 +12,20 @@
     "come_bowling_title" : "Come bowling",
     "come_bowling_info" : "We have multiple lanes open so even a bigger group will fit in to bowl. Log in a book a lane from here!",
     "find_us_title" : "Find us",
-    "back-to-top" : "Back to top"
+    "back-to-top" : "Back to top",
+    "header": {
+      "front-page": "Front page",
+      "user-page": "Userpage",
+      "reservation-calendar": "Reservation Calendar",
+      "log-in" : "Log in",
+      "log-out" : "Log out"
+    },
+    "user-details":{
+      "user-details": "User details:",
+      "username" : "Username",
+      "email":"Email",
+      "phone-number":"Phone number",
+      "address" :"Address"
+    }
   }
   

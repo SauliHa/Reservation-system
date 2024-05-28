@@ -3,8 +3,11 @@ import "./styles/header.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "./App";
+import { useTranslation } from "react-i18next";
 
 export function Header() {
+
+	const { t } = useTranslation();
 	const userInfo = useContext(AppContext);
 
 	return (
@@ -13,25 +16,25 @@ export function Header() {
 			<div className="header">
 				<li>
 					<Link to="/" className="headerItem">
-						Front page
+						{t("header.front-page")}
 					</Link>
 				</li>
 				<li>
 					<Link to="/user" className="headerItem">
-						Userpage
+						{t("header.user-page")}
 					</Link>
 				</li>
 				<li>
 					<Link to="/calendar" className="headerItem">
-						Reservation Calendar
+						{t("header.reservation-calendar")}
 					</Link>
 				</li>
 				{userInfo.state.loggedIn && (
 					<li className="userName">{userInfo.state.username}</li>
 				)}
-				<Link to="/login" id="loginButton">
+				<Link to="/login" id="loginButton">	
 					<Button variant="dark">
-						{userInfo.state.loggedIn ? "Log out" : "Log in"}
+						{userInfo.state.loggedIn ? t("header.log-out") : t("header.log-in")}
 					</Button>
 				</Link>
 			</div>
