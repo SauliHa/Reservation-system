@@ -49,11 +49,11 @@ export const createUser = async (username: string, password: string, email: stri
 };
 
 export const deleteUser = async (id: string) => {
+	
 	console.log(`Deleting user with id ${id}...`);
 	const query = `
 		WITH deleted_user AS (
-			DELETE FROM users WHERE id = $1 RETURNING id
-		)
+			DELETE FROM users WHERE id = $1 RETURNING id )
 			DELETE FROM reservations WHERE user_id = $1;
 	`;
 	const params = [id];

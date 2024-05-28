@@ -7,10 +7,8 @@ function errorHandler(err: any, req: Request, res: Response, next: NextFunction 
 	if (res.headersSent) {
 		return next(err);
 	}
-  
-	if (err.name === "DatabaseError") {
-		res.status(500).send("Internal Server Error");
-	} else if (err.name === "ValidationError") {
+	
+	if (err.name === "ValidationError") {
 		res.status(400).send("Bad Request");
 	} else {
 		res.status(500).send("Something went wrong");
