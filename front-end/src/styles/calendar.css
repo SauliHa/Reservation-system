@@ -64,3 +64,24 @@
   .boxClicked:hover {
 	background-color: yellow;
   }
+
+  .ownReservation {
+	width: 5rem;
+	height: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: blue;
+	color: white;
+	font-size: 20px;
+	border: 2px solid #333;
+  }
+
+#guide {
+	border: 2px solid #333;
+	justify-content: center;
+	padding-left: 5rem;
+	padding-right: 5rem;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
