@@ -18,76 +18,89 @@ const createToken = (id: string, username: string, email: string) => {
 	return token;
 };
 
-userRouter.get("/:id", async (req, res) => {
-	const result = await dao.findUser(req.params.id);
-	const user = result.rows[0];
-	res.send(user);
+userRouter.get("/:id", async (req, res, next) => {
+	try {const result = await dao.findUser(req.params.id);
+		const user = result.rows[0];
+		res.send(user);
+	}
+	catch (error) {
+		next(error); 
+	}
 });
 
-userRouter.post("/create", async (req, res) => {
+userRouter.post("/create", async (req, res, next) => {
 	const { username, password, email, phone_number, address } = req.body;
 	console.log(req.body);
-
+	
 	const checkedEmail = await dao.checkEmail(email);
 	if (checkedEmail.rows.length > 0) {
 		res.status(401).send("This email is already in use");
 		return;
 	}
 
-	const result = await dao.createUser(
-		username,
-		password,
-		email,
-		phone_number,
-		address
-	);
-	res.send(result.rows[0]);
+	try {
+		const result = await dao.createUser(
+			username,
+			password,
+			email,
+			phone_number,
+			address
+		);
+		res.send(result.rows[0]);
+	} catch (error) {
+		next(error); 
+	}
 });
 
-userRouter.post("/login", async (req, res) => {
+userRouter.post("/login", async (req, res, next) => {
 	const { email, password } = req.body;
 
-	const result = await dao.checkEmail(email);
-	if (result.rows.length === 0) {
-		res.status(404).send("E-mail not found");
-	} else {
-		const storedPassword = result.rows[0].password_hash;
-		const passwordMatchesHash = await argon2.verify(
-			storedPassword,
-			password
-		);
-
-		if (passwordMatchesHash) {
-			const id = result.rows[0].id;
-			const username = result.rows[0].username;
-			const token = createToken(id, username, email);
-			console.log(token);
-			res.send(token);
+	try {
+		const result = await dao.checkEmail(email);
+		if (result.rows.length === 0) {
+			res.status(404).send("E-mail not found");
 		} else {
-			res.status(401).send("Unauthorized");
+			const storedPassword = result.rows[0].password_hash;
+			const passwordMatchesHash = await argon2.verify(
+				storedPassword,
+				password
+			);
+
+			if (passwordMatchesHash) {
+				const id = result.rows[0].id;
+				const username = result.rows[0].username;
+				const token = createToken(id, username, email);
+				console.log(token);
+				res.send(token);
+			} else {
+				res.status(401).send("Unauthorized");
+			}
 		}
+	}
+	catch (error) {
+		next(error); 
 	}
 });
 
-userRouter.delete("/:id", async (req, res) => {
+userRouter.delete("/:id", async (req, res, next) => {
 	const userId = req.params.id;
 	console.log(`Request to delete user with id ${userId}`);
-
+	const checkId = await dao.findUser(userId);
+	if (checkId.rowCount === 0) {
+		res.status(404).send("Error: User not found");
+	}
+	
 	try {
-		const result = await dao.deleteUser(userId);
-		if (result.rowCount === 0) {
-			res.status(404).send("Error: User not found");
-		} else {
-			res.status(200).send(
-				`User with id ${userId} deleted successfully.`
-			);
-		}
-	} catch (error) {
-		res.status(500).send("Error deleting user.");
+		await dao.deleteUser(userId);	
+		res.status(200).send(
+			`User with id ${userId} deleted successfully.`
+		);
+	} catch (error)  {
+		next(error); 
 	}
 });
 
-userRouter.put("/:id", async (req, res) => {
+userRouter.put("/:id", async (req, res, next) => {
 	const { username, password, email, phone_number, address } = req.body;
 
 	const checkedEmail = await dao.checkEmail(email);
@@ -114,7 +127,7 @@ userRouter.put("/:id", async (req, res) => {
 			res.status(200).send(token);
 		}
 	} catch (error) {
-		res.status(500).send("Error updating user.");
+		next(error); 
 	}
 });
 
@@ -142,10 +155,14 @@ userRouter.get("/token/:token", async (req, res) => {
 	}
 });
 
-userRouter.get("/:id/reservations", async (req, res) => {
-	const result = await dao.findReservations(req.params.id);
-	const reservations = result.rows;
-	res.send(reservations);
+userRouter.get("/:id/reservations", async (req, res, next) => {
+	try {
+		const result = await dao.findReservations(req.params.id);
+		const reservations = result.rows;
+		res.send(reservations);
+	} catch (error) {
+		next(error); 
+	}
 });
 
 export default userRouter;

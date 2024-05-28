@@ -3,13 +3,18 @@ import {findReservation, createReservation, deleteReservation, updateReservation
 
 const reservationRouter = express.Router();
 
-reservationRouter.get("/:id", async (req, res) => {
-	const result = await findReservation(req.params.id);
-	const reservation = result.rows[0];
-	res.send(reservation);
+reservationRouter.get("/:id", async (req, res, next) => {
+	try { 
+		const result = await findReservation(req.params.id);
+		const reservation = result.rows[0];
+		res.send(reservation);
+	}
+	catch (error) {
+		next(error); 
+	}
 });
 
-reservationRouter.post("/create", async (req, res) => {
+reservationRouter.post("/create", async (req, res, next) => {
 	const {user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
 	console.log(req.body);
 	const timeChecked = await checkTime(lane_id, date, start_time, end_time);
@@ -21,11 +26,11 @@ reservationRouter.post("/create", async (req, res) => {
 		res.status(201).send(result.rows[0]);
 	} catch (error) {
 		console.error("Error creating reservation:", error);
-		res.status(500).send("Error creating reservation");
+		next(error); 
 	}
 });
 
-reservationRouter.delete("/:id", async (req, res) => {
+reservationRouter.delete("/:id", async (req, res, next) => {
 	const reservationId = req.params.id;
 	console.log(`Request to delete resevation with id ${reservationId}`);
   
@@ -37,11 +42,11 @@ reservationRouter.delete("/:id", async (req, res) => {
 			res.status(200).send(`Reservation with id ${reservationId} deleted successfully.`);
 		}
 	} catch (error) {
-		res.status(500).send("Error deleting reservation.");
+		next(error);
 	}
 });
 
-reservationRouter.put("/:id", async (req, res) => {
+reservationRouter.put("/:id", async (req, res, next) => {
 	const {lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
 	const reservationId = req.params.id;
 	console.log(`Request to change reservation with id ${reservationId}`);
@@ -58,7 +63,7 @@ reservationRouter.put("/:id", async (req, res) => {
 			res.status(200).send(`Reservation with id ${reservationId} updated successfully.`);
 		}
 	} catch (error) {
-		res.status(500).send("Error updating reservation.");
+		next(error);
 	}
 });
 

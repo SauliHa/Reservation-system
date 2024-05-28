@@ -25,7 +25,7 @@ const findLane = async (id: string) => {
 
 const findDate = async (date: string) => {
 	console.log(`Requesting date info for ${date}...`);
-	const query = `SELECT r.start_time, r.end_time, l.id, l.name
+	const query = `SELECT r.start_time, r.end_time, l.id, l.name, r.user_id
     FROM reservations AS r
     JOIN lanes AS l ON r.lane_id = l.id
     WHERE r.date = $1;`;

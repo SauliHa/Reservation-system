@@ -4,6 +4,7 @@ import userRouter from "./userRouter";
 import bowlingRouter from "./bowlingRouter";
 import cors from "cors";
 import reservationRouter from "./reservationRouter";
+import errorHandler from "./errorHandler";
 
 const server = express();
 
@@ -13,6 +14,7 @@ server.use(express.urlencoded({ extended: false }));
 server.use("/user", userRouter);
 server.use("/bowling", bowlingRouter);
 server.use("/reservations", reservationRouter);
+server.use(errorHandler);
 
 const { PORT } = process.env;
 if (PORT) {
