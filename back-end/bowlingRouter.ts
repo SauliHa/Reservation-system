@@ -3,25 +3,39 @@ import { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane, c
 
 const bowlingRouter = express.Router();
 
-bowlingRouter.get("/", async (req, res) => {
-	const result = await findAllLanes();
-	const lanes= result.rows;
-	res.send(lanes);
+bowlingRouter.get("/", async (req, res, next) => {
+	try {
+		const result = await findAllLanes();
+		const lanes= result.rows;
+		res.send(lanes);
+	}
+	catch (error) {
+		next(error); 
+	}
 });
 
-bowlingRouter.get("/:id", async (req, res) => {
-	const result = await findLane(req.params.id);
-	const lane = result.rows;
-	res.send(lane);
+bowlingRouter.get("/:id", async (req, res, next) => {
+	try {
+		const result = await findLane(req.params.id);
+		const lane = result.rows;
+		res.send(lane);
+	}
+	catch (error) {
+		next(error); 
+	}
 });
 
-bowlingRouter.get("/date/:date", async (req, res) => {
-	const result = await findDate(req.params.date);
-	const dateinfo = result.rows;
-	res.send(dateinfo);
+bowlingRouter.get("/date/:date", async (req, res, next) => {
+	try {
+		const result = await findDate(req.params.date);
+		const dateinfo = result.rows;
+		res.send(dateinfo);
+	} catch (error) {
+		next(error); 
+	}
 });
 
-bowlingRouter.post("/create", async (req, res) => {
+bowlingRouter.post("/create", async (req, res, next) => {
 	const {name} = req.body;
 
 	const checkedName = await checkName(name);
@@ -29,11 +43,16 @@ bowlingRouter.post("/create", async (req, res) => {
 		res.status(401).send("This name is already in use");
 		return;
 	}
-	const result = await createLane(name);
-	res.send(result.rows[0]);
+	try {
+		const result = await createLane(name);
+		res.send(result.rows[0]);
+	} catch (error) {
+		next(error); 
+	}
+
 });
 
-bowlingRouter.delete("/delete/:id", async (req, res) => {
+bowlingRouter.delete("/delete/:id", async (req, res, next) => {
 	const laneId = req.params.id;
 	console.log(`Request to delete lane with id ${laneId}`);
   
@@ -45,11 +64,11 @@ bowlingRouter.delete("/delete/:id", async (req, res) => {
 			res.status(200).send(`Lane with id ${laneId} deleted successfully.`);
 		}
 	} catch (error) {
-		res.status(500).send("Error deleting lane.");
+		next(error); 
 	}
 });
 
-bowlingRouter.put("/:id", async (req, res) => {
+bowlingRouter.put("/:id", async (req, res, next) => {
 	const {name, usable} = req.body;
 	const laneId = req.params.id;
 
@@ -74,9 +93,8 @@ bowlingRouter.put("/:id", async (req, res) => {
 			);
 		}
 	} catch (error) {
-		res.status(500).send("Error updating lane.");
+		next(error); 
 	}
 });
-
 
 export default bowlingRouter;
