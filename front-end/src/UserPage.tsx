@@ -6,9 +6,10 @@ import { User } from "./LoginPage";
 import EditUserDetailsComponent from "./EditUserDetailsComponent";
 import UserDetailsComponent from "./UserDetailsComponent";
 import { useTranslation } from "react-i18next";
+import UserReservations from "./UserReservations";
 
 const UserPage = () => {
-	const {t} = useTranslation();
+	const { t } = useTranslation();
 	const userInfo = useContext(AppContext);
 	const [userData, setUserData] = useState<User>({
 		id: "",
@@ -49,10 +50,13 @@ const UserPage = () => {
 				changeEditMode={changeEditMode}
 			/>
 		) : (
-			<UserDetailsComponent
-				userData={userData}
-				changeEditMode={changeEditMode}
-			/>
+			<div>
+				<UserDetailsComponent
+					userData={userData}
+					changeEditMode={changeEditMode}
+				/>
+				<UserReservations />
+			</div>
 		)
 	) : (
 		t("reservation-calendar-page.need-to-log")
