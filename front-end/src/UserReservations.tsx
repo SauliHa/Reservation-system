@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { deleteReservation, getUserReservations } from "./BackendService";
 import { AppContext } from "./App";
 import { Button, Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 interface Reservation {
 	id: string;
@@ -15,6 +16,7 @@ interface Reservation {
 interface Reservations extends Array<Reservation> {}
 
 const UserReservations = () => {
+	const { t } = useTranslation();
 	const userInfo = useContext(AppContext);
 	const [upcomingReservations, setUpcomingreservations] =
 		useState<Reservations>([]);
@@ -100,7 +102,7 @@ const UserReservations = () => {
 						onClick={() => handleCancelClick(reservation.id)}
 						variant="dark"
 					>
-						Cancel reservation
+						{t("user-reservations.cancel-reservation")}
 					</Button>
 				</td>
 			</tr>
@@ -125,12 +127,12 @@ const UserReservations = () => {
 
 	return (
 		<div className="userPageContainer">
-			<h3>Upcoming reservations</h3>
+			<h3>{t("user-reservations.upcoming-reservations")}</h3>
 			<Table>
 				<TableHeader />
 				<tbody>{upcomingReservationRows}</tbody>
 			</Table>
-			<h3>Past reservations</h3>
+			<h3>{t("user-reservations.past-reservations")}</h3>
 			<Table>
 				<TableHeader />
 				<tbody>{pastReservationRows}</tbody>
@@ -140,15 +142,16 @@ const UserReservations = () => {
 };
 
 const TableHeader = () => {
+	const { t } = useTranslation();
 	return (
 		<thead>
 			<tr>
-				<th>Date</th>
-				<th>Start time</th>
-				<th>End time</th>
-				<th>Amount of players</th>
-				<th>Additional info</th>
-				<th>Lane name</th>
+				<th>{t("user-reservations.date")}</th>
+				<th>{t("user-reservations.start-time")}</th>
+				<th>{t("user-reservations.end-time")}</th>
+				<th>{t("user-reservations.players")}</th>
+				<th>{t("user-reservations.additional-info")}</th>
+				<th>{t("user-reservations.lane-name")}</th>
 			</tr>
 		</thead>
 	);

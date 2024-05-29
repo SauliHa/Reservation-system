@@ -1,102 +1,112 @@
 {
-    "welcome": "Welcome",
-    "changeLanguage": "Change Language",
-    "reservationsystem": "Reservation system",
-    "supersports_title": "Super-sports Sports Center",
-    "super-sport_bowling" : "Super sport bowling",
-    "location_info": "We are a sports center located in Jyväskylä, far from everything and in the middle of nowhere.",
-    "rental_info": "You can rent equipment and facilities for various sports and hobbies from us, so you can do anything as long as it's bowling!",
-    "login_info": "Log in and start using our facilities right away!",
-    "register_button": "Create a new user!",
-    "book_here_button" : "Book here!",
-    "come_bowling_title" : "Come bowling",
-    "come_bowling_info" : "We have multiple lanes open so even a bigger group will fit in to bowl. Log in a book a lane from here!",
-    "find_us_title" : "Find us",
-    "back-to-top" : "Back to top",
-    "header": {
-      "front-page": "Front page",
-      "user-page": "Userpage",
-      "reservation-calendar": "Reservation Calendar",
-      "log-in" : "Log in",
-      "log-out" : "Log out"
-    },
-    "user-details":{
-      "user-details": "User details:",
-      "username" : "Username",
-      "email":"Email",
-      "phone-number":"Phone number",
-      "address" :"Address",
-      "change-user-info" : "CHANGE USER INFO",
-      "delete-account" : "DELETE ACCOUNT",
-      "really-delete" : "REALLY DELETE YOUR ACCOUNT?",
-      "delete" : "DELETE",
-      "cancel" : "CANCEL"
-    },
-    "login-form":{
-      "incorrect": "Incorrect email or password",
-      "email":"Email",
-      "password" : "Password",
-      "log-in" : "Log in",
-      "need-account" : "Need an account?",
-      "register" : "Register"
-    },
-    "login-page":{
-      "current-logged-in" : "You are currently logged in as"
-    },
-    "register-form":{
-      "username" : "Username",
-      "password" : "Password",
-      "password-again" : "Password again",
-      "email":"Email",
-      "phone-number":"Phone number",
-      "address" :"Address"
-    },
-    "reservation-calendar-page": {
-      "reservation-calendar": "Reservation Calendar",
-      "subtitle-instruction": "You can select times for multiple lanes, but for one lane, the reservation must be continuous.",
-      "pick-time": "Pick Time",
-      "pick-times": "Pick Times",
-      "instruction": "Instruction",
-      "available-time": "Available Time",
-      "chosen-time": "Chosen Time",
-      "other-reservations": "Other Reservations",
-      "own-reservations": "Your Reservations",
-      "need-to-log": "You need to be logged in to view this page",
-	  "warning": "Warning",
-	  "warningMessage": "You can only reserve a continous time on one lane",
-	  "timeWarningMessage": "You can't reserve a time that has already passed!",
-	  "logInNotification": "Log in to reserve a time."
-    },
-    "reservation-form": {
-      "reservation-dates": "Reservation dates:",
-      "reserved-lanes" : "Reserved lanes",
-      "track-name": "Track name",
-      "start-time" : "Reservation starts",
-      "end-time" : "Reservation ends",
-      "players" : "Number of players",
-      "additional-info" : "Additional information",
-      "send" : "Send"
-    },
-    "reservation-confirmation": {
-      "reservation-successful": "Reservation successful!",
-      "reservation-dates": "Reservation dates:",
-      "track-name": "Track name",
-      "start-time" : "Reservation starts",
-      "end-time" : "Reservation ends"
-    },
-    "edit-user-details":{
-      "username" : "Username",
-      "email" : "Email",
-      "phone-number":"Phone number",
-      "address" :"Address",
-      "password" : "Password",
-      "password-again" : "Password again",
-      "confirm-changes" : "Confirm changes",
-      "set-username" : "Please set a username",
-      "give-email" : "Please give an email address",
-      "give-phone" : "Please give a phone number",
-      "passwords-do-not-match" : "Passwords do not match",
-      "duplicate-email-error" : "User with this email already exists"
-    }
-  }
-  
+	"welcome": "Welcome",
+	"changeLanguage": "Change Language",
+	"reservationsystem": "Reservation system",
+	"supersports_title": "Super-sports Sports Center",
+	"super-sport_bowling": "Super sport bowling",
+	"location_info": "We are a sports center located in Jyväskylä, far from everything and in the middle of nowhere.",
+	"rental_info": "You can rent equipment and facilities for various sports and hobbies from us, so you can do anything as long as it's bowling!",
+	"login_info": "Log in and start using our facilities right away!",
+	"register_button": "Create a new user!",
+	"book_here_button": "Book here!",
+	"come_bowling_title": "Come bowling",
+	"come_bowling_info": "We have multiple lanes open so even a bigger group will fit in to bowl. Log in a book a lane from here!",
+	"find_us_title": "Find us",
+	"back-to-top": "Back to top",
+	"header": {
+		"front-page": "Front page",
+		"user-page": "Userpage",
+		"reservation-calendar": "Reservation Calendar",
+		"log-in": "Log in",
+		"log-out": "Log out"
+	},
+	"user-details": {
+		"user-details": "User details:",
+		"username": "Username",
+		"email": "Email",
+		"phone-number": "Phone number",
+		"address": "Address",
+		"change-user-info": "CHANGE USER INFO",
+		"delete-account": "DELETE ACCOUNT",
+		"really-delete": "REALLY DELETE YOUR ACCOUNT?",
+		"delete": "DELETE",
+		"cancel": "CANCEL"
+	},
+	"login-form": {
+		"incorrect": "Incorrect email or password",
+		"email": "Email",
+		"password": "Password",
+		"log-in": "Log in",
+		"need-account": "Need an account?",
+		"register": "Register"
+	},
+	"login-page": {
+		"current-logged-in": "You are currently logged in as"
+	},
+	"register-form": {
+		"username": "Username",
+		"password": "Password",
+		"password-again": "Password again",
+		"email": "Email",
+		"phone-number": "Phone number",
+		"address": "Address"
+	},
+	"reservation-calendar-page": {
+		"reservation-calendar": "Reservation Calendar",
+		"subtitle-instruction": "You can select times for multiple lanes, but for one lane, the reservation must be continuous.",
+		"pick-time": "Pick Time",
+		"pick-times": "Pick Times",
+		"instruction": "Instruction",
+		"available-time": "Available Time",
+		"chosen-time": "Chosen Time",
+		"other-reservations": "Other Reservations",
+		"own-reservations": "Your Reservations",
+		"need-to-log": "You need to be logged in to view this page",
+		"warning": "Warning",
+		"warningMessage": "You can only reserve a continous time on one lane",
+		"timeWarningMessage": "You can't reserve a time that has already passed!",
+		"logInNotification": "Log in to reserve a time."
+	},
+	"reservation-form": {
+		"reservation-dates": "Reservation dates:",
+		"reserved-lanes": "Reserved lanes",
+		"track-name": "Track name",
+		"start-time": "Reservation starts",
+		"end-time": "Reservation ends",
+		"players": "Number of players",
+		"additional-info": "Additional information",
+		"send": "Send"
+	},
+	"reservation-confirmation": {
+		"reservation-successful": "Reservation successful!",
+		"reservation-dates": "Reservation dates:",
+		"track-name": "Track name",
+		"start-time": "Reservation starts",
+		"end-time": "Reservation ends"
+	},
+	"edit-user-details": {
+		"username": "Username",
+		"email": "Email",
+		"phone-number": "Phone number",
+		"address": "Address",
+		"password": "Password",
+		"password-again": "Password again",
+		"confirm-changes": "Confirm changes",
+		"set-username": "Please set a username",
+		"give-email": "Please give an email address",
+		"give-phone": "Please give a phone number",
+		"passwords-do-not-match": "Passwords do not match",
+		"duplicate-email-error": "User with this email already exists"
+	},
+	"user-reservations": {
+		"upcoming-reservations": "Upcoming reservations",
+		"past-reservations": "Past reservations",
+		"date": "Date",
+		"start-time": "Start time",
+		"end-time": "End time",
+		"players": "Number of players",
+		"additional-info": "Additional info",
+		"lane-name": "Reserved track",
+		"cancel-reservation": "Cancel reservation"
+	}
+}
