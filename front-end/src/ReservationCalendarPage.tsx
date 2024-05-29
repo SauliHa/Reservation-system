@@ -7,6 +7,8 @@ import { Button } from "react-bootstrap";
 import { getLanes, getReservationInfoByDate } from "./BackendService.ts";
 import { Link } from "react-router-dom";
 import { AppContext } from "./App.tsx";
+import { useTranslation } from "react-i18next";
+import { WarningPopup } from "./WarningPopup.tsx";
 
 export class timeButton {
 	reserved: boolean;
@@ -61,15 +63,21 @@ interface reservation {
 }
 
 const ReservationCalendarPage = () => {
+	const {t} = useTranslation();
 	const [buttonsToDisable, setButtonsToDisable] = useState<
 		Array<Array<disableButton>>
 	>([]);
 	const [startDate, setStartDate] = useState(new Date());
 	const [selectedTimes, setSelectedTimes] = useState<Array<selectedTime>>();
 	const [timeButtons, setTimeButtons] = useState<Array<timeButton>>();
-	const openingTimes = { open: 12, close: 24 };
+	const openingTimes = { open: 8, close: 21 };
+	const [warningText, setWarningText] = useState( {title:"Huom!", message:"Saman radan ajanvaraus pitää olla yhtäjaksoisesti!"} );
 
 	const userInfo = useContext(AppContext);
+
+	const [open, setOpen] = useState(false);
+
+	const toggleOpen = () => setOpen(!open);
 
 	const hook = async () => {
 		const response = await getLanes();
@@ -150,6 +158,23 @@ const ReservationCalendarPage = () => {
 		}
 		return hourlyArray;
 	};
+	
+	const disableButtonsByTime = () => {
+		if (timeButtons !== undefined) {
+			const newButtons = [...timeButtons];
+			newButtons.map((element) => {
+				const currentDate = new Date();
+				if(currentDate.getUTCDate() === startDate.getUTCDate() && currentDate.getHours() > element.startTime) {
+					element.reserved = true;
+				} else if(startDate.getUTCDate() < currentDate.getUTCDate()){
+					element.reserved = true;
+				} else {
+					element.reserved = false;
+				}
+			});
+			setTimeButtons(newButtons);
+		}
+	};
 
 	const disableButtons = () => {
 		if (timeButtons !== undefined) {
@@ -157,6 +182,7 @@ const ReservationCalendarPage = () => {
 			newButtons.map((element) => {
 				for (let index = 0; index < buttonsToDisable.length; index++) {
 					for (let i = 0; i < buttonsToDisable[index].length-1; i++) {
+						
 						if (
 							element.laneName ===
 								buttonsToDisable[index][i].name &&
@@ -182,6 +208,16 @@ const ReservationCalendarPage = () => {
 		endTime: number
 	) => {
 		if(selectedTimes !== undefined && timeButtons !== undefined){
+			const currentDate = new Date();
+			if(currentDate.getUTCDate() === startDate.getUTCDate() && currentDate.getHours() >= startTime) {
+				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
+				setOpen(true);
+				return;
+			} else if(startDate.getUTCDate() < currentDate.getUTCDate()){
+				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
+				setOpen(true);
+				return;
+			} 
 			const filterSelectedTimes = selectedTimes
 				.filter((element) => element.laneName === laneName)
 				.sort((a, b) => a.startTime - b.startTime);
@@ -228,7 +264,8 @@ const ReservationCalendarPage = () => {
 				});
 				setSelectedTimes(newTimes);
 			} else {
-				window.alert("You can only select a time next to the current one");
+				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.warningMessage")});
+				setOpen(true);
 			}
 		}
 	};
@@ -264,12 +301,15 @@ const ReservationCalendarPage = () => {
 
 	};
 
-	return userInfo.state.loggedIn ? (
+	return (
 		<div className="container">
+			<WarningPopup warningTitle={warningText.title}
+				message={warningText.message}
+				open={open} toggleOpen={toggleOpen} />
 			<div className="reservationDiv">
-				<h1 className="mt-3">Ajanvarauskalenteri</h1>
-				<p>Voit valita aikoja usealta radalta mutta yhdellä radalla ajanvaraus pitää olla yhtäjaksoisesti.</p>
-				<h4 className="mb-3 mt-3">Valitse aika</h4>
+				<h1 className="mt-3">{t("reservation-calendar-page.reservation-calendar")}</h1>
+				<p>{t("reservation-calendar-page.subtitle-instruction")}</p>
+				<h4 className="mb-3 mt-3">{t("reservation-calendar-page.pick-time")}</h4>
 				<div id="datePicker">
 					<DatePicker
 						selected={startDate}
@@ -279,28 +319,32 @@ const ReservationCalendarPage = () => {
 			</div>
 			<div className="tracks mb-4">{renderLanes()}</div>
 			<div className="reservationDiv mb-5">
-				{isButtonReady() ?
-					<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">Valitse ajat</Button></Link>:
-					<Button variant="dark" disabled>Valitse ajat</Button>
+				{userInfo.state.loggedIn ? 
+					isButtonReady() ?
+						<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">{t("reservation-calendar-page.pick-times")}</Button></Link>:
+						<Button variant="dark" disabled>{t("reservation-calendar-page.pick-times")}</Button>
+					:
+					<div className="reservationDiv mb-5"> 
+						<p>{t("reservation-calendar-page.logInNotification")}</p>
+						<Link to="/login" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">{t("header.log-in")}</Button></Link>
+					</div>		
 				}
 			</div>
 			<div className="reservationDiv mb-5">
-				<h4>Ohje</h4>
+				<h4>{t("reservation-calendar-page.instruction")}</h4>
 				<div id="guide">
 					<button className="box mb-2">14 - 15</button> 
-					<p>Vapaa aika</p>
+					<p>{t("reservation-calendar-page.available-time")}</p>
 					<button className="box boxClicked mb-2">14 - 15</button> 
-					<p>Valitsemasi aika</p>
+					<p>{t("reservation-calendar-page.chosen-time")}</p>
 					<button className="box mb-2" disabled>14 - 15</button>	
-					<p>Muiden varaukset</p> 
+					<p>{t("reservation-calendar-page.other-reservations")}</p> 
 					<button className="ownReservation mb-2" disabled>14 - 15</button>	
-					<p>Omat varauksesi</p> 
+					<p>{t("reservation-calendar-page.own-reservations")}</p> 
 				</div>
 			</div>
 		</div>
-	) : (
-		"You need to be logged in to view this page"
-	);
+	); 
 };
 
 export default ReservationCalendarPage;

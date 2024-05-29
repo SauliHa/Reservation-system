@@ -5,10 +5,11 @@ import "./styles/userpage.css";
 import { User } from "./LoginPage";
 import EditUserDetailsComponent from "./EditUserDetailsComponent";
 import UserDetailsComponent from "./UserDetailsComponent";
+import { useTranslation } from "react-i18next";
 import UserReservations from "./UserReservations";
 
 const UserPage = () => {
-
+	const { t } = useTranslation();
 	const userInfo = useContext(AppContext);
 	const [userData, setUserData] = useState<User>({
 		id: "",
@@ -58,7 +59,7 @@ const UserPage = () => {
 			</div>
 		)
 	) : (
-		"You need to be logged in to view this page"
+		t("reservation-calendar-page.need-to-log")
 	);
 };
 

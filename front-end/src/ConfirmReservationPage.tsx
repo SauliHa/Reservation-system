@@ -4,7 +4,6 @@ import "./styles/reservationPage.css";
 import { useLocation } from "react-router-dom";
 import ReservationConfirmation from "./ReservationConfirmation";
 
-
 const ConfirmReservationPage = () => {
 	const [showForm, setShowForm] = useState(true);
 	const location = useLocation();
