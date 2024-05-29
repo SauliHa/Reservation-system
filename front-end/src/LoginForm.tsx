@@ -3,8 +3,11 @@ import { Button, Form } from "react-bootstrap";
 import { sendLoginRequest } from "./BackendService";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "./App";
+import { useTranslation } from "react-i18next";
 
 const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
+
+	const { t } = useTranslation();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -45,14 +48,14 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 	return (
 		<div className="accountForm">
 			{showErrorMessage ? (
-				<p style={{ color: "red" }}>Incorrect email or password</p>
+				<p style={{ color: "red" }}>{t("login-form.incorrect")}</p>
 			) : (
 				""
 			)}
 			<div className="mb-3">
 				<Form noValidate validated={validated} onSubmit={validateForm}>
 					<Form.Group className="mb-3">
-						<Form.Label>Email</Form.Label>
+						<Form.Label>{t("login-form.email")}</Form.Label>
 						<Form.Control
 							value={email}
 							onChange={(e) => {
@@ -64,7 +67,7 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 						/>
 					</Form.Group>
 					<Form.Group className="mb-3">
-						<Form.Label>Password</Form.Label>
+						<Form.Label>{t("login-form.password")}</Form.Label>
 						<Form.Control
 							value={password}
 							onChange={(e) => {
@@ -75,13 +78,13 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 							required
 						/>
 					</Form.Group>
-					<Button type="submit">Log in</Button>
+					<Button type="submit">{t("login-form.log-in")}</Button>
 				</Form>
 			</div>
 			<div>
-				<h3 className="mb-3">Need an account?</h3>
+				<h3 className="mb-3">{t("login-form.need-account")}</h3>
 				<Button onClick={() => props.changeRegisterMode(true)}>
-					Register
+					{t("login-form.register")}
 				</Button>
 			</div>
 		</div>

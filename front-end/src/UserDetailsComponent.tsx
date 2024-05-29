@@ -50,23 +50,23 @@ const UserDetailsComponent = (props: {
 					onClick={() => props.changeEditMode(true)}
 					className="mb-3 mt-2"
 				>
-					Change user info
+					{t("user-details.change-user-info")}
 				</Button>
 				<br />
 				{deleteMode ? (
 					<>
-						<h4>Really delete your account?</h4>
+						<h4>{t("user-details.really-delete")}</h4>
 						<Button
 							variant="danger"
 							onClick={() => deleteAccount()}
 						>
-							Delete
+							{t("user-details.delete")}
 						</Button>
 						<Button
 							variant="secondary"
 							onClick={() => setDeleteMode(false)}
 						>
-							Cancel
+							{t("user-details.cancel")}
 						</Button>
 					</>
 				) : (
@@ -75,7 +75,7 @@ const UserDetailsComponent = (props: {
 						variant="danger"
 						className="mb-3"
 					>
-						Delete account
+						{t("user-details.delete-account")}
 					</Button>
 				)}
 			</div>

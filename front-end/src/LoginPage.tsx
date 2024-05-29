@@ -5,6 +5,7 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { AppContext } from "./App";
 import { Button } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 export interface User {
 	id?: string;
@@ -16,6 +17,7 @@ export interface User {
 }
 
 const LoginPage = () => {
+	const {t} = useTranslation();
 	const [registerMode, setRegisterMode] = useState(false);
 	const userInfo = useContext(AppContext);
 
@@ -30,7 +32,7 @@ const LoginPage = () => {
 
 	return userInfo.state.loggedIn ? (
 		<div className="accountForm">
-			<h3>You are currently logged in as {userInfo.state.username}</h3>
+			<h3>{t("login-page.current-logged-in")} {userInfo.state.username}</h3>
 			<Button style={{ width: "50%" }} onClick={logOut}>
 				Log out
 			</Button>

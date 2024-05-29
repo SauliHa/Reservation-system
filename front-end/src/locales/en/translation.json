@@ -25,7 +25,74 @@
       "username" : "Username",
       "email":"Email",
       "phone-number":"Phone number",
+      "address" :"Address",
+      "change-user-info" : "CHANGE USER INFO",
+      "delete-account" : "DELETE ACCOUNT",
+      "really-delete" : "REALLY DELETE YOUR ACCOUNT?",
+      "delete" : "DELETE",
+      "cancel" : "CANCEL"
+    },
+    "login-form":{
+      "incorrect": "Incorrect email or password",
+      "email":"Email",
+      "password" : "Password",
+      "log-in" : "Log in",
+      "need-account" : "Need an account?",
+      "register" : "Register"
+    },
+    "login-page":{
+      "current-logged-in" : "You are currently logged in as"
+    },
+    "register-form":{
+      "username" : "Username",
+      "password" : "Password",
+      "password-again" : "Password again",
+      "email":"Email",
+      "phone-number":"Phone number",
       "address" :"Address"
+    },
+    "reservation-calendar-page": {
+      "reservation-calendar": "Reservation Calendar",
+      "subtitle-instruction": "You can select times for multiple lanes, but for one lane, the reservation must be continuous.",
+      "pick-time": "Pick Time",
+      "pick-times": "Pick Times",
+      "instruction": "Instruction",
+      "available-time": "Available Time",
+      "chosen-time": "Chosen Time",
+      "other-reservations": "Other Reservations",
+      "own-reservations": "Your Reservations",
+      "need-to-log": "You need to be logged in to view this page"
+    },
+    "reservation-form": {
+      "reservation-dates": "Reservation dates:",
+      "reserved-lanes" : "Reserved lanes",
+      "track-name": "Track name",
+      "start-time" : "Reservation starts",
+      "end-time" : "Reservation ends",
+      "players" : "Number of players",
+      "additional-info" : "Additional information",
+      "send" : "Send"
+    },
+    "reservation-confirmation": {
+      "reservation-successful": "Reservation successful!",
+      "reservation-dates": "Reservation dates:",
+      "track-name": "Track name",
+      "start-time" : "Reservation starts",
+      "end-time" : "Reservation ends"
+    },
+    "edit-user-details":{
+      "username" : "Username",
+      "email" : "Email",
+      "phone-number":"Phone number",
+      "address" :"Address",
+      "password" : "Password",
+      "password-again" : "Password again",
+      "confirm-changes" : "Confirm changes",
+      "set-username" : "Please set a username",
+      "give-email" : "Please give an email address",
+      "give-phone" : "Please give a phone number",
+      "passwords-do-not-match" : "Passwords do not match",
+      "duplicate-email-error" : "User with this email already exists"
     }
   }
   
