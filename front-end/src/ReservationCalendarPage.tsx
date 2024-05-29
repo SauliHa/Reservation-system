@@ -307,9 +307,9 @@ const ReservationCalendarPage = () => {
 				message={warningText.message}
 				open={open} toggleOpen={toggleOpen} />
 			<div className="reservationDiv">
-				<h1 className="mt-3">Ajanvarauskalenteri</h1>
-				<p>Voit valita aikoja usealta radalta mutta yhdellä radalla ajanvaraus pitää olla yhtäjaksoisesti.</p>
-				<h4 className="mb-3 mt-3">Valitse aika</h4>
+				<h1 className="mt-3">{t("reservation-calendar-page.reservation-calendar")}</h1>
+				<p>{t("reservation-calendar-page.subtitle-instruction")}</p>
+				<h4 className="mb-3 mt-3">{t("reservation-calendar-page.pick-time")}</h4>
 				<div id="datePicker">
 					<DatePicker
 						selected={startDate}
