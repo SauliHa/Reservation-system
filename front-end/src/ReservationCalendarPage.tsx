@@ -47,6 +47,20 @@ interface disableButton {
 	own: boolean;
 }
 
+interface lane {
+	id: string;
+	name: string;
+	usable: boolean;
+}
+
+interface reservation {
+	end_time: string;
+	id: string;
+	name: string;
+	start_time: string;
+	user_id: string;
+}
+
 const ReservationCalendarPage = () => {
 	const {t} = useTranslation();
 	const [buttonsToDisable, setButtonsToDisable] = useState<
@@ -61,7 +75,8 @@ const ReservationCalendarPage = () => {
 
 	const hook = async () => {
 		const response = await getLanes();
-		const filterUnusableLanes = response.data.filter(element => element.usable);
+		const laneData: Array<lane> = response.data;
+		const filterUnusableLanes = laneData.filter(element => element.usable);
 		generateLanes(filterUnusableLanes);
 		getReservations();
 	};
@@ -77,9 +92,10 @@ const ReservationCalendarPage = () => {
 		const dateString = `${startDate.getFullYear()}-
 		${startDate.getMonth()+1}-
 		${startDate.getDate()}`;
-		const reservations = await getReservationInfoByDate(dateString);
-		if (reservations.data.length > 0) {
-			const reservedTimes = reservations.data.map((element) => {
+		const response = await getReservationInfoByDate(dateString);
+		const reservations: Array<reservation> = response.data;
+		if (reservations.length > 0) {
+			const reservedTimes = reservations.map((element) => {
 				const ownReservation = element.user_id === userInfo.state.id ? true : false;
 				return generateHourlyArray({
 					name: element.name,
@@ -92,8 +108,7 @@ const ReservationCalendarPage = () => {
 		}
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const generateLanes = (data: Array<any>) => {
+	const generateLanes = (data: Array<lane>) => {
 		const timesArray: Array<timeButton> = [];
 		data.map((element) => {
 			for (
@@ -117,7 +132,7 @@ const ReservationCalendarPage = () => {
 		generateSelectedTimes(data);
 	};
 
-	const generateSelectedTimes = (data: Array<any>) => {
+	const generateSelectedTimes = (data: Array<lane>) => {
 		const newSelectionArray = data.map((element) => {
 			return {
 				laneName: element.name,
@@ -168,53 +183,55 @@ const ReservationCalendarPage = () => {
 		startTime: number,
 		endTime: number
 	) => {
-		const filterSelectedTimes = selectedTimes
-			.filter((element) => element.laneName === laneName)
-			.sort((a, b) => a.startTime - b.startTime);
-		if (
-			filterSelectedTimes[0].startTime === 0 ||
+		if(selectedTimes !== undefined && timeButtons !== undefined){
+			const filterSelectedTimes = selectedTimes
+				.filter((element) => element.laneName === laneName)
+				.sort((a, b) => a.startTime - b.startTime);
+			if (
+				filterSelectedTimes[0].startTime === 0 ||
 			filterSelectedTimes[0].startTime === startTime + 1 ||
 			filterSelectedTimes[filterSelectedTimes.length - 1].endTime ===
 				endTime - 1 ||
 			filterSelectedTimes[0].startTime === startTime ||
 			filterSelectedTimes[filterSelectedTimes.length - 1].endTime ===
 				endTime
-		) {
-			const newButtons = [...timeButtons];
-			newButtons.map((element) => {
-				if (
-					element.laneName === laneName &&
+			) {
+				const newButtons = [...timeButtons];
+				newButtons.map((element) => {
+					if (
+						element.laneName === laneName &&
 					element.startTime === startTime
-				) {
-					element.clicked
-						? (element.clicked = false)
-						: (element.clicked = true);
-				}
-				return element;
-			});
-			setTimeButtons(newButtons);
-
-			const filteredLane = newButtons.filter(
-				(element) => element.laneName === laneName && element.clicked
-			);
-			const newTimes = [...selectedTimes];
-			newTimes.map((element) => {
-				if (element.laneName === laneName) {
-					if (filteredLane.length === 0) {
-						element.startTime = 0;
-						element.endTime = 0;
-					} else {
-						const sorted = filteredLane.sort(
-							(a, b) => a.startTime - b.startTime
-						);
-						element.startTime = sorted[0].startTime;
-						element.endTime = sorted[sorted.length - 1].endTime;
+					) {
+						element.clicked
+							? (element.clicked = false)
+							: (element.clicked = true);
 					}
-				}
-			});
-			setSelectedTimes(newTimes);
-		} else {
-			window.alert("You can only select a time next to the current one");
+					return element;
+				});
+				setTimeButtons(newButtons);
+
+				const filteredLane = newButtons.filter(
+					(element) => element.laneName === laneName && element.clicked
+				);
+				const newTimes = [...selectedTimes];
+				newTimes.map((element) => {
+					if (element.laneName === laneName) {
+						if (filteredLane.length === 0) {
+							element.startTime = 0;
+							element.endTime = 0;
+						} else {
+							const sorted = filteredLane.sort(
+								(a, b) => a.startTime - b.startTime
+							);
+							element.startTime = sorted[0].startTime;
+							element.endTime = sorted[sorted.length - 1].endTime;
+						}
+					}
+				});
+				setSelectedTimes(newTimes);
+			} else {
+				window.alert("You can only select a time next to the current one");
+			}
 		}
 	};
 
@@ -258,7 +275,7 @@ const ReservationCalendarPage = () => {
 				<div id="datePicker">
 					<DatePicker
 						selected={startDate}
-						onChange={(date) => setStartDate(date)}
+						onChange={(date) => date === null ? null : setStartDate(date)}
 					/>
 				</div>
 			</div>
