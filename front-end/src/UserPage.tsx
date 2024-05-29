@@ -5,6 +5,7 @@ import "./styles/userpage.css";
 import { User } from "./LoginPage";
 import EditUserDetailsComponent from "./EditUserDetailsComponent";
 import UserDetailsComponent from "./UserDetailsComponent";
+import UserReservations from "./UserReservations";
 
 const UserPage = () => {
 
@@ -48,10 +49,13 @@ const UserPage = () => {
 				changeEditMode={changeEditMode}
 			/>
 		) : (
-			<UserDetailsComponent
-				userData={userData}
-				changeEditMode={changeEditMode}
-			/>
+			<div>
+				<UserDetailsComponent
+					userData={userData}
+					changeEditMode={changeEditMode}
+				/>
+				<UserReservations />
+			</div>
 		)
 	) : (
 		"You need to be logged in to view this page"
