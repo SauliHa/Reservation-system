@@ -61,7 +61,11 @@
       "chosen-time": "Chosen Time",
       "other-reservations": "Other Reservations",
       "own-reservations": "Your Reservations",
-      "need-to-log": "You need to be logged in to view this page"
+      "need-to-log": "You need to be logged in to view this page",
+	  "warning": "Warning",
+	  "warningMessage": "You can only reserve a continous time on one lane",
+	  "timeWarningMessage": "You can't reserve a time that has already passed!",
+	  "logInNotification": "Log in to reserve a time."
     },
     "reservation-form": {
       "reservation-dates": "Reservation dates:",

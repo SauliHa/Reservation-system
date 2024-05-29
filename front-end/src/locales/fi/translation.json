@@ -61,7 +61,11 @@
       "chosen-time" : "Valitsemasi aika",
       "other-reservations" : "Muiden varaukset",
       "own-reservations" : "Omat varauksesi",
-      "need-to-log" : "Sinun pitää kirjautua sisään nähdäksesi tämä sivun"
+      "need-to-log" : "Sinun pitää kirjautua sisään nähdäksesi tämä sivun",
+	  "warning": "Huom!",
+	  "warningMessage" : "Saman radan ajanvaraus pitää olla yhtäjaksoisesti!",
+	  "timeWarningMessage" : "Et voi varata mennyttä aikaa!",
+	  "logInNotification" : "Kirjaudu sisään varataksesi aika."
     },
     "reservation-form": {
       "reservation-dates": "Varauksien ajankohdat:",

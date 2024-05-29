@@ -210,11 +210,11 @@ const ReservationCalendarPage = () => {
 		if(selectedTimes !== undefined && timeButtons !== undefined){
 			const currentDate = new Date();
 			if(currentDate.getUTCDate() === startDate.getUTCDate() && currentDate.getHours() >= startTime) {
-				setWarningText({title:"Varoitus", message:"Et voi varata mennyttä aikaa!"});
+				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
 				setOpen(true);
 				return;
 			} else if(startDate.getUTCDate() < currentDate.getUTCDate()){
-				setWarningText({title:"Varoitus", message:"Et voi varata mennyttä aikaa!"});
+				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
 				setOpen(true);
 				return;
 			} 
@@ -264,7 +264,7 @@ const ReservationCalendarPage = () => {
 				});
 				setSelectedTimes(newTimes);
 			} else {
-				setWarningText({title:"Huom!", message:"Saman radan ajanvaraus pitää olla yhtäjaksoisesti!"});
+				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.warningMessage")});
 				setOpen(true);
 			}
 		}
@@ -301,7 +301,7 @@ const ReservationCalendarPage = () => {
 
 	};
 
-	return userInfo.state.loggedIn ? (
+	return (
 		<div className="container">
 			<WarningPopup warningTitle={warningText.title}
 				message={warningText.message}
@@ -319,9 +319,15 @@ const ReservationCalendarPage = () => {
 			</div>
 			<div className="tracks mb-4">{renderLanes()}</div>
 			<div className="reservationDiv mb-5">
-				{isButtonReady() ?
-					<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">{t("reservation-calendar-page.pick-times")}</Button></Link>:
-					<Button variant="dark" disabled>{t("reservation-calendar-page.pick-times")}</Button>
+				{userInfo.state.loggedIn ? 
+					isButtonReady() ?
+						<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">{t("reservation-calendar-page.pick-times")}</Button></Link>:
+						<Button variant="dark" disabled>{t("reservation-calendar-page.pick-times")}</Button>
+					:
+					<div className="reservationDiv mb-5"> 
+						<p>{t("reservation-calendar-page.logInNotification")}</p>
+						<Link to="/login" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">{t("header.log-in")}</Button></Link>
+					</div>		
 				}
 			</div>
 			<div className="reservationDiv mb-5">
@@ -338,9 +344,7 @@ const ReservationCalendarPage = () => {
 				</div>
 			</div>
 		</div>
-	) : (
-		t("reservation-calendar-page.need-to-log")
-	);
+	); 
 };
 
 export default ReservationCalendarPage;
