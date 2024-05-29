@@ -8,6 +8,7 @@ import { getLanes, getReservationInfoByDate } from "./BackendService.ts";
 import { Link } from "react-router-dom";
 import { AppContext } from "./App.tsx";
 import { useTranslation } from "react-i18next";
+import { WarningPopup } from "./WarningPopup.tsx";
 
 export class timeButton {
 	reserved: boolean;
@@ -69,9 +70,14 @@ const ReservationCalendarPage = () => {
 	const [startDate, setStartDate] = useState(new Date());
 	const [selectedTimes, setSelectedTimes] = useState<Array<selectedTime>>();
 	const [timeButtons, setTimeButtons] = useState<Array<timeButton>>();
-	const openingTimes = { open: 12, close: 24 };
+	const openingTimes = { open: 8, close: 21 };
+	const [warningText, setWarningText] = useState( {title:"Huom!", message:"Saman radan ajanvaraus pitää olla yhtäjaksoisesti!"} );
 
 	const userInfo = useContext(AppContext);
+
+	const [open, setOpen] = useState(false);
+
+	const toggleOpen = () => setOpen(!open);
 
 	const hook = async () => {
 		const response = await getLanes();
@@ -152,6 +158,23 @@ const ReservationCalendarPage = () => {
 		}
 		return hourlyArray;
 	};
+	
+	const disableButtonsByTime = () => {
+		if (timeButtons !== undefined) {
+			const newButtons = [...timeButtons];
+			newButtons.map((element) => {
+				const currentDate = new Date();
+				if(currentDate.getUTCDate() === startDate.getUTCDate() && currentDate.getHours() > element.startTime) {
+					element.reserved = true;
+				} else if(startDate.getUTCDate() < currentDate.getUTCDate()){
+					element.reserved = true;
+				} else {
+					element.reserved = false;
+				}
+			});
+			setTimeButtons(newButtons);
+		}
+	};
 
 	const disableButtons = () => {
 		if (timeButtons !== undefined) {
@@ -159,6 +182,7 @@ const ReservationCalendarPage = () => {
 			newButtons.map((element) => {
 				for (let index = 0; index < buttonsToDisable.length; index++) {
 					for (let i = 0; i < buttonsToDisable[index].length-1; i++) {
+						
 						if (
 							element.laneName ===
 								buttonsToDisable[index][i].name &&
@@ -184,6 +208,16 @@ const ReservationCalendarPage = () => {
 		endTime: number
 	) => {
 		if(selectedTimes !== undefined && timeButtons !== undefined){
+			const currentDate = new Date();
+			if(currentDate.getUTCDate() === startDate.getUTCDate() && currentDate.getHours() >= startTime) {
+				setWarningText({title:"Varoitus", message:"Et voi varata mennyttä aikaa!"});
+				setOpen(true);
+				return;
+			} else if(startDate.getUTCDate() < currentDate.getUTCDate()){
+				setWarningText({title:"Varoitus", message:"Et voi varata mennyttä aikaa!"});
+				setOpen(true);
+				return;
+			} 
 			const filterSelectedTimes = selectedTimes
 				.filter((element) => element.laneName === laneName)
 				.sort((a, b) => a.startTime - b.startTime);
@@ -230,7 +264,8 @@ const ReservationCalendarPage = () => {
 				});
 				setSelectedTimes(newTimes);
 			} else {
-				window.alert("You can only select a time next to the current one");
+				setWarningText({title:"Huom!", message:"Saman radan ajanvaraus pitää olla yhtäjaksoisesti!"});
+				setOpen(true);
 			}
 		}
 	};
@@ -268,6 +303,9 @@ const ReservationCalendarPage = () => {
 
 	return userInfo.state.loggedIn ? (
 		<div className="container">
+			<WarningPopup warningTitle={warningText.title}
+				message={warningText.message}
+				open={open} toggleOpen={toggleOpen} />
 			<div className="reservationDiv">
 				<h1 className="mt-3">{t("reservation-calendar-page.reservation-calendar")}</h1>
 				<p>{t("reservation-calendar-page.subtitle-instruction")}</p>
