@@ -88,11 +88,19 @@ const createReservation = async (
 		additional_info: additional_info,
 	};
 	try {
-		const request = await axios.post(`${reservationbaseURL}create`, postData);
+		const request = await axios.post(
+			`${reservationbaseURL}create`,
+			postData
+		);
 		return request;
 	} catch (error) {
 		return error;
 	}
+};
+
+const deleteReservation = (id: string) => {
+	const request = axios.delete(`${reservationbaseURL}/${id}`);
+	return request.then((response) => response.status).catch((error) => error);
 };
 
 export {
@@ -106,4 +114,5 @@ export {
 	sendEditUserRequest,
 	sendDeleteUserRequest,
 	getUserReservations,
+	deleteReservation,
 };
