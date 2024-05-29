@@ -49,7 +49,9 @@
       "password-again" : "Password again",
       "email":"Email",
       "phone-number":"Phone number",
-      "address" :"Address"
+      "address" :"Address",
+	  "title" : "Create account",
+	  "success" : "Account created successfully!"
     },
     "reservation-calendar-page": {
       "reservation-calendar": "Reservation Calendar",

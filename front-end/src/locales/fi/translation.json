@@ -75,7 +75,9 @@
       "end-time" : "Varaus loppuu",
       "players" : "Pelaajien määrä",
       "additional-info" : "Lisätietoja",
-      "send" : "Lähetä"    
+      "send" : "Lähetä",
+	  "title" : "Tee uusi käyttäjä",
+	  "success" : "Käyttäjä lisätty onnistuneesti!"
     },
     "reservation-confirmation": {
       "reservation-successful": "Varaus onnistui!",
