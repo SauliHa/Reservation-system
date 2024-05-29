@@ -25,7 +25,74 @@
       "username" : "Käyttäjänimi",
       "email":"Sähköposti",
       "phone-number":"Puhelinnumero",
-      "address" :"Osoite"
+      "address" :"Osoite",
+      "change-user-info" : "MUOKKAA KÄYTTÄJÄN TIETOJA",
+      "delete-account" : "POISTA TILI",
+      "really-delete" : "HALUATKO TODELLA POISTAA TILISI?",
+      "delete" : "POISTA",
+      "cancel" : "PERUUTA"
+    },
+    "login-form":{
+      "incorrect": "Väärä sähköposti tai salasana",
+      "email":"Sähköposti",
+      "password" : "Salasana",
+      "log-in" : "Kirjaudu sisään",
+      "need-account" : "Tarvitsetko tilin?",
+      "register" : "Rekisteröidy"
+    },
+    "login-page":{
+      "current-logged-in" : "Olet kirjautunut sisään käyttäjänä"
+    },
+    "register-form":{
+      "username" : "Username",
+      "password" : "Password",
+      "password-again" : "Password again",
+      "email":"Email",
+      "phone-number":"Phone number",
+      "address" :"Address"
+    },
+    "reservation-calendar-page":{
+      "reservation-calendar" : "Ajanvarauskalenteri",
+      "subtitle-instruction":"Voit valita aikoja usealta radalta mutta yhdellä radalla ajanvaraus pitää olla yhtäjaksoisesti.",
+      "pick-time" : "Valitse aika",
+      "pick-times" : "Valitse ajat",
+      "instruction" : "Ohje",
+      "available-time" : "Vapaa aika",
+      "chosen-time" : "Valitsemasi aika",
+      "other-reservations" : "Muiden varaukset",
+      "own-reservations" : "Omat varauksesi",
+      "need-to-log" : "Sinun pitää kirjautua sisään nähdäksesi tämä sivun"
+    },
+    "reservation-form": {
+      "reservation-dates": "Varauksien ajankohdat:",
+      "reserved-lanes" : "Varatut radat",
+      "track-name": "Radan nimi",
+      "start-time" : "Varaus alkaa",
+      "end-time" : "Varaus loppuu",
+      "players" : "Pelaajien määrä",
+      "additional-info" : "Lisätietoja",
+      "send" : "Lähetä"    
+    },
+    "reservation-confirmation": {
+      "reservation-successful": "Varaus onnistui!",
+      "reservation-dates": "Varauksien ajankohdat:",
+      "track-name": "Radan nimi",
+      "start-time" : "Varaus alkaa",
+      "end-time" : "Varaus loppuu"
+    },
+    "edit-user-details": {
+      "username": "Käyttäjänimi",
+      "email": "Sähköposti",
+      "phone-number": "Puhelinnumero",
+      "address": "Osoite",
+      "password": "Salasana",
+      "password-again": "Salasana uudelleen",
+      "confirm-changes": "Vahvista muutokset",
+      "set-username": "Aseta käyttäjänimi",
+      "give-email": "Anna sähköpostiosoite",
+      "give-phone": "Anna puhelinnumero",
+      "passwords-do-not-match": "Salasanat eivät täsmää",
+      "duplicate-email-error": "Tällä sähköpostilla on jo käyttäjä"
     }
   }
   

@@ -3,11 +3,13 @@ import { User } from "./LoginPage";
 import { useContext, useState } from "react";
 import { sendEditUserRequest } from "./BackendService";
 import { AppContext } from "./App";
+import { useTranslation } from "react-i18next";
 
 const EditUserDetailsComponent = (props: {
 	userData: User;
 	changeEditMode: (mode: boolean) => void;
 }) => {
+	const {t} = useTranslation();
 	const [username, setUsername] = useState(props.userData.username);
 	const [password, setPassword] = useState("");
 	const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -69,20 +71,20 @@ const EditUserDetailsComponent = (props: {
 	return (
 		<div className="editUserForm">
 			{showPasswordMatchingError ? (
-				<p style={{ color: "red" }}>Passwords do not match</p>
+				<p style={{ color: "red" }}>{t("passwords-do-not-match")}</p>
 			) : (
 				""
 			)}
 			{showDuplicateEmailError ? (
 				<p style={{ color: "red" }}>
-					User with this email already exists
+					{t("duplicate-email-error")}
 				</p>
 			) : (
 				""
 			)}{" "}
 			<Form noValidate validated={validated} onSubmit={validateForm}>
 				<Form.Group className="mb-3">
-					<Form.Label>Username</Form.Label>
+					<Form.Label>{t("edit-user-details.username")}</Form.Label>
 					<Form.Control
 						required
 						value={username}
@@ -92,12 +94,12 @@ const EditUserDetailsComponent = (props: {
 						type="text"
 					/>
 					<Form.Control.Feedback type="invalid">
-						Please set a username.
+						{t("edit-user-details.set-username")}
 					</Form.Control.Feedback>
 				</Form.Group>
 
 				<Form.Group className="mb-3">
-					<Form.Label>Email</Form.Label>
+					<Form.Label>{t("edit-user-details.email")}</Form.Label>
 					<Form.Control
 						required
 						value={email}
@@ -108,11 +110,11 @@ const EditUserDetailsComponent = (props: {
 						type="text"
 					/>
 					<Form.Control.Feedback type="invalid">
-						Please set the email address.
+						{t("edit-user-details.give-email")}
 					</Form.Control.Feedback>
 				</Form.Group>
 				<Form.Group className="mb-3">
-					<Form.Label>Phone number</Form.Label>
+					<Form.Label>{t("edit-user-details.phone-number")}</Form.Label>
 					<Form.Control
 						required
 						value={phone}
@@ -122,11 +124,11 @@ const EditUserDetailsComponent = (props: {
 						type="text"
 					/>
 					<Form.Control.Feedback type="invalid">
-						Please give the phone number.
+						{t("edit-user-details.give-phone")}
 					</Form.Control.Feedback>
 				</Form.Group>
 				<Form.Group className="mb-3">
-					<Form.Label>Address</Form.Label>
+					<Form.Label>{t("edit-user-details.address")}</Form.Label>
 					<Form.Control
 						value={address}
 						onChange={(e) => {
@@ -136,7 +138,7 @@ const EditUserDetailsComponent = (props: {
 					/>
 				</Form.Group>
 				<Form.Group className="mb-3">
-					<Form.Label>Password</Form.Label>
+					<Form.Label>{t("edit-user-details.password")}</Form.Label>
 					<Form.Control
 						value={password}
 						onChange={(e) => {
@@ -147,7 +149,7 @@ const EditUserDetailsComponent = (props: {
 					/>
 				</Form.Group>
 				<Form.Group className="mb-3">
-					<Form.Label>Password again</Form.Label>
+					<Form.Label>{t("edit-user-details.password-again")}</Form.Label>
 					<Form.Control
 						value={passwordRepeat}
 						onChange={(e) => {
@@ -157,7 +159,7 @@ const EditUserDetailsComponent = (props: {
 						type="password"
 					/>
 				</Form.Group>
-				<Button type="submit">Edit User</Button>
+				<Button type="submit">{t("edit-user-details.confirm-changes")}</Button>
 			</Form>
 		</div>
 	);

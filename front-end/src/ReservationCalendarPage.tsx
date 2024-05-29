@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import { getLanes, getReservationInfoByDate } from "./BackendService.ts";
 import { Link } from "react-router-dom";
 import { AppContext } from "./App.tsx";
+import { useTranslation } from "react-i18next";
 
 export class timeButton {
 	reserved: boolean;
@@ -61,6 +62,7 @@ interface reservation {
 }
 
 const ReservationCalendarPage = () => {
+	const {t} = useTranslation();
 	const [buttonsToDisable, setButtonsToDisable] = useState<
 		Array<Array<disableButton>>
 	>([]);
@@ -267,9 +269,9 @@ const ReservationCalendarPage = () => {
 	return userInfo.state.loggedIn ? (
 		<div className="container">
 			<div className="reservationDiv">
-				<h1 className="mt-3">Ajanvarauskalenteri</h1>
-				<p>Voit valita aikoja usealta radalta mutta yhdellä radalla ajanvaraus pitää olla yhtäjaksoisesti.</p>
-				<h4 className="mb-3 mt-3">Valitse aika</h4>
+				<h1 className="mt-3">{t("reservation-calendar-page.reservation-calendar")}</h1>
+				<p>{t("reservation-calendar-page.subtitle-instruction")}</p>
+				<h4 className="mb-3 mt-3">{t("reservation-calendar-page.pick-time")}</h4>
 				<div id="datePicker">
 					<DatePicker
 						selected={startDate}
@@ -280,26 +282,26 @@ const ReservationCalendarPage = () => {
 			<div className="tracks mb-4">{renderLanes()}</div>
 			<div className="reservationDiv mb-5">
 				{isButtonReady() ?
-					<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">Valitse ajat</Button></Link>:
-					<Button variant="dark" disabled>Valitse ajat</Button>
+					<Link to="/confirm" state={{selectedTimes:selectedTimes, pickedDate:startDate}}><Button variant="dark">{t("reservation-calendar-page.pick-times")}</Button></Link>:
+					<Button variant="dark" disabled>{t("reservation-calendar-page.pick-times")}</Button>
 				}
 			</div>
 			<div className="reservationDiv mb-5">
-				<h4>Ohje</h4>
+				<h4>{t("reservation-calendar-page.instruction")}</h4>
 				<div id="guide">
 					<button className="box mb-2">14 - 15</button> 
-					<p>Vapaa aika</p>
+					<p>{t("reservation-calendar-page.available-time")}</p>
 					<button className="box boxClicked mb-2">14 - 15</button> 
-					<p>Valitsemasi aika</p>
+					<p>{t("reservation-calendar-page.chosen-time")}</p>
 					<button className="box mb-2" disabled>14 - 15</button>	
-					<p>Muiden varaukset</p> 
+					<p>{t("reservation-calendar-page.other-reservations")}</p> 
 					<button className="ownReservation mb-2" disabled>14 - 15</button>	
-					<p>Omat varauksesi</p> 
+					<p>{t("reservation-calendar-page.own-reservations")}</p> 
 				</div>
 			</div>
 		</div>
 	) : (
-		"You need to be logged in to view this page"
+		t("reservation-calendar-page.need-to-log")
 	);
 };
 
