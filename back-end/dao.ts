@@ -110,7 +110,10 @@ export const updateUser = async (id: string, username: string, password: string,
 
 export const findReservations = async (id: string) => {
 	console.log(`Requesting reservations with userId ${id}...`);
-	const query = `SELECT * FROM reservations 
+	const query = `SELECT reservations.id, reservations.date, reservations.start_time, 
+				reservations.end_time, reservations.amount_of_players, reservations.additional_info,
+					l.name	
+				 FROM reservations 
 				 JOIN lanes AS l on reservations.lane_id = l.id
 				 WHERE reservations.user_id = $1;
 				 `;
