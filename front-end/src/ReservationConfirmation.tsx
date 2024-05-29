@@ -1,8 +1,9 @@
 import { Table } from "react-bootstrap";
 import { timeButton } from "./ReservationCalendarPage";
+import { useTranslation } from "react-i18next";
 
 const ReservationConfirmation = ({selectedTimes, pickedDate}:PropsValidation) => {
-	
+	const {t} = useTranslation();
 	const renderDates = selectedTimes.map(element => {
 		return (
 			<tr  key={element.laneId}>
@@ -14,15 +15,15 @@ const ReservationConfirmation = ({selectedTimes, pickedDate}:PropsValidation) =>
 
 	return(
 		<div className="container">
-			<h1 className="mt-4 mb-3">Varaus onnistui!</h1>
-			<h3>Varauksien ajankohdat: {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
+			<h1 className="mt-4 mb-3">{t("reservation-confirmation.reservation-successful")}</h1>
+			<h3>{t("reservation-confirmation.reservation-dates")} {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
 			<div>
 				<Table>
 					<thead>
 						<tr>
-							<th>Radan nimi</th>
-							<th>Varauksen aloitus</th>
-							<th>Varaus päättyy</th>
+							<th>{t("reservation-confirmation.track-name")}</th>
+							<th>{t("reservation-confirmation.start-time")}</th>
+							<th>{t("reservation-confirmation.end-time")}</th>
 						</tr>
 					</thead>
 					<tbody>

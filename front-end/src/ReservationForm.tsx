@@ -4,8 +4,10 @@ import { createReservation } from "./BackendService";
 import { useContext, useState } from "react";
 import { AppContext } from "./App";
 import { Table } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation) => {
+	const {t} = useTranslation();
 	const context = useContext(AppContext);
 	const [amountOfPlayers, setAmountOfPlayers] = useState(0);
 	const [additionalInfo, setAdditionalInfo] = useState("");
@@ -34,15 +36,15 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 
 	return (
 		<div className="container">
-			<h3>Varauksien ajankohdat: {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
-			<h3>Varatut radat</h3>
+			<h3>{t("reservation-form.reservation-dates")} {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
+			<h3>{t("reservation-form.reserved-lanes")}</h3>
 			<div>
 				<Table>
 					<thead>
 						<tr>
-							<th>Radan nimi</th>
-							<th>Varauksen aloitus</th>
-							<th>Varaus päättyy</th>
+							<th>{t("reservation-form.track-name")}</th>
+							<th>{t("reservation-form.start-time")}</th>
+							<th>{t("reservation-form.end-time")}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -55,18 +57,18 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 			<div className="reservationForm">
 				<Form onSubmit={handleSubmit}>
 					<Form.Group className="mb-3">
-						<Form.Label>Pelaajien määrä</Form.Label>
+						<Form.Label>{t("reservation-form.players")}</Form.Label>
 						<Form.Control as="textarea" rows={1} 
 							value={amountOfPlayers}
 							onChange={() => setAmountOfPlayers(event.target.value)}/>
 					</Form.Group>
 					<Form.Group className="mb-3">
-						<Form.Label>Lisätietoja</Form.Label>
+						<Form.Label>{t("reservation-form.additional-info")}</Form.Label>
 						<Form.Control as="textarea" rows={3} 
 							value={additionalInfo}
 							onChange={() => setAdditionalInfo(event.target.value)}/>
 					</Form.Group>
-					<Button variant="primary" type="submit">Lähetä</Button>
+					<Button variant="primary" type="submit">{t("reservation-form.send")}</Button>
 				</Form>
 			</div>
 		</div>
