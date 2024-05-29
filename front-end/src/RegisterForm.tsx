@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { createUser } from "./BackendService";
 import { User } from "./LoginPage";
+import { useTranslation } from "react-i18next";
+import {
+	MDBModal,
+	MDBModalDialog,
+	MDBModalContent,
+	MDBModalHeader,
+	MDBModalTitle,
+	MDBModalBody
+} from "mdb-react-ui-kit";
 
-const RegisterForm = (props: {
-	changeRegisterMode: (mode: boolean) => void;
+const RegisterForm = (props: { registerMode:boolean,
+	changeRegisterMode: (mode: boolean ) => void;
 }) => {
+	const {t} = useTranslation();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -17,6 +27,9 @@ const RegisterForm = (props: {
 		useState(false);
 	const [showDuplicateEmailError, setShowDuplicateEmailError] =
 		useState(false);
+	
+	const [success, setSuccess] = useState(false);
+
 
 	const validateForm = (event: React.FormEvent<HTMLFormElement>) => {
 		const form = event.currentTarget;
@@ -53,112 +66,133 @@ const RegisterForm = (props: {
 				setShowDuplicateEmailError(true);
 			}
 			if (response === 200) {
-				props.changeRegisterMode(false);
+				setSuccess(true);
 			}
 		});
 	};
 
 	return (
-		<div className="accountForm">
-			{showPasswordMatchingError ? (
-				<p style={{ color: "red" }}>Passwords do not match</p>
-			) : (
-				""
-			)}
-			{showDuplicateEmailError ? (
-				<p style={{ color: "red" }}>
+		<>
+			<MDBModal open={props.registerMode} tabIndex='-1' onClose={() => props.changeRegisterMode(false)}>
+				<MDBModalDialog size='xl'>
+					<MDBModalContent>
+						<MDBModalHeader>
+							<MDBModalTitle>{t("register-form.title")}</MDBModalTitle>
+						</MDBModalHeader>
+						<MDBModalBody>
+							{success? 
+								<div>
+									<h3>{t("register-form.success")}</h3>
+									<Button onClick={() => {props.changeRegisterMode(false);}}>Close</Button>
+								</div>
+								: 
+								<div className="accountForm">
+									{showPasswordMatchingError ? (
+										<p style={{ color: "red" }}>Passwords do not match</p>
+									) : (
+										""
+									)}
+									{showDuplicateEmailError ? (
+										<p style={{ color: "red" }}>
 					User with this email already exists
-				</p>
-			) : (
-				""
-			)}
-			<Form noValidate validated={validated} onSubmit={validateForm}>
-				<Form.Group className="mb-3">
-					<Form.Label>Username</Form.Label>
-					<Form.Control
-						required
-						value={username}
-						onChange={(e) => {
-							setUsername(e.target.value);
-						}}
-						type="text"
-					/>
-					<Form.Control.Feedback type="invalid">
+										</p>
+									) : (
+										""
+									)}
+									<Form noValidate validated={validated} onSubmit={validateForm}>
+										<Form.Group className="mb-3">
+											<Form.Label>Username</Form.Label>
+											<Form.Control
+												required
+												value={username}
+												onChange={(e) => {
+													setUsername(e.target.value);
+												}}
+												type="text"
+											/>
+											<Form.Control.Feedback type="invalid">
 						Please set a username.
-					</Form.Control.Feedback>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						required
-						value={password}
-						onChange={(e) => {
-							setPassword(e.target.value);
-							setShowPasswordMatchingError(false);
-						}}
-						type="password"
-					/>
-					<Form.Control.Feedback type="invalid">
+											</Form.Control.Feedback>
+										</Form.Group>
+										<Form.Group className="mb-3">
+											<Form.Label>Password</Form.Label>
+											<Form.Control
+												required
+												value={password}
+												onChange={(e) => {
+													setPassword(e.target.value);
+													setShowPasswordMatchingError(false);
+												}}
+												type="password"
+											/>
+											<Form.Control.Feedback type="invalid">
 						Please give a password.
-					</Form.Control.Feedback>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Password again</Form.Label>
-					<Form.Control
-						required
-						value={passwordRepeat}
-						onChange={(e) => {
-							setPasswordRepeat(e.target.value);
-							setShowPasswordMatchingError(false);
-						}}
-						type="password"
-					/>
-					<Form.Control.Feedback type="invalid">
+											</Form.Control.Feedback>
+										</Form.Group>
+										<Form.Group className="mb-3">
+											<Form.Label>Password again</Form.Label>
+											<Form.Control
+												required
+												value={passwordRepeat}
+												onChange={(e) => {
+													setPasswordRepeat(e.target.value);
+													setShowPasswordMatchingError(false);
+												}}
+												type="password"
+											/>
+											<Form.Control.Feedback type="invalid">
 						Please repeat the password.
-					</Form.Control.Feedback>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						required
-						value={email}
-						onChange={(e) => {
-							setEmail(e.target.value);
-							setShowDuplicateEmailError(false);
-						}}
-						type="text"
-					/>
-					<Form.Control.Feedback type="invalid">
+											</Form.Control.Feedback>
+										</Form.Group>
+										<Form.Group className="mb-3">
+											<Form.Label>Email</Form.Label>
+											<Form.Control
+												required
+												value={email}
+												onChange={(e) => {
+													setEmail(e.target.value);
+													setShowDuplicateEmailError(false);
+												}}
+												type="text"
+											/>
+											<Form.Control.Feedback type="invalid">
 						Please set the email address.
-					</Form.Control.Feedback>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Phone number</Form.Label>
-					<Form.Control
-						required
-						value={phone}
-						onChange={(e) => {
-							setPhone(e.target.value);
-						}}
-						type="text"
-					/>
-					<Form.Control.Feedback type="invalid">
+											</Form.Control.Feedback>
+										</Form.Group>
+										<Form.Group className="mb-3">
+											<Form.Label>Phone number</Form.Label>
+											<Form.Control
+												required
+												value={phone}
+												onChange={(e) => {
+													setPhone(e.target.value);
+												}}
+												type="text"
+											/>
+											<Form.Control.Feedback type="invalid">
 						Please give the phone number.
-					</Form.Control.Feedback>
-				</Form.Group>
-				<Form.Group className="mb-3">
-					<Form.Label>Address</Form.Label>
-					<Form.Control
-						value={address}
-						onChange={(e) => {
-							setAddress(e.target.value);
-						}}
-						type="text"
-					/>
-				</Form.Group>
-				<Button type="submit">Register</Button>
-			</Form>
-		</div>
+											</Form.Control.Feedback>
+										</Form.Group>
+										<Form.Group className="mb-3">
+											<Form.Label>Address</Form.Label>
+											<Form.Control
+												value={address}
+												onChange={(e) => {
+													setAddress(e.target.value);
+												}}
+												type="text"
+											/>
+										</Form.Group>
+										<Button type="submit">Register</Button>
+									</Form>
+								</div>
+							}
+						</MDBModalBody>
+					</MDBModalContent>
+				</MDBModalDialog>
+			</MDBModal>
+			
+		</>
 	);
 };
 

@@ -40,7 +40,10 @@ const LoginPage = () => {
 	) : !registerMode ? (
 		<LoginForm changeRegisterMode={changeRegisterMode} />
 	) : (
-		<RegisterForm changeRegisterMode={changeRegisterMode} />
+		<>
+			<LoginForm changeRegisterMode={changeRegisterMode} />
+			<RegisterForm registerMode={registerMode} changeRegisterMode={changeRegisterMode} />
+		</>
 	);
 };
 
