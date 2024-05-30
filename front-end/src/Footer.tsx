@@ -30,11 +30,15 @@ export function Footer () {
 					<MDBIcon fab icon='instagram' size='lg' />
 				</MDBBtn>
 			</div>
-			<div className="footerItem language-buttons">
-				<MDBIcon flag='us' />
-				<button onClick={() => changeLanguage("en")} className="language-btn">English</button>
-				<MDBIcon flag='finland' />
-				<button onClick={() => changeLanguage("fi")} className="language-btn">Suomi</button>
+			<div className="language-buttons">
+				<button onClick={() => changeLanguage("en")} className="language-btn">
+					<MDBIcon icon="flag" flag="us" className="flag-icon" />
+					<span className="language-text">English</span>
+				</button>
+				<button onClick={() => changeLanguage("fi")} className="language-btn">
+					<MDBIcon icon="flag" flag="finland" className="flag-icon" />
+					<span className="language-text">Suomi</span>
+				</button>
 			</div>
 		</div>
 	);
