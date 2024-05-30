@@ -60,12 +60,14 @@ const UserDetailsComponent = (props: {
 						<Button
 							variant="danger"
 							onClick={() => deleteAccount()}
+							className="userdetailsdeletebuttons"
 						>
 							{t("user-details.delete")}
 						</Button>
 						<Button
 							variant="secondary"
 							onClick={() => setDeleteMode(false)}
+							className="userdetailsdeletebuttons"
 						>
 							{t("user-details.cancel")}
 						</Button>
