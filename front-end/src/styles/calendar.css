@@ -28,14 +28,17 @@
   }
   
   .box {
-	width: 5rem;
-	height: 2rem;
+	max-width: 8rem;
+	min-width: 6rem;
+	margin: 0.1rem;
+	max-height: 3rem;
+	border-radius: 0.1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: #4CAF50;
 	color: white;
-	font-size: 20px;
+	font-size:inherit;
 	border: 2px solid #333;
   }
   .box:hover {
@@ -47,14 +50,17 @@
 
 
   .boxTitle {
-	width: 5rem;
-	height: 2rem;
+	max-width: 8rem;
+	min-width: 6rem;
+	margin: 0.1rem;
+	max-height: 3rem;
+	border-radius: 0.1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: #3f6a66;
 	color: white;
-	font-size: 20px;
+	font-size:inherit;
 	border: 2px solid #333;
   }
 
@@ -66,14 +72,17 @@
   }
 
   .ownReservation {
-	width: 5rem;
-	height: 2rem;
+	max-width: 8rem;
+	min-width: 6rem;
+	margin: 0.1rem;
+	max-height: 3rem;
+	border-radius: 0.1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: blue;
 	color: white;
-	font-size: 20px;
+	font-size:inherit;
 	border: 2px solid #333;
   }
 
