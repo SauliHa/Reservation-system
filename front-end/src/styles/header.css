@@ -23,6 +23,10 @@
 #loginButton {
 	margin-top: 0.7rem;
 	margin-right: 1em;
+	flex-shrink: 0;
+    display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .headerItem {
@@ -30,6 +34,7 @@
 	display: block;
 	padding: 1em;
 	margin-right: 1em;
+	flex-shrink: 0;
 }
 
 .userName {

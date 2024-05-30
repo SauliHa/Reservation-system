@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { sendDeleteUserRequest } from "./BackendService";
 import { AppContext } from "./App";
 import { useTranslation } from "react-i18next";
+import "./styles/userdetails.css";
 
 const UserDetailsComponent = (props: {
 	userData: User;
@@ -48,7 +49,7 @@ const UserDetailsComponent = (props: {
 				<Button
 					variant="primary"
 					onClick={() => props.changeEditMode(true)}
-					className="mb-3 mt-2"
+					className="box mb-3 mt-2"
 				>
 					{t("user-details.change-user-info")}
 				</Button>
@@ -73,7 +74,7 @@ const UserDetailsComponent = (props: {
 					<Button
 						onClick={() => setDeleteMode(true)}
 						variant="danger"
-						className="mb-3"
+						className="box mb-3"
 					>
 						{t("user-details.delete-account")}
 					</Button>
