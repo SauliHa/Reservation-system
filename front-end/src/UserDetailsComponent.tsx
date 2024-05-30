@@ -49,7 +49,7 @@ const UserDetailsComponent = (props: {
 				<Button
 					variant="primary"
 					onClick={() => props.changeEditMode(true)}
-					className="box mb-3 mt-2"
+					className="userdetailsbuttons mb-3 mt-2"
 				>
 					{t("user-details.change-user-info")}
 				</Button>
@@ -74,7 +74,7 @@ const UserDetailsComponent = (props: {
 					<Button
 						onClick={() => setDeleteMode(true)}
 						variant="danger"
-						className="box mb-3"
+						className="userdetailsbuttons mb-3"
 					>
 						{t("user-details.delete-account")}
 					</Button>
