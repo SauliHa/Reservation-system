@@ -32,6 +32,18 @@ const checkTime = async (lane_id: string, date: string, start_time: string, end_
 	return result;
 };
 
+const getUserEmail = async (id: string) => {
+	const params = [id];
+	const query = "SELECT email FROM users WHERE id=$1";
+	try { 
+		const result = await executeQuery(query, params);
+		return result.rows[0];
+	} catch (error) {
+		console.error(`Error finding user with ${id}:`, error);
+		throw error;
+	}
+};
+
 const createReservation = async (user_id: string, lane_id: string, date:string ,start_time: string, end_time: string, amount_of_players: number, additional_info: string) => {
 	const id = uuidv4();
 	const params = [id, user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info];
@@ -100,4 +112,4 @@ export const updateReservation = async (id: string, lane_id: string, date:string
 	}
 };
 
-export { findReservation, deleteReservation, createReservation, checkTime };
+export { findReservation, deleteReservation, createReservation, checkTime, getUserEmail };

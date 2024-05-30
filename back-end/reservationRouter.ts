@@ -25,6 +25,8 @@ reservationRouter.post("/create", validate(reservationSchema), async (req, res, 
 	try {
 		const result = await createReservation(user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info);
 		res.status(201).send(result.rows[0]);
+		//if send email on reservation is enabled
+		//const email = await getUserEmail(user_id);
 	} catch (error) {
 		console.error("Error creating reservation:", error);
 		next(error); 
