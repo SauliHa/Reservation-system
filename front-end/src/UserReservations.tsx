@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { deleteReservation, getUserReservations } from "./BackendService";
 import { AppContext } from "./App";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import ReservationRow from "./ReservationRow";
 
-interface Reservation {
+export interface Reservation {
 	id: string;
 	date: Date;
 	startTime: string;
@@ -87,41 +88,22 @@ const UserReservations = () => {
 
 	const upcomingReservationRows = upcomingReservations.map((reservation) => {
 		return (
-			<tr key={reservation.id}>
-				<td>
-					{reservation.date.getDate()}.{reservation.date.getMonth()}.
-					{reservation.date.getFullYear()}
-				</td>
-				<td>{reservation.startTime}</td>
-				<td>{reservation.endTime}</td>
-				<td>{reservation.players}</td>
-				<td>{reservation.additionalInfo}</td>
-				<td>{reservation.laneName}</td>
-				<td>
-					<Button
-						onClick={() => handleCancelClick(reservation.id)}
-						variant="dark"
-					>
-						{t("user-reservations.cancel-reservation")}
-					</Button>
-				</td>
-			</tr>
+			<ReservationRow
+				key={reservation.id}
+				reservation={reservation}
+				handleCancelClick={handleCancelClick}
+				updateReservations={updateReservations}
+			/>
 		);
 	});
 
 	const pastReservationRows = pastReservations.map((reservation) => {
 		return (
-			<tr key={reservation.id}>
-				<td>
-					{reservation.date.getDate()}.{reservation.date.getMonth()}.
-					{reservation.date.getFullYear()}
-				</td>
-				<td>{reservation.startTime}</td>
-				<td>{reservation.endTime}</td>
-				<td>{reservation.players}</td>
-				<td>{reservation.additionalInfo}</td>
-				<td>{reservation.laneName}</td>
-			</tr>
+			<ReservationRow
+				key={reservation.id}
+				reservation={reservation}
+				updateReservations={updateReservations}
+			/>
 		);
 	});
 

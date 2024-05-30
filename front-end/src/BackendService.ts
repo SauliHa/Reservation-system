@@ -103,6 +103,19 @@ const deleteReservation = (id: string) => {
 	return request.then((response) => response.status).catch((error) => error);
 };
 
+const updateReservation = (
+	id: string,
+	playerCount: number,
+	additionalInfo: string
+) => {
+	const requestBody = {
+		amount_of_players: playerCount,
+		additional_info: additionalInfo,
+	};
+	const request = axios.put(`${reservationbaseURL}/${id}`, requestBody);
+	return request.then((response) => response.status).catch((error) => error);
+};
+
 export {
 	createUser,
 	getLanes,
@@ -115,4 +128,5 @@ export {
 	sendDeleteUserRequest,
 	getUserReservations,
 	deleteReservation,
+	updateReservation,
 };

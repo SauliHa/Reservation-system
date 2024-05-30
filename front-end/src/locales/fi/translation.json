@@ -110,6 +110,8 @@
 		"players": "Pelaajien lukumäärä",
 		"additional-info": "Lisätietoja",
 		"lane-name": "Varattu rata",
-		"cancel-reservation": "Peruuta varaus"
+		"cancel-reservation": "Peruuta varaus",
+		"edit-reservation": "Muokkaa",
+		"save-reservation": "Tallenna"
 	}
 }
