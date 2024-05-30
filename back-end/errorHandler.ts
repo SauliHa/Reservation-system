@@ -7,9 +7,11 @@ function errorHandler(err: any, req: Request, res: Response, next: NextFunction 
 	if (res.headersSent) {
 		return next(err);
 	}
-	
-	if (err.name === "ValidationError") {
-		res.status(400).send("Bad Request");
+
+	if (err.name === "dbError")
+		res.status(500).send("Database error");
+	else if (err.name === "validationError") {
+		res.status(400).send("Validation error");
 	} else {
 		res.status(500).send("Something went wrong");
 	}

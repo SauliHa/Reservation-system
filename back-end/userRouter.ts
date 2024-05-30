@@ -1,6 +1,7 @@
 import express from "express";
 import * as dao from "./dao";
 import jwt, { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
+import { validate, loginSchema, createUserSchema, updateUserSchema } from "./validate";
 import argon2 from "argon2";
 import dotenv from "dotenv";
 dotenv.config();
@@ -28,7 +29,7 @@ userRouter.get("/:id", async (req, res, next) => {
 	}
 });
 
-userRouter.post("/create", async (req, res, next) => {
+userRouter.post("/create", validate(createUserSchema), async (req, res, next) => {
 	const { username, password, email, phone_number, address } = req.body;
 	console.log(req.body);
 	
@@ -52,7 +53,7 @@ userRouter.post("/create", async (req, res, next) => {
 	}
 });
 
-userRouter.post("/login", async (req, res, next) => {
+userRouter.post("/login", validate(loginSchema), async (req, res, next) => {
 	const { email, password } = req.body;
 
 	try {
@@ -100,9 +101,8 @@ userRouter.delete("/:id", async (req, res, next) => {
 	}
 });
 
-userRouter.put("/:id", async (req, res, next) => {
+userRouter.put("/:id", validate(updateUserSchema), async (req, res, next) => {
 	const { username, password, email, phone_number, address } = req.body;
-
 	const checkedEmail = await dao.checkEmail(email);
 	if (checkedEmail.rows.length > 0) {
 		res.status(401).send("This email is already in use");

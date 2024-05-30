@@ -12,7 +12,7 @@ export function Footer () {
 	return (
 		<div className="footer">
 			<p className="footerItem">Super-sport</p>
-			<a href="#top">{t("back-to-top")}</a>
+			<a href="#top" className="footerItem back-to-top-link">{t("back-to-top")}</a>
 			<div className="footerItem">
 				<MDBBtn tag='a' color='none' className='m-1' style={{ color: "#3b5998" }}>
 					<MDBIcon fab icon='facebook-f' size='lg' />
@@ -30,9 +30,11 @@ export function Footer () {
 					<MDBIcon fab icon='instagram' size='lg' />
 				</MDBBtn>
 			</div>
-			<div className="footerItem">
-				<MDBIcon flag='us' /> <button onClick={() => changeLanguage("en")}>English</button>
-				<MDBIcon flag='finland' /><button onClick={() => changeLanguage("fi")}>Suomi</button>
+			<div className="footerItem language-buttons">
+				<MDBIcon flag='us' />
+				<button onClick={() => changeLanguage("en")} className="language-btn">English</button>
+				<MDBIcon flag='finland' />
+				<button onClick={() => changeLanguage("fi")} className="language-btn">Suomi</button>
 			</div>
 		</div>
 	);
