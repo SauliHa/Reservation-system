@@ -47,3 +47,12 @@
 	color: white;
 	background-color: #1565c0;
 }
+
+#dropdownHeader {
+	margin-top: 0.3em;
+	margin-right: 1em;
+}
+
+#dropdownButton {
+	min-width: 10rem;
+}
