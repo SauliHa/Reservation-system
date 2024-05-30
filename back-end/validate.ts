@@ -24,13 +24,13 @@ export const loginSchema = Joi.object({
 });
 
 export const reservationSchema = Joi.object({
-	user_Id: Joi.string().required(),
+	user_id: Joi.string().required(),
 	lane_id: Joi.string().required(),
 	date: Joi.string().required(),
 	start_time: Joi.string().required(),
 	end_time: Joi.string().required(),
-	amount_of_players: Joi.string().allow(null, ""),
-	additional_info: Joi.string().allow(null, "")
+	amount_of_players: Joi.number().allow(""),
+	additional_info: Joi.string().allow("")
 });
 
 //this is only needed if update reservations feature is in the final product
