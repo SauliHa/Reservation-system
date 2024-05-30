@@ -66,5 +66,17 @@ export const createTables = async (): Promise<void> => {
   );
   `;
 	await executeQuery(query);
+  
+	await addAdminColumn();
 	console.log("Database tables initialized");
+
 };
+
+const addAdminColumn = async (): Promise<void> => {
+	const addAdminQuery = `
+    ALTER TABLE "users"
+    ADD COLUMN IF NOT EXISTS "admin" boolean DEFAULT false;
+  `;
+	await executeQuery(addAdminQuery);
+};
+

@@ -13,21 +13,19 @@
 	margin-right: 1rem;
 	margin-left: 1rem;
 }
-.back-to-top-link,
 .language-btn {
 	width: 150px; /* Adjust based on your needs */
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	text-align: center; /* Ensure text is centered */
+	flex: 1;
 }
 
 .language-buttons {
 	display: flex;
 	align-items: center;
-}
-
-.language-buttons .language-btn {
-	margin-left: 0.5rem; /* Adjust spacing between buttons */
-	margin-right: 0.5rem;
+	justify-content: center; /* Center buttons */
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    gap: 0.5rem; /* Add some space between buttons */
 }

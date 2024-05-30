@@ -1,4 +1,10 @@
-.box {
-    min-width: 19em;
-  }
-  
+.userdetailsbuttons {
+    align-content:  stretch;
+    display: flex;
+    flex-wrap: wrap;
+}
+.userdetailsdeletebuttons{
+    align-content:  stretch;
+    margin-right: 0.2rem;
+	margin-left: 0.2rem;
+}
