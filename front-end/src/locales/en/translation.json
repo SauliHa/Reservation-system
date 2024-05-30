@@ -109,6 +109,8 @@
 		"players": "Number of players",
 		"additional-info": "Additional info",
 		"lane-name": "Reserved track",
-		"cancel-reservation": "Cancel reservation"
+		"cancel-reservation": "Cancel reservation",
+		"edit-reservation": "Edit",
+		"save-reservation": "Save"
 	}
 }
