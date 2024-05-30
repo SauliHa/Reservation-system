@@ -18,7 +18,7 @@ export function Header() {
 			<h3 id="headerTitle">Super-sport bowling</h3>
 			{isTabletOrMobile ? 
 				<MDBDropdown id="dropdownHeader">
-					<MDBDropdownToggle color="dark" id="dropdownButton">Valikko</MDBDropdownToggle>
+					<MDBDropdownToggle color="dark" id="dropdownButton">{t("header.menu")}</MDBDropdownToggle>
 					<MDBDropdownMenu>
 						<MDBDropdownItem link>
 							<Link to="/" className="headerItem">

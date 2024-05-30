@@ -18,7 +18,8 @@
 		"user-page": "Userpage",
 		"reservation-calendar": "Reservation Calendar",
 		"log-in": "Log in",
-		"log-out": "Log out"
+		"log-out": "Log out",
+		"menu": "Menu"
 	},
 	"user-details": {
 		"user-details": "User details:",
