@@ -18,7 +18,8 @@
 		"user-page": "Käyttäjäsivu",
 		"reservation-calendar": "Varauskalenteri",
 		"log-in": "Kirjaudu sisään",
-		"log-out": "Kirjaudu ulos"
+		"log-out": "Kirjaudu ulos",
+		"menu": "Valikko"
 	},
 	"user-details": {
 		"user-details": "Käyttäjätiedot:",
