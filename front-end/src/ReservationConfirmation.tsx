@@ -15,10 +15,10 @@ const ReservationConfirmation = ({selectedTimes, pickedDate}:PropsValidation) =>
 
 	return(
 		<div className="container">
-			<h1 className="mt-4 mb-3">{t("reservation-confirmation.reservation-successful")}</h1>
+			<h1 className="mt-3 mb-3">{t("reservation-confirmation.reservation-successful")}</h1>
 			<h3>{t("reservation-confirmation.reservation-dates")} {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
 			<div>
-				<Table>
+				<Table className="mb-5 mt-3">
 					<thead>
 						<tr>
 							<th>{t("reservation-confirmation.track-name")}</th>

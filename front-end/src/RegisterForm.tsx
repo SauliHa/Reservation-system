@@ -153,7 +153,7 @@ const RegisterForm = (props: { registerMode:boolean,
 													setEmail(e.target.value);
 													setShowDuplicateEmailError(false);
 												}}
-												type="text"
+												type="email"
 											/>
 											<Form.Control.Feedback type="invalid">
 						Please set the email address.
