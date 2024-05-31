@@ -1,6 +1,12 @@
 import { Table } from "react-bootstrap";
-import { timeButton } from "./ReservationCalendarPage";
 import { useTranslation } from "react-i18next";
+
+interface selectedTime {
+	laneName: string;
+	startTime: number;
+	endTime: number;
+	laneId: string;
+}
 
 const ReservationConfirmation = ({selectedTimes, pickedDate}:PropsValidation) => {
 	const {t} = useTranslation();
@@ -38,7 +44,7 @@ const ReservationConfirmation = ({selectedTimes, pickedDate}:PropsValidation) =>
 };
 
 interface PropsValidation {
-	selectedTimes: Array<timeButton>;
+	selectedTimes: Array<selectedTime>;
 	pickedDate: Date;
 }
 

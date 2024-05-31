@@ -12,9 +12,9 @@
 	max-width: 100%;
   }
 
-  .frontPageContentItem {
-
-  }
+ table {
+	overflow-x: auto
+ }
 
   #frontPageTitle{
 	text-align: center;

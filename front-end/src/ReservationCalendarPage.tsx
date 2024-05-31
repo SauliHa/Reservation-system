@@ -158,23 +158,6 @@ const ReservationCalendarPage = () => {
 		}
 		return hourlyArray;
 	};
-	
-	const disableButtonsByTime = () => {
-		if (timeButtons !== undefined) {
-			const newButtons = [...timeButtons];
-			newButtons.map((element) => {
-				const currentDate = new Date();
-				if(currentDate.getUTCDate() === startDate.getUTCDate() && currentDate.getHours() > element.startTime) {
-					element.reserved = true;
-				} else if(startDate.getUTCDate() < currentDate.getUTCDate()){
-					element.reserved = true;
-				} else {
-					element.reserved = false;
-				}
-			});
-			setTimeButtons(newButtons);
-		}
-	};
 
 	const disableButtons = () => {
 		if (timeButtons !== undefined) {

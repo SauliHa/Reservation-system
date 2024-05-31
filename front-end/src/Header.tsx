@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import "./styles/header.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "./App";
 import { useTranslation } from "react-i18next";

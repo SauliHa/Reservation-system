@@ -11,6 +11,7 @@ import axios from "axios";
 import { useEffect, useState, createContext } from "react";
 import { checkToken } from "./BackendService";
 import AdminPage from "./AdminPage";
+import { WarningPopup } from "./WarningPopup";
 
 export const setAuthToken = (token: string) => {
 	if (token) {
@@ -28,6 +29,10 @@ export const AppContext = createContext(defaultState);
 function App() {
 	const [userInfo, setUserInfo] = useState(defaultState.state);
 
+	const warningText = {title:"Note", message:"Your session has expired, please log in again."};
+	const [open, setOpen] = useState(false);
+	const toggleOpen = () => setOpen(!open);
+
 	const hook = async () => {
 		const token = localStorage.getItem("token");
 		if (token) {
@@ -44,6 +49,7 @@ function App() {
 					username: "",
 					loggedIn: false,
 				});
+				toggleOpen();
 				return;
 			}
 			console.log(response);
@@ -66,6 +72,9 @@ function App() {
 			<Router>
 				<div className="content">
 					<a id="top"></a>
+					<WarningPopup warningTitle={warningText.title}
+						message={warningText.message}
+						open={open} toggleOpen={toggleOpen} />
 					<Header />
 					<Routes>
 						<Route path="/" element={<FrontPage />} />
