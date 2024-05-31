@@ -22,7 +22,7 @@ const FrontPage = () => {
 					<p className="mt-3  mb-3">{t("location_info")}</p>
 					<p className="mt-3  mb-3">{t("rental_info")}</p>
 					<p className="mt-3  mb-3">{t("login_info")}</p>
-					<Link to="/login"><Button variant="dark">{t("register_button")}</Button></Link>
+					<Link to="/login"><Button variant="dark" className="mb-3">{t("register_button")}</Button></Link>
 				</div>
 				<div className="col  mb-3" >
 					<img src={image} className="frontImage"></img>

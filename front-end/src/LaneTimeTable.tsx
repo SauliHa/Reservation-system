@@ -11,13 +11,13 @@ export const LaneTimeTable = ( {laneName: laneName, laneArray: laneArray, handle
 				id={element.startTime.toString()} 
 				className="ownReservation"
 				disabled>
-				{element.startTime} - {element.endTime}
+				{element.startTime > 9 ? element.startTime : `0${element.startTime}`} - {element.endTime > 9 ? element.endTime : `0${element.endTime}`}
 			</button>;
 		} else if (element.reserved) {
 			return <button key={(element.startTime)} 
 				id={element.startTime.toString()} 
 				className="box" disabled>
-				{element.startTime} - {element.endTime}
+				{element.startTime > 9 ? element.startTime : `0${element.startTime}`} - {element.endTime > 9 ? element.endTime : `0${element.endTime}`}
 			</button>;
 		} else{
 
@@ -25,7 +25,7 @@ export const LaneTimeTable = ( {laneName: laneName, laneArray: laneArray, handle
 				id={element.startTime.toString()} 
 				className={element.clicked ? "box boxClicked" : "box"} 
 				onClick={() => handleButtonClick(element.startTime)}>
-				{element.startTime} - {element.endTime}
+				{element.startTime > 9 ? element.startTime : `0${element.startTime}`} - {element.endTime > 9 ? element.endTime : `0${element.endTime}`}
 			</button>;
 		}
 	});

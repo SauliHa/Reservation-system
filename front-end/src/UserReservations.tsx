@@ -110,12 +110,12 @@ const UserReservations = () => {
 	return (
 		<div className="userPageContainer">
 			<h3>{t("user-reservations.upcoming-reservations")}</h3>
-			<Table>
+			<Table responsive>
 				<TableHeader />
 				<tbody>{upcomingReservationRows}</tbody>
 			</Table>
 			<h3>{t("user-reservations.past-reservations")}</h3>
-			<Table>
+			<Table responsive>
 				<TableHeader />
 				<tbody>{pastReservationRows}</tbody>
 			</Table>

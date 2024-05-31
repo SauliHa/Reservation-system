@@ -36,8 +36,8 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 
 	return (
 		<div className="container">
-			<h3>{t("reservation-form.reservation-dates")} {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
-			<h3>{t("reservation-form.reserved-lanes")}</h3>
+			<h3 className="mt-3">{t("reservation-form.reservation-dates")} {pickedDate.getDate()}-{pickedDate.getMonth()+1}-{pickedDate.getFullYear()}</h3>
+			<h3  className="mt-3">{t("reservation-form.reserved-lanes")}</h3>
 			<div>
 				<Table>
 					<thead>
@@ -54,7 +54,7 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 					</tbody>
 				</Table>
 			</div>
-			<div className="reservationForm">
+			<div className="reservationForm mt-5">
 				<Form onSubmit={handleSubmit}>
 					<Form.Group className="mb-3">
 						<Form.Label>{t("reservation-form.players")}</Form.Label>
@@ -68,7 +68,7 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 							value={additionalInfo}
 							onChange={() => setAdditionalInfo(event.target.value)}/>
 					</Form.Group>
-					<Button variant="primary" type="submit">{t("reservation-form.send")}</Button>
+					<Button variant="primary" type="submit" className="mb-4">{t("reservation-form.send")}</Button>
 				</Form>
 			</div>
 		</div>

@@ -209,11 +209,14 @@ const ReservationCalendarPage = () => {
 	) => {
 		if(selectedTimes !== undefined && timeButtons !== undefined){
 			const currentDate = new Date();
-			if(currentDate.getUTCDate() === startDate.getUTCDate() && currentDate.getHours() >= startTime) {
+			if(currentDate.getUTCFullYear() === startDate.getUTCFullYear() &&
+			currentDate.getUTCMonth() === startDate.getUTCMonth() &&
+			currentDate.getUTCDate() === startDate.getUTCDate()
+			&& currentDate.getHours() >= startTime) {
 				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
 				setOpen(true);
 				return;
-			} else if(startDate.getUTCDate() < currentDate.getUTCDate()){
+			} else if(startDate.toLocaleDateString() < currentDate.toLocaleDateString()){
 				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
 				setOpen(true);
 				return;

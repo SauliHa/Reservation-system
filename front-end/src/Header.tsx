@@ -20,22 +20,22 @@ export function Header() {
 				<MDBDropdown id="dropdownHeader">
 					<MDBDropdownToggle color="dark" id="dropdownButton">{t("header.menu")}</MDBDropdownToggle>
 					<MDBDropdownMenu>
-						<MDBDropdownItem link>
+						<MDBDropdownItem>
 							<Link to="/" className="headerItem">
 								{t("header.front-page")}
 							</Link>
 						</MDBDropdownItem>
-						<MDBDropdownItem link>
+						<MDBDropdownItem>
 							<Link to="/user" className="headerItem">
 								{t("header.user-page")}
 							</Link>
 						</MDBDropdownItem>
-						<MDBDropdownItem link>
+						<MDBDropdownItem>
 							<Link to="/calendar" className="headerItem">
 								{t("header.reservation-calendar")}
 							</Link>
 						</MDBDropdownItem>
-						<MDBDropdownItem link>
+						<MDBDropdownItem>
 							<Link to="/login" className="headerItem">	
 								{userInfo.state.loggedIn ? t("header.log-out") : t("header.log-in")}
 							</Link>
