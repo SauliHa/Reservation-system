@@ -64,6 +64,12 @@ const getLanes = async () => {
 	return request;
 };
 
+const editLane = (id: string, usable: boolean, name?: string) => {
+	const requestBody = { name: name, usable: usable };
+	const request = axios.put(`${bowlingBaseURL}${id}`, requestBody);
+	return request.then((response) => response.status).catch((error) => error);
+};
+
 const getReservationInfoByDate = async (date: string) => {
 	const request = await axios.get(`${bowlingBaseURL}date/${date}`);
 	return request;
@@ -129,4 +135,5 @@ export {
 	getUserReservations,
 	deleteReservation,
 	updateReservation,
+	editLane,
 };
