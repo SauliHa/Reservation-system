@@ -1,10 +1,11 @@
 .userdetailsbuttons {
+    min-width: 15rem;
     align-content:  stretch;
     display: flex;
     flex-wrap: wrap;
 }
 .userdetailsdeletebuttons{
-    align-content:  stretch;
+    align-content:  center;
     margin-right: 0.2rem;
 	margin-left: 0.2rem;
 }

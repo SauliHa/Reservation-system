@@ -14,12 +14,14 @@
 	margin-left: 1rem;
 }
 .language-btn {
-	width: 150px; /* Adjust based on your needs */
+	width: 6rem;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	text-align: center; /* Ensure text is centered */
 	flex: 1;
+	border-radius: 0.5rem;
+	background-color: ghostwhite;
 }
 
 .language-buttons {
