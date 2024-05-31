@@ -50,7 +50,7 @@ const UserPage = () => {
 				changeEditMode={changeEditMode}
 			/>
 		) : (
-			<div>
+			<div className="container">
 				<UserDetailsComponent
 					userData={userData}
 					changeEditMode={changeEditMode}

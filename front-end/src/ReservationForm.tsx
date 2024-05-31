@@ -1,10 +1,16 @@
 import { Button, Form } from "react-bootstrap";
-import { timeButton } from "./ReservationCalendarPage";
 import { createReservation } from "./BackendService";
 import { useContext, useState } from "react";
 import { AppContext } from "./App";
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+
+interface selectedTime {
+	laneName: string;
+	startTime: number;
+	endTime: number;
+	laneId: string;
+}
 
 const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation) => {
 	const {t} = useTranslation();
@@ -20,7 +26,7 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 			</tr>);
 	});
 
-	const handleSubmit = (event:any) => {
+	const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const dateString = `${pickedDate.getFullYear()}-${pickedDate.getMonth()+1}-${pickedDate.getDate()}`;
 		selectedTimes.forEach(element => {
@@ -60,13 +66,13 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 						<Form.Label>{t("reservation-form.players")}</Form.Label>
 						<Form.Control as="textarea" rows={1} 
 							value={amountOfPlayers}
-							onChange={() => setAmountOfPlayers(event.target.value)}/>
+							onChange={(e) => setAmountOfPlayers(Number(e.target.value))}/>
 					</Form.Group>
 					<Form.Group className="mb-3">
 						<Form.Label>{t("reservation-form.additional-info")}</Form.Label>
 						<Form.Control as="textarea" rows={3} 
 							value={additionalInfo}
-							onChange={() => setAdditionalInfo(event.target.value)}/>
+							onChange={(e) => setAdditionalInfo(e.target.value)}/>
 					</Form.Group>
 					<Button variant="primary" type="submit" className="mb-4">{t("reservation-form.send")}</Button>
 				</Form>
@@ -77,7 +83,7 @@ const ReservationForm = ({selectedTimes, pickedDate, changePage}:PropsValidation
 };
 
 interface PropsValidation {
-	selectedTimes: Array<timeButton>;
+	selectedTimes: Array<selectedTime>;
 	pickedDate: Date;
 	changePage: React.Dispatch<React.SetStateAction<boolean>>
 }

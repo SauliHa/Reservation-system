@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { deleteReservation, getUserReservations } from "./BackendService";
 import { AppContext } from "./App";
-import { Table } from "react-bootstrap";
+import { useMediaQuery } from "react-responsive";
 import { useTranslation } from "react-i18next";
 import ReservationRow from "./ReservationRow";
+
+import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 
 export interface Reservation {
 	id: string;
@@ -17,6 +19,7 @@ export interface Reservation {
 interface Reservations extends Array<Reservation> {}
 
 const UserReservations = () => {
+	const isTabletOrMobile = useMediaQuery({ maxWidth: 900 });
 	const { t } = useTranslation();
 	const userInfo = useContext(AppContext);
 	const [upcomingReservations, setUpcomingreservations] =
@@ -107,26 +110,51 @@ const UserReservations = () => {
 		);
 	});
 
+	const sizeCheck = () => {
+		if(isTabletOrMobile){
+			return (
+				<div>
+					<h3>{t("user-reservations.upcoming-reservations")}</h3>
+					<MDBTable responsive>
+						<TableHeader />
+						<MDBTableBody>{upcomingReservationRows}</MDBTableBody>
+					</MDBTable>
+					<h3>{t("user-reservations.past-reservations")}</h3>
+					<MDBTable responsive>
+						<TableHeader />
+						<MDBTableBody>{pastReservationRows}</MDBTableBody>
+					</MDBTable>
+				</div>
+			);
+		} else {
+			return	(
+				<div className="userPageContainer">
+					<h3>{t("user-reservations.upcoming-reservations")}</h3>
+					<MDBTable responsive>
+						<TableHeader />
+						<MDBTableBody>{upcomingReservationRows}</MDBTableBody>
+					</MDBTable>
+					<h3>{t("user-reservations.past-reservations")}</h3>
+					<MDBTable responsive>
+						<TableHeader />
+						<MDBTableBody>{pastReservationRows}</MDBTableBody>
+					</MDBTable>
+				</div>
+			);
+		}
+	};
+
 	return (
-		<div className="userPageContainer">
-			<h3>{t("user-reservations.upcoming-reservations")}</h3>
-			<Table responsive>
-				<TableHeader />
-				<tbody>{upcomingReservationRows}</tbody>
-			</Table>
-			<h3>{t("user-reservations.past-reservations")}</h3>
-			<Table responsive>
-				<TableHeader />
-				<tbody>{pastReservationRows}</tbody>
-			</Table>
-		</div>
+		<>
+			{sizeCheck()}
+		</>
 	);
 };
 
 const TableHeader = () => {
 	const { t } = useTranslation();
 	return (
-		<thead>
+		<MDBTableHead>
 			<tr>
 				<th>{t("user-reservations.date")}</th>
 				<th>{t("user-reservations.start-time")}</th>
@@ -135,7 +163,7 @@ const TableHeader = () => {
 				<th>{t("user-reservations.additional-info")}</th>
 				<th>{t("user-reservations.lane-name")}</th>
 			</tr>
-		</thead>
+		</MDBTableHead>
 	);
 };
 
