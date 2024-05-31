@@ -55,7 +55,7 @@ const UserDetailsComponent = (props: {
 				</Button>
 				<br />
 				{deleteMode ? (
-					<>
+					<div>
 						<h4>{t("user-details.really-delete")}</h4>
 						<Button
 							variant="danger"
@@ -71,7 +71,7 @@ const UserDetailsComponent = (props: {
 						>
 							{t("user-details.cancel")}
 						</Button>
-					</>
+					</div>
 				) : (
 					<Button
 						onClick={() => setDeleteMode(true)}
