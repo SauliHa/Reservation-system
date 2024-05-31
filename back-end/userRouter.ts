@@ -8,10 +8,10 @@ dotenv.config();
 
 const userRouter = express.Router();
 
-const createToken = (id: string, username: string, email: string) => {
-	const payload = { id, username, email };
+const createToken = (id: string, username: string, email: string, admin: boolean) => {
+	const payload = { id, username, email, admin };
 	const secret = process.env.secret;
-	const options = { expiresIn: "1h" };
+	const options = { expiresIn: "48h" };
 	if (secret === undefined) {
 		return;
 	}
@@ -70,7 +70,8 @@ userRouter.post("/login", validate(loginSchema), async (req, res, next) => {
 			if (passwordMatchesHash) {
 				const id = result.rows[0].id;
 				const username = result.rows[0].username;
-				const token = createToken(id, username, email);
+				const admin = result.rows[0].admin;
+				const token = createToken(id, username, email, admin);
 				console.log(token);
 				res.send(token);
 			} else {
@@ -107,7 +108,7 @@ userRouter.put("/:id", validate(updateUserSchema), async (req, res, next) => {
 	if (checkedEmail.rows.length > 0) {
 		res.status(401).send("This email is already in use");
 		return;
-	}
+	} 
 	const id = req.params.id;
 	console.log(`Request to change user with id ${id}`);
 
@@ -118,12 +119,16 @@ userRouter.put("/:id", validate(updateUserSchema), async (req, res, next) => {
 			password,
 			email,
 			phone_number,
-			address
+			address,
 		);
 		if (result.rowCount === 0) {
 			res.status(404).send("Error: User not found");
 		} else {
-			const token = createToken(id, username, email);
+			const result = await dao.findUser(id);
+			const admin = result.rows[0].admin;
+			const updatedUsername = result.rows[0].username;
+			const updatedEmail = result.rows[0].email;
+			const token = createToken(id, updatedUsername, updatedEmail, admin);
 			res.status(200).send(token);
 		}
 	} catch (error) {

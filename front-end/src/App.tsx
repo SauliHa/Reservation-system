@@ -10,6 +10,7 @@ import { Footer } from "./Footer";
 import axios from "axios";
 import { useEffect, useState, createContext } from "react";
 import { checkToken } from "./BackendService";
+import AdminPage from "./AdminPage";
 import { WarningPopup } from "./WarningPopup";
 
 export const setAuthToken = (token: string) => {
@@ -87,6 +88,7 @@ function App() {
 							path="/confirm"
 							element={<ConfirmReservationPage />}
 						/>
+						<Route path="/admin" element={<AdminPage />} />
 					</Routes>
 					<Footer />
 				</div>

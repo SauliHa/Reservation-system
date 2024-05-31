@@ -55,21 +55,23 @@ const UserDetailsComponent = (props: {
 				</Button>
 				<br />
 				{deleteMode ? (
-					<>
+					<div>
 						<h4>{t("user-details.really-delete")}</h4>
 						<Button
 							variant="danger"
 							onClick={() => deleteAccount()}
+							className="userdetailsdeletebuttons"
 						>
 							{t("user-details.delete")}
 						</Button>
 						<Button
 							variant="secondary"
 							onClick={() => setDeleteMode(false)}
+							className="userdetailsdeletebuttons"
 						>
 							{t("user-details.cancel")}
 						</Button>
-					</>
+					</div>
 				) : (
 					<Button
 						onClick={() => setDeleteMode(true)}
