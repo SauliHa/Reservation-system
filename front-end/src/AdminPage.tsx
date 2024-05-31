@@ -61,21 +61,29 @@ const LaneRow = (props: {
 
 	return (
 		<div className="laneRow mb-3">
-			<Form.Control
-				required
-				value={name}
-				onChange={(e) => {
-					setName(e.target.value);
-				}}
-				type="text"
-				className="me-3"
-			/>
-			<Form.Check
-				type="checkbox"
-				checked={usable}
-				onClick={() => setUsable(!usable)}
-				className="me-3"
-			/>
+			<Form.Group className="me-3">
+				<Form.Label>Radan nimi</Form.Label>
+				<Form.Control
+					required
+					value={name}
+					onChange={(e) => {
+						setName(e.target.value);
+					}}
+					type="text"
+					className="me-3"
+				/>
+			</Form.Group>
+
+			<Form.Group>
+				<Form.Label>Rata käytettävissä?</Form.Label>
+				<Form.Check
+					type="checkbox"
+					checked={usable}
+					onClick={() => setUsable(!usable)}
+					className="me-3"
+				/>
+			</Form.Group>
+
 			<Button
 				variant="dark"
 				onClick={() => props.edit(props.lane, name, usable)}
