@@ -4,6 +4,7 @@ import jwt, { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 import { validate, loginSchema, createUserSchema, updateUserSchema } from "./validate";
 import argon2 from "argon2";
 import dotenv from "dotenv";
+import { authenticate } from "./authenticate";
 dotenv.config();
 
 const userRouter = express.Router();
@@ -19,7 +20,7 @@ const createToken = (id: string, username: string, email: string, admin: boolean
 	return token;
 };
 
-userRouter.get("/:id", async (req, res, next) => {
+userRouter.get("/:id", authenticate, async (req, res, next) => {
 	try {const result = await dao.findUser(req.params.id);
 		const user = result.rows[0];
 		res.send(user);
@@ -94,7 +95,7 @@ userRouter.post("/login", validate(loginSchema), async (req, res, next) => {
 	}
 });
 
-userRouter.delete("/:id", async (req, res, next) => {
+userRouter.delete("/:id", authenticate, async (req, res, next) => {
 	const userId = req.params.id;
 	console.log(`Request to delete user with id ${userId}`);
 	const checkId = await dao.findUser(userId);
@@ -112,7 +113,7 @@ userRouter.delete("/:id", async (req, res, next) => {
 	}
 });
 
-userRouter.put("/:id", validate(updateUserSchema), async (req, res, next) => {
+userRouter.put("/:id", authenticate, validate(updateUserSchema), async (req, res, next) => {
 	const { username, password, email, phone_number, address, admin } = req.body;
 	const checkedEmail = await dao.checkEmail(email);
 	if (checkedEmail.rows.length > 0) {
@@ -171,7 +172,7 @@ userRouter.get("/token/:token", async (req, res) => {
 	}
 });
 
-userRouter.get("/:id/reservations", async (req, res, next) => {
+userRouter.get("/:id/reservations", authenticate, async (req, res, next) => {
 	try {
 		const result = await dao.findReservations(req.params.id);
 		const reservations = result.rows;

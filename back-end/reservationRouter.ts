@@ -1,6 +1,7 @@
 import express from "express";
 import {findReservation, createReservation, deleteReservation, updateReservation, checkTime} from "./reservation-dao";
 import { validate, reservationSchema } from "./validate";
+import { authenticate } from "./authenticate";
 
 const reservationRouter = express.Router();
 
@@ -15,7 +16,7 @@ reservationRouter.get("/:id", async (req, res, next) => {
 	}
 });
 
-reservationRouter.post("/create", validate(reservationSchema), async (req, res, next) => {
+reservationRouter.post("/create", authenticate, validate(reservationSchema), async (req, res, next) => {
 	const {user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
 	console.log(req.body);
 	const timeChecked = await checkTime(lane_id, date, start_time, end_time);
@@ -33,7 +34,7 @@ reservationRouter.post("/create", validate(reservationSchema), async (req, res, 
 	}
 });
 
-reservationRouter.delete("/:id", async (req, res, next) => {
+reservationRouter.delete("/:id", authenticate, async (req, res, next) => {
 	const reservationId = req.params.id;
 	console.log(`Request to delete resevation with id ${reservationId}`);
   
@@ -51,7 +52,7 @@ reservationRouter.delete("/:id", async (req, res, next) => {
 
 //this is only needed if updating reservation is in the final product
 //add validation
-reservationRouter.put("/:id", async( req, res, next) => {
+reservationRouter.put("/:id", authenticate, async( req, res, next) => {
 	const {lane_id, date, start_time, end_time, amount_of_players, additional_info} = req.body;
 	const reservationId = req.params.id;
 	console.log(`Request to change reservation with id ${reservationId}`);

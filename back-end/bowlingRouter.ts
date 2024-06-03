@@ -1,5 +1,6 @@
 import express from "express";
 import { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane, checkName} from "./bowling-dao";
+import { adminAuthenticate } from "./authenticate";
 
 const bowlingRouter = express.Router();
 
@@ -35,7 +36,7 @@ bowlingRouter.get("/date/:date", async (req, res, next) => {
 	}
 });
 
-bowlingRouter.post("/create", async (req, res, next) => {
+bowlingRouter.post("/create", adminAuthenticate, async (req, res, next) => {
 	const {name} = req.body;
 
 	const checkedName = await checkName(name);
@@ -52,7 +53,7 @@ bowlingRouter.post("/create", async (req, res, next) => {
 
 });
 
-bowlingRouter.delete("/delete/:id", async (req, res, next) => {
+bowlingRouter.delete("/delete/:id", adminAuthenticate, async (req, res, next) => {
 	const laneId = req.params.id;
 	console.log(`Request to delete lane with id ${laneId}`);
   
@@ -68,7 +69,7 @@ bowlingRouter.delete("/delete/:id", async (req, res, next) => {
 	}
 });
 
-bowlingRouter.put("/:id", async (req, res, next) => {
+bowlingRouter.put("/:id", adminAuthenticate, async (req, res, next) => {
 	const {name, usable} = req.body;
 	const laneId = req.params.id;
 
