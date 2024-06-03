@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
-import { editLane, getLanes, getAllUsers, sendEditUserRequest } from "./BackendService"; 
+import { editLane, getLanes, getAllUsers, sendEditUserRequest, sendDeleteUserRequest  } from "./BackendService"; 
 import "./styles/adminpage.css";
 import { Button, Form, Table } from "react-bootstrap";
-import { User } from "./LoginPage"; 
 
 interface Lane {
 	id: string;
 	name: string;
 	usable: boolean;
+}
+
+interface User {
+	id: string;
+	username?: string;
+	password?: string;
+	email?: string;
+	phone_number?: string;
+	address?: string;
+	admin?: boolean;
 }
 
 const AdminPage = () => {
@@ -42,7 +51,6 @@ const AdminPage = () => {
 	
 	const getUserInfo = () => {
 		getAllUsers().then((response) => {
-			console.log("Fetched users:", response.data); 
 			setUsers(response.data);
 		});
 	};
@@ -56,13 +64,26 @@ const AdminPage = () => {
 		});
 	};
 
+	const handleDeleteUser = (user: User) => {
+		const id: string = user.id;
+		setUsers((prevUsers) => prevUsers.filter(targetUser => targetUser.id !== id));
+		sendDeleteUserRequest(id).then((response) => {
+			if (response.status === 200) {
+				getUserInfo();
+			} else {
+				// If the delete request fails, revert the state update
+				getUserInfo();
+			}
+		});
+	};
+
 	useEffect(() => {
 		getLaneInfo();
 		getUserInfo();
 	}, []);
 
 	const usersTable = users.map((user) => {
-		return <UsersRow key={user.id} user={user} edit={handleUserEdit}  />; 
+		return <UsersRow key={user.id} user={user} edit={handleUserEdit} delete={handleDeleteUser} />; 
 	});
 
 	return (
@@ -73,7 +94,22 @@ const AdminPage = () => {
 			</div>
 			<div>
 				<h3>Käyttäjät</h3>
-				{usersTable}
+				<Table striped bordered>
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>username</th>
+							<th>email</th>
+							<th>phone number</th>
+							<th>address</th>
+							<th>admin?</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{usersTable}
+					</tbody>
+				</Table>
 			</div>
 		</div>
 	);
@@ -125,7 +161,8 @@ const LaneRow = (props: {
 
 const UsersRow = ( props: {
 	user: User,
-	edit: (user: User) => void;
+	edit: (user: User) => void,
+	delete: (user: User) => void
 }) => {
 	const [admin, setAdmin] = useState(props.user.admin);
 	const toggleAdmin = () => {
@@ -133,40 +170,34 @@ const UsersRow = ( props: {
 		props.edit(updatedUser);
 		setAdmin(!admin);
 	};
+	const deleteUser = () => {
+		props.delete(props.user);
+	};
 
-	return (
-		<div className="usersRow mb-3">
-			<Table striped bordered hover>
-				<thead>
-					<tr>
-						<th>id</th>
-						<th>username</th>
-						<th>email</th>
-						<th>phone number</th>
-						<th>address</th>
-						<th>admin?</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>{props.user.id}</td>
-						<td>{props.user.username}</td>
-						<td>{props.user.email}</td>
-						<td>{props.user.phone_number}</td>
-						<td>{props.user.address}</td>
-						<td>{admin ? "admin" : ""}</td>
-						<td>
-							<Button
-								variant="dark"
-								onClick={toggleAdmin}>
-				Toggle admin
-							</Button>
-						</td>
-					</tr>
-				
-				</tbody>
-			</Table>
-		</div>
+	return (		
+		<tr>
+			<td>{props.user.id}</td>
+			<td>{props.user.username}</td>
+			<td>{props.user.email}</td>
+			<td>{props.user.phone_number}</td>
+			<td>{props.user.address}</td>
+			<td>{admin ? "admin" : ""}</td>
+			<td className="tableButtons">
+				<Button
+					className="tableButton"
+					variant="dark"
+					onClick={toggleAdmin}
+				>
+					{admin? "Undo admin" : "Make admin"}
+				</Button>
+				<Button
+					className="tableButton"
+					variant="dark"
+					onClick={deleteUser}
+				>
+      Delete
+				</Button></td>
+		</tr>
 	);
 };
 
