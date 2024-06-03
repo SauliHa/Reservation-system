@@ -13,6 +13,8 @@
 	"come_bowling_info": "We have multiple lanes open so even a bigger group will fit in to bowl. Log in a book a lane from here!",
 	"find_us_title": "Find us",
 	"back-to-top": "Back to top",
+	"warning-title": "Note",
+	"warning-text": "Your session has expired, please log in again.",
 	"header": {
 		"front-page": "Front page",
 		"user-page": "Userpage",
