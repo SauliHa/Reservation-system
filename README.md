@@ -12,6 +12,20 @@ Both the front and back end code uses TypeScript and is made with the Node packa
 
 ![Reservation calendar](image.png)
 
+## Endpoints
+
+/bowling/ router
+GET /bowling/ returns all the lanes in the database
+GET /bowling/:id requires a lane by the id given
+GET /bowling/date/:date returns the state of the lanes for the given day
+POST /bowling/create adds a lane with the information given in the post data
+DELETE /bowling/:id deletes a lane by the given id
+PUT /bowling/:id modifies the lanes data
+
+/user/ router
+
+
+
 ## Installation
 To use this project download the contents and run npm install on both front-end and back-end folders to install the required dependencies. You also need to install postgres sql https://www.postgresql.org/ and create and ENV file in the back-end folder that includes PORT, SECRET and PG_HOST, PG_PORT, PG_USERNAME, PG_PASSWORD, PG_DATABASE envs for your database. You can also run npm build on the front-end and tlc -b in the back-end to make a build out of the project folders.
 

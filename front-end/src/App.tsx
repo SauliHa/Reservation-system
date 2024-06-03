@@ -7,18 +7,14 @@ import LoginPage from "./LoginPage";
 import ConfirmReservationPage from "./ConfirmReservationPage";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import axios from "axios";
 import { useEffect, useState, createContext } from "react";
 import { checkToken } from "./BackendService";
 import AdminPage from "./AdminPage";
 import { WarningPopup } from "./WarningPopup";
 import { useTranslation } from "react-i18next";
+import { setAuthToken } from "./BackendService";
 
-export const setAuthToken = (token: string) => {
-	if (token) {
-		axios.defaults.headers.common["Authorization"] = token;
-	} else delete axios.defaults.headers.common["Authorization"];
-};
+
 
 const defaultState = {
 	state: { id: "", email: "", username: "", loggedIn: false },

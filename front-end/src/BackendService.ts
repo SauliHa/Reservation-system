@@ -1,6 +1,14 @@
 import axios from "axios";
 import { User } from "./LoginPage";
 
+const setAuthToken = (token: string) => {
+	if (token) {
+		axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+	} else {
+		delete axios.defaults.headers.common["Authorization"];
+	}
+};
+
 const userBaseURL = "http://localhost:3000/user";
 
 const createUser = (newUser: User) => {
@@ -123,6 +131,7 @@ const updateReservation = (
 };
 
 export {
+	setAuthToken,
 	createUser,
 	getLanes,
 	getReservationInfoByDate,
