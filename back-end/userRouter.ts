@@ -30,6 +30,16 @@ userRouter.get("/:id", authenticate, async (req, res, next) => {
 	}
 });
 
+userRouter.get("/", async (req, res, next) => {
+	try {const result = await dao.findAll();
+		const users = result.rows;
+		res.send(users);
+	}
+	catch (error) {
+		next(error); 
+	}
+});
+
 userRouter.post("/create", validate(createUserSchema), async (req, res, next) => {
 	const { username, password, email, phone_number, address } = req.body;
 	console.log(req.body);
@@ -103,7 +113,7 @@ userRouter.delete("/:id", authenticate, async (req, res, next) => {
 });
 
 userRouter.put("/:id", authenticate, validate(updateUserSchema), async (req, res, next) => {
-	const { username, password, email, phone_number, address } = req.body;
+	const { username, password, email, phone_number, address, admin } = req.body;
 	const checkedEmail = await dao.checkEmail(email);
 	if (checkedEmail.rows.length > 0) {
 		res.status(401).send("This email is already in use");
@@ -119,12 +129,17 @@ userRouter.put("/:id", authenticate, validate(updateUserSchema), async (req, res
 			password,
 			email,
 			phone_number,
-			address
+			address,
+			admin
 		);
 		if (result.rowCount === 0) {
 			res.status(404).send("Error: User not found");
 		} else {
-			const token = createToken(id, username, email);
+			const result = await dao.findUser(id);
+			const updatedAdmin = result.rows[0].admin;
+			const updatedUsername = result.rows[0].username;
+			const updatedEmail = result.rows[0].email;
+			const token = createToken(id, updatedUsername, updatedEmail, updatedAdmin);
 			res.status(200).send(token);
 		}
 	} catch (error) {

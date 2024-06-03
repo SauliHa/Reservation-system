@@ -41,6 +41,11 @@ const getUserDetails = (id: string) => {
 	return request.then((response) => response.data);
 };
 
+const getAllUsers = async () => {
+	const request = await axios.get(userBaseURL);
+	return request;
+};
+
 const sendEditUserRequest = (editedUser: User) => {
 	const request = axios.put(`${userBaseURL}/${editedUser.id}`, editedUser);
 	return request
@@ -139,6 +144,7 @@ export {
 	checkToken,
 	createReservation,
 	getUserDetails,
+	getAllUsers,
 	sendEditUserRequest,
 	sendDeleteUserRequest,
 	getUserReservations,

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { editLane, getLanes } from "./BackendService";
+import { editLane, getLanes, getAllUsers, sendEditUserRequest } from "./BackendService"; 
 import "./styles/adminpage.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
+import { User } from "./LoginPage"; 
 
 interface Lane {
 	id: string;
@@ -11,6 +12,7 @@ interface Lane {
 
 const AdminPage = () => {
 	const [lanes, setLanes] = useState<Lane[]>([]);
+	const [users, setUsers] = useState<User[]>([]);
 
 	const getLaneInfo = () => {
 		getLanes().then((response) => {
@@ -34,18 +36,45 @@ const AdminPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		getLaneInfo();
-	}, []);
-
 	const laneRows = lanes.map((lane) => {
 		return <LaneRow key={lane.id} lane={lane} edit={handleLaneEdit} />;
+	});
+	
+	const getUserInfo = () => {
+		getAllUsers().then((response) => {
+			console.log("Fetched users:", response.data); 
+			setUsers(response.data);
+		});
+	};
+
+	const handleUserEdit = (user: User) => {
+		const editedUser = {id: user.id, admin: user.admin};
+		sendEditUserRequest(editedUser).then((response) => {
+			if (response.status === 200) {
+				getUserInfo();
+			}
+		});
+	};
+
+	useEffect(() => {
+		getLaneInfo();
+		getUserInfo();
+	}, []);
+
+	const usersTable = users.map((user) => {
+		return <UsersRow key={user.id} user={user} edit={handleUserEdit}  />; 
 	});
 
 	return (
 		<div className="adminPageContainer">
-			<h3>Radat</h3>
-			{laneRows}
+			<div>
+				<h3>Radat</h3>
+				{laneRows}
+			</div>
+			<div>
+				<h3>Käyttäjät</h3>
+				{usersTable}
+			</div>
 		</div>
 	);
 };
@@ -93,3 +122,51 @@ const LaneRow = (props: {
 		</div>
 	);
 };
+
+const UsersRow = ( props: {
+	user: User,
+	edit: (user: User) => void;
+}) => {
+	const [admin, setAdmin] = useState(props.user.admin);
+	const toggleAdmin = () => {
+		const updatedUser = { ...props.user, admin: !admin };
+		props.edit(updatedUser);
+		setAdmin(!admin);
+	};
+
+	return (
+		<div className="usersRow mb-3">
+			<Table striped bordered hover>
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>username</th>
+						<th>email</th>
+						<th>phone number</th>
+						<th>address</th>
+						<th>admin?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{props.user.id}</td>
+						<td>{props.user.username}</td>
+						<td>{props.user.email}</td>
+						<td>{props.user.phone_number}</td>
+						<td>{props.user.address}</td>
+						<td>{admin ? "admin" : ""}</td>
+						<td>
+							<Button
+								variant="dark"
+								onClick={toggleAdmin}>
+				Toggle admin
+							</Button>
+						</td>
+					</tr>
+				
+				</tbody>
+			</Table>
+		</div>
+	);
+};
+
