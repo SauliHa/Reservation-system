@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { editLane, getLanes, getAllUsers } from "./BackendService"; //sendEditUserRequest,
+import { editLane, getLanes, getAllUsers, sendEditUserRequest } from "./BackendService"; 
 import "./styles/adminpage.css";
 import { Button, Form, Table } from "react-bootstrap";
 import { User } from "./LoginPage"; 
@@ -47,13 +47,14 @@ const AdminPage = () => {
 		});
 	};
 
-	// const handleUserEdit = (user: User) => {
-	// 	sendEditUserRequest(user).then((response) => {
-	// 		if (response.status === 200) {
-	// 			getUserInfo();
-	// 		}
-	// 	});
-	// };
+	const handleUserEdit = (user: User) => {
+		const editedUser = {id: user.id, admin: user.admin};
+		sendEditUserRequest(editedUser).then((response) => {
+			if (response.status === 200) {
+				getUserInfo();
+			}
+		});
+	};
 
 	useEffect(() => {
 		getLaneInfo();
@@ -61,7 +62,7 @@ const AdminPage = () => {
 	}, []);
 
 	const usersTable = users.map((user) => {
-		return <UsersRow key={user.id} user={user}  />; //edit={handleUserEdit}
+		return <UsersRow key={user.id} user={user} edit={handleUserEdit}  />; 
 	});
 
 	return (
@@ -124,9 +125,14 @@ const LaneRow = (props: {
 
 const UsersRow = ( props: {
 	user: User,
-	//edit: (user: User, admin: boolean) => void;
+	edit: (user: User) => void;
 }) => {
 	const [admin, setAdmin] = useState(props.user.admin);
+	const toggleAdmin = () => {
+		const updatedUser = { ...props.user, admin: !admin };
+		props.edit(updatedUser);
+		setAdmin(!admin);
+	};
 
 	return (
 		<div className="usersRow mb-3">
@@ -152,9 +158,7 @@ const UsersRow = ( props: {
 						<td>
 							<Button
 								variant="dark"
-								onClick={() => { setAdmin(!admin);
-									//props.edit(props.user, !admin);
-								}}>
+								onClick={toggleAdmin}>
 				Toggle admin
 							</Button>
 						</td>

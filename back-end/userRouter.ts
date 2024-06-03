@@ -113,7 +113,7 @@ userRouter.delete("/:id", async (req, res, next) => {
 });
 
 userRouter.put("/:id", validate(updateUserSchema), async (req, res, next) => {
-	const { username, password, email, phone_number, address } = req.body;
+	const { username, password, email, phone_number, address, admin } = req.body;
 	const checkedEmail = await dao.checkEmail(email);
 	if (checkedEmail.rows.length > 0) {
 		res.status(401).send("This email is already in use");
@@ -130,15 +130,16 @@ userRouter.put("/:id", validate(updateUserSchema), async (req, res, next) => {
 			email,
 			phone_number,
 			address,
+			admin
 		);
 		if (result.rowCount === 0) {
 			res.status(404).send("Error: User not found");
 		} else {
 			const result = await dao.findUser(id);
-			const admin = result.rows[0].admin;
+			const updatedAdmin = result.rows[0].admin;
 			const updatedUsername = result.rows[0].username;
 			const updatedEmail = result.rows[0].email;
-			const token = createToken(id, updatedUsername, updatedEmail, admin);
+			const token = createToken(id, updatedUsername, updatedEmail, updatedAdmin);
 			res.status(200).send(token);
 		}
 	} catch (error) {
