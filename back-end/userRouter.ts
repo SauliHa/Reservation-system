@@ -3,8 +3,8 @@ import * as dao from "./dao";
 import jwt, { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 import { validate, loginSchema, createUserSchema, updateUserSchema } from "./validate";
 import argon2 from "argon2";
-import { authenticate } from "./authenticate";
 import dotenv from "dotenv";
+import { authenticate } from "./authenticate";
 dotenv.config();
 
 const userRouter = express.Router();
@@ -19,7 +19,6 @@ const createToken = (id: string, username: string, email: string, admin: boolean
 	const token = jwt.sign(payload, secret, options);
 	return token;
 };
-
 
 userRouter.get("/:id", authenticate, async (req, res, next) => {
 	try {const result = await dao.findUser(req.params.id);
@@ -82,7 +81,8 @@ userRouter.post("/login", validate(loginSchema), async (req, res, next) => {
 			if (passwordMatchesHash) {
 				const id = result.rows[0].id;
 				const username = result.rows[0].username;
-				const token = createToken(id, username, email);
+				const admin = result.rows[0].admin;
+				const token = createToken(id, username, email, admin);
 				console.log(token);
 				res.send(token);
 			} else {
@@ -119,7 +119,7 @@ userRouter.put("/:id", authenticate, validate(updateUserSchema), async (req, res
 	if (checkedEmail.rows.length > 0) {
 		res.status(401).send("This email is already in use");
 		return;
-	}
+	} 
 	const id = req.params.id;
 	console.log(`Request to change user with id ${id}`);
 

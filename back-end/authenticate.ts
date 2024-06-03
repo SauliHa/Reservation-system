@@ -1,6 +1,13 @@
 import "dotenv/config";
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+interface DecodedToken extends JwtPayload {
+    id: string;
+	email: string;
+	admin: boolean;
+}
+
 
 const authenticate = (req: Request, res: Response, next: NextFunction) => {
 	console.log("Authenticating as a user");
@@ -20,8 +27,7 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
 		if (secret === undefined) {
 			return res.status(500);
 		}
-		const decodedToken = jwt.verify(token, secret);
-		console.log(decodedToken);
+		jwt.verify(token, secret);
 		next();
 	} catch (error) {
 		return res.status(401).send("Invalid token");
@@ -46,8 +52,10 @@ const adminAuthenticate = (req: Request, res: Response, next: NextFunction) => {
 		if (secret === undefined) {
 			return res.status(500);
 		}
-		const decodedToken = jwt.verify(token, secret);
-		
+		const decodedToken = jwt.verify(token, secret) as DecodedToken;
+		if(!decodedToken.admin){
+			return res.status(401).send("Invalid token");
+		}
 		next();
 	} catch (error) {
 		return res.status(401).send("Invalid token");
