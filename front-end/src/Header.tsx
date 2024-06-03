@@ -25,11 +25,14 @@ export function Header() {
 								{t("header.front-page")}
 							</Link>
 						</MDBDropdownItem>
-						<MDBDropdownItem>
-							<Link to="/user" className="headerItem">
-								{t("header.user-page")}
-							</Link>
-						</MDBDropdownItem>
+						{userInfo.state.loggedIn ? (
+							<MDBDropdownItem>
+								<Link to="/user" className="headerItem">
+									{t("header.user-page")}
+								</Link>
+							</MDBDropdownItem>
+						):
+							<></>}
 						<MDBDropdownItem>
 							<Link to="/calendar" className="headerItem">
 								{t("header.reservation-calendar")}
@@ -51,11 +54,13 @@ export function Header() {
 							{t("header.front-page")}
 						</Link>
 					</li>
-					<li>
-						<Link to="/user" className="headerItem">
-							{t("header.user-page")}
-						</Link>
-					</li>
+					{userInfo.state.loggedIn && (
+						<li>
+							<Link to="/user" className="headerItem">
+								{t("header.user-page")}
+							</Link>
+						</li>
+					)}
 					<li>
 						<Link to="/calendar" className="headerItem">
 							{t("header.reservation-calendar")}
