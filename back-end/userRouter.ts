@@ -29,6 +29,16 @@ userRouter.get("/:id", async (req, res, next) => {
 	}
 });
 
+userRouter.get("/", async (req, res, next) => {
+	try {const result = await dao.findAll();
+		const users = result.rows;
+		res.send(users);
+	}
+	catch (error) {
+		next(error); 
+	}
+});
+
 userRouter.post("/create", validate(createUserSchema), async (req, res, next) => {
 	const { username, password, email, phone_number, address } = req.body;
 	console.log(req.body);

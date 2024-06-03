@@ -17,6 +17,18 @@ export const findUser = async (id: string) => {
 	}
 };
 
+export const findAll = async () => {
+	const query = "SELECT * FROM users";
+	try{
+		const result = await executeQuery(query);
+		return result;
+	}
+	catch (error) {
+		console.log(error);
+		throw error;
+	}
+};
+
 export const checkEmail = async (email: string) => {
 	const emailQuery = "SELECT * FROM users WHERE email = $1";
 	const params = [email];
