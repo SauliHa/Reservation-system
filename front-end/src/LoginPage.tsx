@@ -14,6 +14,7 @@ export interface User {
 	email?: string;
 	phone_number?: string;
 	address?: string;
+	admin: boolean;
 }
 
 const LoginPage = () => {
