@@ -9,16 +9,17 @@ dotenv.config();
 
 const userRouter = express.Router();
 
-const createToken = (id: string, username: string, email: string) => {
-	const payload = { id, username, email };
+const createToken = (id: string, username: string, email: string, admin: boolean) => {
+	const payload = { id, username, email, admin };
 	const secret = process.env.secret;
-	const options = { expiresIn: "1h" };
+	const options = { expiresIn: "48h" };
 	if (secret === undefined) {
 		return;
 	}
 	const token = jwt.sign(payload, secret, options);
 	return token;
 };
+
 
 userRouter.get("/:id", authenticate, async (req, res, next) => {
 	try {const result = await dao.findUser(req.params.id);

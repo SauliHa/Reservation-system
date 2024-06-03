@@ -21,6 +21,7 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
 			return res.status(500);
 		}
 		const decodedToken = jwt.verify(token, secret);
+		console.log(decodedToken);
 		next();
 	} catch (error) {
 		return res.status(401).send("Invalid token");
@@ -46,9 +47,7 @@ const adminAuthenticate = (req: Request, res: Response, next: NextFunction) => {
 			return res.status(500);
 		}
 		const decodedToken = jwt.verify(token, secret);
-		if (decodedToken.admin !== "admin") {
-			return res.status(401).send("Invalid token");
-		}
+		
 		next();
 	} catch (error) {
 		return res.status(401).send("Invalid token");
