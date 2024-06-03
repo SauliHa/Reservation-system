@@ -51,7 +51,6 @@ const AdminPage = () => {
 	
 	const getUserInfo = () => {
 		getAllUsers().then((response) => {
-			console.log("Fetched users:", response.data); 
 			setUsers(response.data);
 		});
 	};
@@ -95,7 +94,22 @@ const AdminPage = () => {
 			</div>
 			<div>
 				<h3>Käyttäjät</h3>
-				{usersTable}
+				<Table striped bordered>
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>username</th>
+							<th>email</th>
+							<th>phone number</th>
+							<th>address</th>
+							<th>admin?</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{usersTable}
+					</tbody>
+				</Table>
 			</div>
 		</div>
 	);
@@ -160,46 +174,30 @@ const UsersRow = ( props: {
 		props.delete(props.user);
 	};
 
-	return (
-		<div className="usersRow mb-3">
-			<Table striped bordered>
-				<thead>
-					<tr>
-						<th>id</th>
-						<th>username</th>
-						<th>email</th>
-						<th>phone number</th>
-						<th>address</th>
-						<th>admin?</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>{props.user.id}</td>
-						<td>{props.user.username}</td>
-						<td>{props.user.email}</td>
-						<td>{props.user.phone_number}</td>
-						<td>{props.user.address}</td>
-						<td>{admin ? "admin" : ""}</td>
-					</tr>
-				
-				</tbody>
-			</Table>
-			<div className="button-group">
+	return (		
+		<tr>
+			<td>{props.user.id}</td>
+			<td>{props.user.username}</td>
+			<td>{props.user.email}</td>
+			<td>{props.user.phone_number}</td>
+			<td>{props.user.address}</td>
+			<td>{admin ? "admin" : ""}</td>
+			<td className="tableButtons">
 				<Button
+					className="tableButton"
 					variant="dark"
 					onClick={toggleAdmin}
 				>
-      Toggle
+					{admin? "Undo admin" : "Make admin"}
 				</Button>
 				<Button
+					className="tableButton"
 					variant="dark"
 					onClick={deleteUser}
 				>
       Delete
-				</Button>
-			</div>
-		</div>
+				</Button></td>
+		</tr>
 	);
 };
 

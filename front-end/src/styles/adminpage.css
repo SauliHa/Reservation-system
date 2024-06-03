@@ -13,3 +13,16 @@
 	display: flex;
 	flex-direction: row;
 }
+
+.usersRow {
+	display: flex;
+}
+
+.tableButtons {
+	display: flex;
+}
+
+.tableButton {
+	margin: 0.5rem;
+}
+
