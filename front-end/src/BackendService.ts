@@ -1,6 +1,14 @@
 import axios from "axios";
 import { User } from "./LoginPage";
 
+const setAuthToken = (token: string) => {
+	if (token) {
+		axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+	} else {
+		delete axios.defaults.headers.common["Authorization"];
+	}
+};
+
 const userBaseURL = "http://localhost:3000/user";
 
 const createUser = (newUser: User) => {
@@ -31,6 +39,11 @@ const checkToken = (token: string) => {
 const getUserDetails = (id: string) => {
 	const request = axios.get(`${userBaseURL}/${id}`);
 	return request.then((response) => response.data);
+};
+
+const getAllUsers = async () => {
+	const request = await axios.get(userBaseURL);
+	return request;
 };
 
 const sendEditUserRequest = (editedUser: User) => {
@@ -123,6 +136,7 @@ const updateReservation = (
 };
 
 export {
+	setAuthToken,
 	createUser,
 	getLanes,
 	getReservationInfoByDate,
@@ -130,6 +144,7 @@ export {
 	checkToken,
 	createReservation,
 	getUserDetails,
+	getAllUsers,
 	sendEditUserRequest,
 	sendDeleteUserRequest,
 	getUserReservations,

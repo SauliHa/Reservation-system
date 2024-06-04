@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { editLane, getLanes } from "./BackendService";
+import { editLane, getLanes, getAllUsers, sendEditUserRequest, sendDeleteUserRequest  } from "./BackendService"; 
 import "./styles/adminpage.css";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
 
 interface Lane {
 	id: string;
@@ -9,8 +9,19 @@ interface Lane {
 	usable: boolean;
 }
 
+interface User {
+	id: string;
+	username?: string;
+	password?: string;
+	email?: string;
+	phone_number?: string;
+	address?: string;
+	admin?: boolean;
+}
+
 const AdminPage = () => {
 	const [lanes, setLanes] = useState<Lane[]>([]);
+	const [users, setUsers] = useState<User[]>([]);
 
 	const getLaneInfo = () => {
 		getLanes().then((response) => {
@@ -34,18 +45,72 @@ const AdminPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		getLaneInfo();
-	}, []);
-
 	const laneRows = lanes.map((lane) => {
 		return <LaneRow key={lane.id} lane={lane} edit={handleLaneEdit} />;
+	});
+	
+	const getUserInfo = () => {
+		getAllUsers().then((response) => {
+			setUsers(response.data);
+		});
+	};
+
+	const handleUserEdit = (user: User) => {
+		const editedUser = {id: user.id, admin: user.admin};
+		sendEditUserRequest(editedUser).then((response) => {
+			if (response.status === 200) {
+				getUserInfo();
+			}
+		});
+	};
+
+	const handleDeleteUser = (user: User) => {
+		const id: string = user.id;
+		setUsers((prevUsers) => prevUsers.filter(targetUser => targetUser.id !== id));
+		sendDeleteUserRequest(id).then((response) => {
+			if (response.status === 200) {
+				getUserInfo();
+			} else {
+				// If the delete request fails, revert the state update
+				getUserInfo();
+			}
+		});
+	};
+
+	useEffect(() => {
+		getLaneInfo();
+		getUserInfo();
+	}, []);
+
+	const usersTable = users.map((user) => {
+		return <UsersRow key={user.id} user={user} edit={handleUserEdit} delete={handleDeleteUser} />; 
 	});
 
 	return (
 		<div className="adminPageContainer">
-			<h3>Radat</h3>
-			{laneRows}
+			<div>
+				<h3>Radat</h3>
+				{laneRows}
+			</div>
+			<div>
+				<h3>Käyttäjät</h3>
+				<Table striped bordered>
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>username</th>
+							<th>email</th>
+							<th>phone number</th>
+							<th>address</th>
+							<th>admin?</th>
+							<th>actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{usersTable}
+					</tbody>
+				</Table>
+			</div>
 		</div>
 	);
 };
@@ -93,3 +158,46 @@ const LaneRow = (props: {
 		</div>
 	);
 };
+
+const UsersRow = ( props: {
+	user: User,
+	edit: (user: User) => void,
+	delete: (user: User) => void
+}) => {
+	const [admin, setAdmin] = useState(props.user.admin);
+	const toggleAdmin = () => {
+		const updatedUser = { ...props.user, admin: !admin };
+		props.edit(updatedUser);
+		setAdmin(!admin);
+	};
+	const deleteUser = () => {
+		props.delete(props.user);
+	};
+
+	return (		
+		<tr>
+			<td>{props.user.id}</td>
+			<td>{props.user.username}</td>
+			<td>{props.user.email}</td>
+			<td>{props.user.phone_number}</td>
+			<td>{props.user.address}</td>
+			<td>{admin ? "admin" : ""}</td>
+			<td className="tableButtons">
+				<Button
+					className="tableButton"
+					variant="dark"
+					onClick={toggleAdmin}
+				>
+					{admin? "Undo admin" : "Make admin"}
+				</Button>
+				<Button
+					className="tableButton"
+					variant="dark"
+					onClick={deleteUser}
+				>
+      Delete
+				</Button></td>
+		</tr>
+	);
+};
+

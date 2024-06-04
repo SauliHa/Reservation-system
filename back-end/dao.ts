@@ -17,6 +17,18 @@ export const findUser = async (id: string) => {
 	}
 };
 
+export const findAll = async () => {
+	const query = "SELECT * FROM users";
+	try{
+		const result = await executeQuery(query);
+		return result;
+	}
+	catch (error) {
+		console.log(error);
+		throw error;
+	}
+};
+
 export const checkEmail = async (email: string) => {
 	const emailQuery = "SELECT * FROM users WHERE email = $1";
 	const params = [email];
@@ -66,11 +78,11 @@ export const deleteUser = async (id: string) => {
 	}
 };
 
-export const updateUser = async (id: string, username: string, password: string, email: string, phone_number: string, address: string) => {
+export const updateUser = async (id: string, username: string, password: string, email: string, phone_number: string, address: string, admin: boolean) => {
 	console.log(`Updating user with id ${id}...`);
 
-	const updates: string[] = [];
-	const params: (string)[] = [id];
+	const updates: (string | boolean)[] = [];
+	const params: (string | boolean)[] = [id];
   
 	if (username) {
 		updates.push(`username = $${updates.length + 2}`);
@@ -92,6 +104,10 @@ export const updateUser = async (id: string, username: string, password: string,
 	if (address) {
 		updates.push(`address = $${updates.length + 2}`);
 		params.push(address);
+	}
+	if (admin !== undefined) {
+		updates.push(`admin = $${updates.length + 2}`);
+		params.push(admin);
 	}
 
 	if (updates.length === 0) {
