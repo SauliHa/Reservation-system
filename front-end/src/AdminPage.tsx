@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { editLane, getLanes, getAllUsers, sendEditUserRequest, sendDeleteUserRequest  } from "./BackendService"; 
 import "./styles/adminpage.css";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form, Table, Tab, Tabs } from "react-bootstrap";
 import { AppContext } from "./App";
 
 interface Lane {
@@ -79,41 +79,45 @@ const AdminPage = () => {
 		});
 	};
 
+	const usersTable = users.map((user) => {
+		return <UsersRow key={user.id} user={user} edit={handleUserEdit} delete={handleDeleteUser} />; 
+	});
+
 	useEffect(() => {
 		getLaneInfo();
 		getUserInfo();
 	}, []);
 
-	const usersTable = users.map((user) => {
-		return <UsersRow key={user.id} user={user} edit={handleUserEdit} delete={handleDeleteUser} />; 
-	});
-
 	return userInfo.state.loggedIn && userInfo.state.admin ? (
-		<div className="adminPageContainer">
-			<div>
-				<h3>Radat</h3>
-				{laneRows}
-			</div>
-			<div>
-				<h3>Käyttäjät</h3>
-				<Table striped bordered>
-					<thead>
-						<tr>
-							<th>id</th>
-							<th>username</th>
-							<th>email</th>
-							<th>phone number</th>
-							<th>address</th>
-							<th>admin?</th>
-							<th>actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{usersTable}
-					</tbody>
-				</Table>
-			</div>
-		</div>
+
+		<Tabs
+			defaultActiveKey="lanes"
+			id="admintabs"
+			className="adminTabs mb-3"
+		>
+			<Tab eventKey="lanes" title="Lanes">
+				<div className="adminPageContainer">
+					<h3>Radat</h3>
+					{laneRows}
+				</div>
+			</Tab>
+			<Tab eventKey="users" title="Users">
+				<div className="adminPageContainer">
+					<h3>Käyttäjät</h3>
+					<Table striped bordered>
+						<UsersTableHead />
+						<tbody>
+							{usersTable}
+						</tbody>
+					</Table>
+				</div>
+			</Tab>
+			<Tab eventKey="reservations" title="Reservations">
+				<div className="adminPageContainer">
+					<p>Tab content for Reservations</p>
+				</div>
+			</Tab>
+		</Tabs>
 	)
 		:
 		<p>Unauthorized</p>;
@@ -154,12 +158,30 @@ const LaneRow = (props: {
 			</Form.Group>
 
 			<Button
+				className="laneButton"
 				variant="dark"
 				onClick={() => props.edit(props.lane, name, usable)}
 			>
 				Muokkaa
 			</Button>
 		</div>
+	);
+};
+
+
+const UsersTableHead = () => {
+	return (	
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>username</th>
+				<th>email</th>
+				<th>phone number</th>
+				<th>address</th>
+				<th>admin?</th>
+				<th>actions</th>
+			</tr>
+		</thead>
 	);
 };
 
