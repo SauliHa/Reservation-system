@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { editLane, getLanes, getAllUsers, sendEditUserRequest, sendDeleteUserRequest  } from "./BackendService"; 
 import "./styles/adminpage.css";
 import { Button, Form, Table } from "react-bootstrap";
+import { AppContext } from "./App";
 
 interface Lane {
 	id: string;
@@ -22,6 +23,7 @@ interface User {
 const AdminPage = () => {
 	const [lanes, setLanes] = useState<Lane[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
+	const userInfo = useContext(AppContext);
 
 	const getLaneInfo = () => {
 		getLanes().then((response) => {
@@ -86,7 +88,7 @@ const AdminPage = () => {
 		return <UsersRow key={user.id} user={user} edit={handleUserEdit} delete={handleDeleteUser} />; 
 	});
 
-	return (
+	return userInfo.state.loggedIn && userInfo.state.admin ? (
 		<div className="adminPageContainer">
 			<div>
 				<h3>Radat</h3>
@@ -112,7 +114,9 @@ const AdminPage = () => {
 				</Table>
 			</div>
 		</div>
-	);
+	)
+		:
+		<p>Unauthorized</p>;
 };
 
 export default AdminPage;
