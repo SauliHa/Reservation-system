@@ -13,7 +13,7 @@ services:
             - "5432:5432"
 
     app:
-        build: .
+        build: ./back-end
         environment:
             DB_HOST: postgres
             DB_PORT: 5432
@@ -24,3 +24,7 @@ services:
             - postgres
         ports:
             - "3000:3000"
+    frontend:
+        build: ./front-end
+        ports:
+            - "80:80"
