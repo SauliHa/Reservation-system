@@ -117,6 +117,11 @@ const createReservation = async (
 	}
 };
 
+const getAllReservations = async () => {
+	const request = await axios.get(reservationbaseURL);
+	return request;
+};
+
 const deleteReservation = (id: string) => {
 	const request = axios.delete(`${reservationbaseURL}/${id}`);
 	return request.then((response) => response.status).catch((error) => error);
@@ -148,6 +153,7 @@ export {
 	sendEditUserRequest,
 	sendDeleteUserRequest,
 	getUserReservations,
+	getAllReservations,
 	deleteReservation,
 	updateReservation,
 	editLane,
