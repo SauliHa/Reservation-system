@@ -159,7 +159,7 @@ const EditUserDetailsComponent = (props: {
 						type="password"
 					/>
 				</Form.Group>
-				<Button type="submit">{t("edit-user-details.confirm-changes")}</Button>
+				<Button type="submit" variant="dark">{t("edit-user-details.confirm-changes")}</Button>
 			</Form>
 		</div>
 	);

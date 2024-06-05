@@ -47,7 +47,7 @@ const UserDetailsComponent = (props: {
 			</div>
 			<div>
 				<Button
-					variant="primary"
+					variant="dark"
 					onClick={() => props.changeEditMode(true)}
 					className="userdetailsbuttons mb-3 mt-2"
 				>
