@@ -34,7 +34,7 @@ const LoginPage = () => {
 	return userInfo.state.loggedIn ? (
 		<div className="accountForm">
 			<h3>{t("login-page.current-logged-in")} {userInfo.state.username}</h3>
-			<Button style={{ width: "50%" }} onClick={logOut}>
+			<Button variant="dark" style={{ width: "50%" }} onClick={logOut}>
 				Log out
 			</Button>
 		</div>

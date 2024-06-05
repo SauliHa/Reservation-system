@@ -83,7 +83,7 @@ const LoginForm = (props: { changeRegisterMode: (mode: boolean) => void }) => {
 			</div>
 			<div>
 				<h3 className="mb-3">{t("login-form.need-account")}</h3>
-				<Button onClick={() => props.changeRegisterMode(true)}>
+				<Button variant="dark" onClick={() => props.changeRegisterMode(true)}>
 					{t("login-form.register")}
 				</Button>
 			</div>

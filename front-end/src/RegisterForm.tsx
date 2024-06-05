@@ -83,7 +83,7 @@ const RegisterForm = (props: { registerMode:boolean,
 							{success? 
 								<div>
 									<h3>{t("register-form.success")}</h3>
-									<Button onClick={() => {props.changeRegisterMode(false);}}>Close</Button>
+									<Button variant="dark" onClick={() => {props.changeRegisterMode(false);}}>Close</Button>
 								</div>
 								: 
 								<div className="accountForm">
