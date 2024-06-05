@@ -12,6 +12,7 @@ import {
 import "./styles/adminpage.css";
 import { Button, Form, Table, Tab, Tabs } from "react-bootstrap";
 import { AppContext } from "./App";
+import { useMediaQuery } from "react-responsive";
 
 interface Lane {
 	id: string;
@@ -42,6 +43,7 @@ interface Reservation {
 }
 
 const AdminPage = () => {
+	const isTabletOrMobile = useMediaQuery({ maxWidth: 900 });
 	const [lanes, setLanes] = useState<Lane[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const userInfo = useContext(AppContext);
@@ -226,23 +228,23 @@ const AdminPage = () => {
 				</div>
 			</Tab>
 			<Tab eventKey="users" title="Users">
-				<div className="adminPageContainer">
+				<div className={!isTabletOrMobile ? "adminPageContainer" : ""}>
 					<h3>Käyttäjät</h3>
-					<Table striped bordered>
+					<Table striped bordered responsive>
 						<UsersTableHead />
 						<tbody>{usersTable}</tbody>
 					</Table>
 				</div>
 			</Tab>
 			<Tab eventKey="reservations" title="Reservations">
-				<div className="adminPageContainer">
+				<div className={!isTabletOrMobile ? "adminPageContainer" : ""}>
 					<h3>Tulevat varaukset</h3>
-					<Table striped bordered>
+					<Table striped bordered responsive>
 						<ReservationsTableHead />
 						<tbody>{upcomingReservationRows}</tbody>
 					</Table>
 					<h3>Menneet varaukset</h3>
-					<Table striped bordered>
+					<Table striped bordered responsive>
 						<ReservationsTableHead />
 						<tbody>{pastReservationRows}</tbody>
 					</Table>
