@@ -123,5 +123,34 @@
 		"cancel-reservation": "Cancel reservation",
 		"edit-reservation": "Edit",
 		"save-reservation": "Save"
-	}
+	},
+	"adminpage":{
+		"lanes-tab": "Lanes",
+		"users-tab": "Users",
+		"reservations-tab" : "Reservations",
+		"lanes" : "Lanes",
+		"lane-name" : "Lane name",
+		"lane-usable": "Lane usable?",
+		"save-button" : "Save",
+		"users" :"Users",
+		"user-id" : "ID",
+		"username" : "Username",
+		"email" : "Email",
+		"phone-numer" : "Phone number",
+		"address" : "Address",
+		"admin" : "Admin",
+		"users-actions" : "Actions",
+		"make-admin" : "Make admin",
+		"user-delete" : "Delete",
+		"future-reservations" : "Future reservations",
+		"past-reservations" : "Past reservations",
+		"reservation-id" : "ID",
+		"reservation-user-id":"User ID",
+		"lane" : "Lane",
+		"date" : "Date",
+		"start-time" : "Start time",
+		"end-time" : "End time",
+		"reservation-actions": "Actions",
+		"reservation-delete":"Delete"
+	}	
 }
