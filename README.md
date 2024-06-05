@@ -38,11 +38,11 @@ Both the front and back end code use TypeScript and are made with the Node packa
 
 /reservations/ router
 
-GET /reservations/ finds and returns all reservations
-GET /reservations/:id returns a reservation by the id
-POST /reservations/create creates a new reseration, requires "user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info"
-DELETE /reservations/:id deletes a reservation by the given id
-PUT /reservations/:id edits the reservation info. used for changing additional information on the user page.
+- GET /reservations/ finds and returns all reservations
+- GET /reservations/:id returns a reservation by the id
+- POST /reservations/create creates a new reseration, requires "user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info"
+- DELETE /reservations/:id deletes a reservation by the given id
+- PUT /reservations/:id edits the reservation info. used for changing additional information on the user page.
 
 ### mobile view of the user page
 ![mobile view of the user page](image-3.png)
