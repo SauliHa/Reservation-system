@@ -17,7 +17,7 @@ import { setAuthToken } from "./BackendService";
 
 
 const defaultState = {
-	state: { id: "", email: "", username: "", loggedIn: false },
+	state: { id: "", email: "", username: "", loggedIn: false, admin: false },
 	hook: () => {},
 };
 
@@ -45,6 +45,7 @@ function App() {
 					email: "",
 					username: "",
 					loggedIn: false,
+					admin: false
 				});
 				setWarningText({title:t("warning-title"), message:t("warning-text")});
 				toggleOpen();
@@ -56,9 +57,10 @@ function App() {
 				email: response.email,
 				username: response.username,
 				loggedIn: true,
+				admin: response.admin
 			});
 		} else {
-			setUserInfo({ id: "", email: "", username: "", loggedIn: false });
+			setUserInfo({ id: "", email: "", username: "", loggedIn: false, admin: false });
 		}
 	};
 	useEffect(() => {

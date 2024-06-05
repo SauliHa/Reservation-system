@@ -13,3 +13,24 @@
 	display: flex;
 	flex-direction: row;
 }
+
+.laneButton {
+	margin: 0.5rem;
+	margin-left: 1rem;
+}
+
+.usersRow {
+	display: flex;
+}
+
+.tableButtons {
+	display: flex;
+}
+
+.tableButton {
+	margin: 0.5rem;
+}
+
+.adminTabs {
+	background-color: rgb(231, 231, 231);
+}

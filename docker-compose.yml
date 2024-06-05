@@ -1,0 +1,30 @@
+#version: "3.8"
+
+services:
+    postgres:
+        image: postgres:13
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: testiadmin
+            POSTGRES_DB: reservation_system
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+    app:
+        build: ./back-end
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
+            DB_USER: postgres
+            DB_PASSWORD: testiadmin
+            DB_NAME: reservation_system
+        depends_on:
+            - postgres
+        ports:
+            - "3000:3000"
+    frontend:
+        build: ./front-end
+        ports:
+            - "80:80"

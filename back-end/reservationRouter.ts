@@ -1,5 +1,5 @@
 import express from "express";
-import {findReservation, createReservation, deleteReservation, updateReservation, checkTime} from "./reservation-dao";
+import {findReservation, findAllReservations, createReservation, deleteReservation, updateReservation, checkTime} from "./reservation-dao";
 import { validate, reservationSchema } from "./validate";
 import { authenticate } from "./authenticate";
 
@@ -10,6 +10,17 @@ reservationRouter.get("/:id", async (req, res, next) => {
 		const result = await findReservation(req.params.id);
 		const reservation = result.rows[0];
 		res.send(reservation);
+	}
+	catch (error) {
+		next(error); 
+	}
+});
+
+reservationRouter.get("/", async (req, res, next) => {
+	try { 
+		const result = await findAllReservations();
+		const reservations = result.rows;
+		res.send(reservations);
 	}
 	catch (error) {
 		next(error); 
