@@ -181,7 +181,7 @@ const AdminPage = () => {
 			<Tabs
 				defaultActiveKey="lanes"
 				id="admintabs"
-				className="adminTabs mb-3"
+				className="adminTabs mb-3 justify-content-center"
 			>
 				<Tab eventKey="lanes" title="Lanes">
 					<div className="adminPageContainer">
