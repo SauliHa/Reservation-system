@@ -85,7 +85,7 @@ const ReservationRow = (props: {
 					<td>
 						<Button
 							onClick={() => handleCancelClick()}
-							variant="dark"
+							variant="danger"
 						>
 							{t("user-reservations.cancel-reservation")}
 						</Button>
