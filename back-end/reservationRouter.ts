@@ -1,11 +1,11 @@
 import express from "express";
 import {findReservation, findAllReservations, createReservation, deleteReservation, updateReservation, checkTime} from "./reservation-dao";
 import { validate, reservationSchema } from "./validate";
-import { authenticate } from "./authenticate";
+import { authenticate, adminAuthenticate } from "./authenticate";
 
 const reservationRouter = express.Router();
 
-reservationRouter.get("/:id", async (req, res, next) => {
+reservationRouter.get("/:id", adminAuthenticate, async (req, res, next) => {
 	try { 
 		const result = await findReservation(req.params.id);
 		const reservation = result.rows[0];
