@@ -11,7 +11,7 @@ export function Header() {
 
 	const { t } = useTranslation();
 	const userInfo = useContext(AppContext);
-	const isTabletOrMobile = useMediaQuery({ maxWidth: 900 });
+	const isTabletOrMobile = useMediaQuery({ maxWidth: 1024 });
 
 	return (
 		<div className="superheader">
@@ -20,6 +20,14 @@ export function Header() {
 				<MDBDropdown id="dropdownHeader">
 					<MDBDropdownToggle color="dark" id="dropdownButton">{t("header.menu")}</MDBDropdownToggle>
 					<MDBDropdownMenu>
+						{userInfo.state.admin ? (
+							<MDBDropdownItem>
+								<Link to="/admin" className="headerItem">
+									Admin
+								</Link>
+							</MDBDropdownItem>
+						):
+							<></>}
 						<MDBDropdownItem>
 							<Link to="/" className="headerItem">
 								{t("header.front-page")}
@@ -49,6 +57,13 @@ export function Header() {
 				</MDBDropdown>
 				:
 				<div className="header">
+					{userInfo.state.admin && (
+						<li>
+							<Link to="/admin" className="headerItem">
+								Admin
+							</Link>
+						</li>
+					)}
 					<li>
 						<Link to="/" className="headerItem">
 							{t("header.front-page")}

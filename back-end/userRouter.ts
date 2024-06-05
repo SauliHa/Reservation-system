@@ -72,7 +72,7 @@ userRouter.post(
 				phone_number,
 				address
 			);
-			res.send(result.rows[0]);
+			res.status(201).send(result.rows[0]);
 		} catch (error) {
 			next(error);
 		}

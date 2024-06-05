@@ -6,7 +6,7 @@ import cors from "cors";
 import reservationRouter from "./reservationRouter";
 import errorHandler from "./errorHandler";
 
-const server = express();
+export const server = express();
 
 server.use(express.json());
 server.use(cors());
