@@ -1,5 +1,13 @@
 import { useEffect, useState, useContext } from "react";
-import { editLane, getLanes, getAllUsers, sendEditUserRequest, sendDeleteUserRequest, getAllReservations, deleteReservation  } from "./BackendService"; 
+import {
+	editLane,
+	getLanes,
+	getAllUsers,
+	sendEditUserRequest,
+	sendDeleteUserRequest,
+	getAllReservations,
+	deleteReservation,
+} from "./BackendService";
 import "./styles/adminpage.css";
 import { Button, Form, Table, Tab, Tabs } from "react-bootstrap";
 import { AppContext } from "./App";
@@ -29,14 +37,15 @@ interface Reservation {
 	amount_of_players?: number;
 	additional_info?: string;
 	name: string;
-
+	username?: string;
 }
 
 const AdminPage = () => {
 	const [lanes, setLanes] = useState<Lane[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const userInfo = useContext(AppContext);
-	const [upcomingReservations, setUpcomingreservations] = useState<Reservations>([]);
+	const [upcomingReservations, setUpcomingreservations] =
+		useState<Reservations>([]);
 	const [pastReservations, setPastReservations] = useState<Reservations>([]);
 	interface Reservations extends Array<Reservation> {}
 
@@ -65,7 +74,7 @@ const AdminPage = () => {
 	const laneRows = lanes.map((lane) => {
 		return <LaneRow key={lane.id} lane={lane} edit={handleLaneEdit} />;
 	});
-	
+
 	const getUserInfo = () => {
 		getAllUsers().then((response) => {
 			setUsers(response.data);
@@ -73,7 +82,7 @@ const AdminPage = () => {
 	};
 
 	const handleUserEdit = (user: User) => {
-		const editedUser = {id: user.id, admin: user.admin};
+		const editedUser = { id: user.id, admin: user.admin };
 		sendEditUserRequest(editedUser).then((response) => {
 			if (response.status === 200) {
 				getUserInfo();
@@ -83,7 +92,9 @@ const AdminPage = () => {
 
 	const handleDeleteUser = (user: User) => {
 		const id: string = user.id;
-		setUsers((prevUsers) => prevUsers.filter(targetUser => targetUser.id !== id));
+		setUsers((prevUsers) =>
+			prevUsers.filter((targetUser) => targetUser.id !== id)
+		);
 		sendDeleteUserRequest(id).then((response) => {
 			if (response.status === 200) {
 				getUserInfo();
@@ -95,26 +106,37 @@ const AdminPage = () => {
 	};
 
 	const usersTable = users.map((user) => {
-		return <UsersRow key={user.id} user={user} edit={handleUserEdit} delete={handleDeleteUser} />; 
+		return (
+			<UsersRow
+				key={user.id}
+				user={user}
+				edit={handleUserEdit}
+				delete={handleDeleteUser}
+			/>
+		);
 	});
-	
+
 	const getReservations = () => {
 		getAllReservations().then((response) => {
-			const reservations = response.data.map((reservation: Reservation) => {
-				const reservationDate = new Date(reservation.date);
-				const hours = Number(reservation.start_time.slice(0, 2));
-				reservationDate.setHours(hours);
-				return {
-					id: reservation.id,
-					date: reservationDate,
-					startTime: reservation.start_time,
-					endTime: reservation.end_time,
-					players: reservation.amount_of_players,
-					additionalInfo: reservation.additional_info,
-					laneName: reservation.name,
-				};
-			});
-	
+			const reservations = response.data.map(
+				(reservation: Reservation) => {
+					const reservationDate = new Date(reservation.date);
+					const hours = Number(reservation.start_time.slice(0, 2));
+					reservationDate.setHours(hours);
+					console.log(reservation);
+					return {
+						id: reservation.id,
+						date: reservationDate,
+						start_time: reservation.start_time,
+						end_time: reservation.end_time,
+						players: reservation.amount_of_players,
+						additional_info: reservation.additional_info,
+						name: reservation.name,
+						username: reservation.username,
+					};
+				}
+			);
+
 			const today = new Date(Date.now());
 			let pastReservationsList = reservations.filter(
 				(reservation: Reservation) => reservation.date < today
@@ -122,24 +144,29 @@ const AdminPage = () => {
 			let upcomingReservationsList = reservations.filter(
 				(reservation: Reservation) => reservation.date > today
 			);
-	
+
 			pastReservationsList = pastReservationsList.sort(
-				(a: Reservation, b: Reservation) => b.date.getTime() - a.date.getTime()
+				(a: Reservation, b: Reservation) =>
+					b.date.getTime() - a.date.getTime()
 			);
-	
+
 			upcomingReservationsList = upcomingReservationsList.sort(
-				(a: Reservation, b: Reservation) => b.date.getTime() - a.date.getTime()
+				(a: Reservation, b: Reservation) =>
+					b.date.getTime() - a.date.getTime()
 			);
-	
+
 			setUpcomingreservations(upcomingReservationsList);
 			setPastReservations(pastReservationsList);
 		});
 	};
 
-
 	const handleDeleteReservation = (reservation: Reservation) => {
 		const id: string = reservation.id;
-		setUpcomingreservations((prevReservations) => prevReservations.filter(targetReservation => targetReservation.id !== id));
+		setUpcomingreservations((prevReservations) =>
+			prevReservations.filter(
+				(targetReservation) => targetReservation.id !== id
+			)
+		);
 		deleteReservation(id).then((response) => {
 			if (response.status === 200) {
 				getReservations();
@@ -149,7 +176,7 @@ const AdminPage = () => {
 			}
 		});
 	};
-	
+
 	const upcomingReservationRows = upcomingReservations.map((reservation) => {
 		return (
 			<ReservationRow
@@ -164,7 +191,7 @@ const AdminPage = () => {
 		return (
 			<ReservationRow
 				key={reservation.id}
-				reservation={reservation}	
+				reservation={reservation}
 				delete={handleDeleteReservation}
 			/>
 		);
@@ -176,52 +203,45 @@ const AdminPage = () => {
 		getReservations();
 	}, []);
 
-	return userInfo.state.loggedIn && userInfo.state.admin ? 
-		(
-			<Tabs
-				defaultActiveKey="lanes"
-				id="admintabs"
-				className="adminTabs mb-3"
-			>
-				<Tab eventKey="lanes" title="Lanes">
-					<div className="adminPageContainer">
-						<h3>Radat</h3>
-						{laneRows}
-					</div>
-				</Tab>
-				<Tab eventKey="users" title="Users">
-					<div className="adminPageContainer">
-						<h3>Käyttäjät</h3>
-						<Table striped bordered>
-							<UsersTableHead />
-							<tbody>
-								{usersTable}
-							</tbody>
-						</Table>
-					</div>
-				</Tab>
-				<Tab eventKey="reservations" title="Reservations">
-					<div className="adminPageContainer">
-						<h3>Tulevat varaukset</h3>
-						<Table striped bordered>
-							<ReservationsTableHead />
-							<tbody>
-								{upcomingReservationRows}
-							</tbody>
-						</Table>
-						<h3>Menneet varaukset</h3>
-						<Table striped bordered>
-							<ReservationsTableHead />
-							<tbody>
-								{pastReservationRows}
-							</tbody>
-						</Table>
-					</div>
-				</Tab>
-			</Tabs>
-		) : (
-			<div>Unauthorized</div>
-		);
+	return userInfo.state.loggedIn && userInfo.state.admin ? (
+		<Tabs
+			defaultActiveKey="lanes"
+			id="admintabs"
+			className="adminTabs mb-3"
+		>
+			<Tab eventKey="lanes" title="Lanes">
+				<div className="adminPageContainer">
+					<h3>Radat</h3>
+					{laneRows}
+				</div>
+			</Tab>
+			<Tab eventKey="users" title="Users">
+				<div className="adminPageContainer">
+					<h3>Käyttäjät</h3>
+					<Table striped bordered>
+						<UsersTableHead />
+						<tbody>{usersTable}</tbody>
+					</Table>
+				</div>
+			</Tab>
+			<Tab eventKey="reservations" title="Reservations">
+				<div className="adminPageContainer">
+					<h3>Tulevat varaukset</h3>
+					<Table striped bordered>
+						<ReservationsTableHead />
+						<tbody>{upcomingReservationRows}</tbody>
+					</Table>
+					<h3>Menneet varaukset</h3>
+					<Table striped bordered>
+						<ReservationsTableHead />
+						<tbody>{pastReservationRows}</tbody>
+					</Table>
+				</div>
+			</Tab>
+		</Tabs>
+	) : (
+		<div>Unauthorized</div>
+	);
 };
 
 export default AdminPage;
@@ -270,7 +290,7 @@ const LaneRow = (props: {
 };
 
 const UsersTableHead = () => {
-	return (	
+	return (
 		<thead>
 			<tr>
 				<th>id</th>
@@ -285,10 +305,10 @@ const UsersTableHead = () => {
 	);
 };
 
-const UsersRow = ( props: {
-	user: User,
-	edit: (user: User) => void,
-	delete: (user: User) => void
+const UsersRow = (props: {
+	user: User;
+	edit: (user: User) => void;
+	delete: (user: User) => void;
 }) => {
 	const [admin, setAdmin] = useState(props.user.admin);
 	const toggleAdmin = () => {
@@ -300,7 +320,7 @@ const UsersRow = ( props: {
 		props.delete(props.user);
 	};
 
-	return (		
+	return (
 		<tr>
 			<td>{props.user.id}</td>
 			<td>{props.user.username}</td>
@@ -314,25 +334,26 @@ const UsersRow = ( props: {
 					variant="dark"
 					onClick={toggleAdmin}
 				>
-					{admin? "Undo admin" : "Make admin"}
+					{admin ? "Undo admin" : "Make admin"}
 				</Button>
 				<Button
 					className="tableButton"
 					variant="dark"
 					onClick={deleteUser}
 				>
-      Delete
-				</Button></td>
+					Delete
+				</Button>
+			</td>
 		</tr>
 	);
 };
 
 const ReservationsTableHead = () => {
-	return (	
+	return (
 		<thead>
 			<tr>
 				<th>id</th>
-				<th>User id</th>
+				<th>Username</th>
 				<th>Lane</th>
 				<th>Date</th>
 				<th>Start time</th>
@@ -345,16 +366,16 @@ const ReservationsTableHead = () => {
 
 const ReservationRow = (props: {
 	reservation: Reservation;
-	delete: (reservation: Reservation) => void
+	delete: (reservation: Reservation) => void;
 }) => {
 	const deleteReservation = () => {
 		props.delete(props.reservation);
 	};
-	
+
 	return (
 		<tr>
 			<td>{props.reservation.id}</td>
-			<td>{props.reservation.user_id}</td>
+			<td>{props.reservation.username}</td>
 			<td>{props.reservation.name}</td>
 			<td>{props.reservation.date.toString()}</td>
 			<td>{props.reservation.start_time}</td>
@@ -365,11 +386,9 @@ const ReservationRow = (props: {
 					variant="dark"
 					onClick={deleteReservation}
 				>
-      Delete
-				</Button></td>
-		</tr>	
+					Delete
+				</Button>
+			</td>
+		</tr>
 	);
 };
-
-
-	
