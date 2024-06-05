@@ -88,6 +88,11 @@ const createLane = (name: string) => {
 	return request.then((response) => response.status).catch((error) => error);
 };
 
+const deleteLane = (id: string) => {
+	const request = axios.delete(`${bowlingBaseURL}/delete/${id}`);
+	return request.then((response) => response.status).catch((error) => error);
+};
+
 const getReservationInfoByDate = async (date: string) => {
 	const request = await axios.get(`${bowlingBaseURL}date/${date}`);
 	return request;
@@ -163,4 +168,5 @@ export {
 	updateReservation,
 	editLane,
 	createLane,
+	deleteLane,
 };

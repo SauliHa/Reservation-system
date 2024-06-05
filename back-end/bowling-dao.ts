@@ -29,7 +29,7 @@ const findDate = async (date: string) => {
     FROM reservations AS r
     JOIN lanes AS l ON r.lane_id = l.id
     WHERE r.date = $1;`;
-    
+
 	const params = [date];
 	const result = await executeQuery(query, params);
 	return result;
@@ -39,8 +39,7 @@ const createLane = async (name: string) => {
 	const id: string = uuidv4();
 	const usable: boolean = true;
 	const params = [id, name, usable];
-	const query = 
-    `INSERT INTO lanes (id, name, usable) 
+	const query = `INSERT INTO lanes (id, name, usable) 
     VALUES ($1, $2, $3) 
     RETURNING id`;
 	console.log(`Inserting a new lane ${params[0]}...`);
@@ -50,18 +49,20 @@ const createLane = async (name: string) => {
 
 const deleteLane = async (id: string) => {
 	console.log(`Deleting lane with id ${id}...`);
-	const query = "DELETE FROM lanes WHERE id = $1";
+	const query = `WITH deleted_lane AS (
+			DELETE FROM lanes WHERE id = $1 RETURNING id )
+			DELETE FROM reservations WHERE lane_id = $1;`;
 	const params = [id];
 	const result = await executeQuery(query, params);
 	return result;
 };
 
-const updateLane  = async (id: string, name: number, usable: boolean) => {
+const updateLane = async (id: string, name: number, usable: boolean) => {
 	console.log(`Updating lane with id ${id}...`);
 
 	const updates: string[] = [];
 	const params: (string | boolean | number)[] = [id];
-  
+
 	if (name) {
 		updates.push(`name = $${updates.length + 2}`);
 		params.push(name);
@@ -72,7 +73,6 @@ const updateLane  = async (id: string, name: number, usable: boolean) => {
 	}
 
 	const query = `UPDATE lanes SET ${updates.join(", ")} WHERE id = $1`;
-
 
 	try {
 		const result = await executeQuery(query, params);
@@ -88,4 +88,4 @@ const updateLane  = async (id: string, name: number, usable: boolean) => {
 	}
 };
 
-export { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane};
+export { findAllLanes, findLane, findDate, createLane, deleteLane, updateLane };

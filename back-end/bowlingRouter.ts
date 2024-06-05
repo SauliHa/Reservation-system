@@ -65,15 +65,16 @@ bowlingRouter.delete(
 		const laneId = req.params.id;
 		console.log(`Request to delete lane with id ${laneId}`);
 
+		const laneToDelete = await findLane(laneId);
+		if (laneToDelete.rowCount === 0) {
+			res.status(404).send("Error: Lane not found");
+		}
+
 		try {
-			const result = await deleteLane(laneId);
-			if (result.rowCount === 0) {
-				res.status(404).send("Error: Lane not found");
-			} else {
-				res.status(200).send(
-					`Lane with id ${laneId} deleted successfully.`
-				);
-			}
+			await deleteLane(laneId);
+			res.status(200).send(
+				`Lane with id ${laneId} deleted successfully.`
+			);
 		} catch (error) {
 			next(error);
 		}
