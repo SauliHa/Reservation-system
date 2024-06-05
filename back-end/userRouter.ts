@@ -9,7 +9,7 @@ import {
 } from "./validate";
 import argon2 from "argon2";
 import dotenv from "dotenv";
-import { authenticate } from "./authenticate";
+import { authenticate, adminAuthenticate } from "./authenticate";
 dotenv.config();
 
 const userRouter = express.Router();
@@ -41,7 +41,7 @@ userRouter.get("/:id", authenticate, async (req, res, next) => {
 	}
 });
 
-userRouter.get("/", async (req, res, next) => {
+userRouter.get("/", adminAuthenticate, async (req, res, next) => {
 	try {
 		const result = await dao.findAll();
 		const users = result.rows;

@@ -15,7 +15,7 @@ Both the front and back end code use TypeScript and are made with the Node packa
 
 ![Reservation calendar](image.png)
 
-## Endpoints
+## backend endpoints
 
 /bowling/ router
 GET /bowling/ returns all the lanes in the database
@@ -27,6 +27,22 @@ PUT /bowling/:id modifies the lanes data. Requires authentication as an administ
 
 /user/ router
 
+GET /user/ Gets all users. Requires admin authentication.
+GET /user/:id Gets the users info. requires user level authentication
+POST /user/ Creates a new user. needs "username, password, email, phone_number and address"
+POST /login/ logs the user in, requires email and password. returns a token to authenticate the user
+DELETE /user/:id deletes the user, requires authentication.
+PUT /user/:id changes any of the users information, requires authentication
+GET /user/token/:token verifys the users json web token for authentication purposes
+GET /user/:id/reservations returns the users reservations
+
+/reservations/ router
+
+GET /reservations/ finds and returns all reservations
+GET /reservations/:id returns a reservation by the id
+POST /reservations/create creates a new reseration, requires "user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info"
+DELETE /reservations/:id deletes a reservation by the given id
+PUT /reservations/:id edits the reservation info. used for changing additional information on the user page.
 
 
 ## Installation
