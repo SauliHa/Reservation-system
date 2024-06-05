@@ -42,7 +42,7 @@ const ReservationRow = (props: {
 		<tr key={props.reservation.id}>
 			<td>
 				{props.reservation.date.getDate()}.
-				{props.reservation.date.getMonth()}.
+				{props.reservation.date.getMonth() + 1}.
 				{props.reservation.date.getFullYear()}
 			</td>
 			<td>{props.reservation.startTime}</td>
