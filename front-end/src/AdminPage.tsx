@@ -8,6 +8,7 @@ import {
 	getAllReservations,
 	deleteReservation,
 	createLane,
+	deleteLane,
 } from "./BackendService";
 import "./styles/adminpage.css";
 import { Button, Form, Table, Tab, Tabs } from "react-bootstrap";
@@ -82,8 +83,23 @@ const AdminPage = () => {
 		});
 	};
 
+	const handleDeleteLane = (id: string) => {
+		deleteLane(id).then((response) => {
+			if (response === 200) {
+				getLaneInfo();
+			}
+		});
+	};
+
 	const laneRows = lanes.map((lane) => {
-		return <LaneRow key={lane.id} lane={lane} edit={handleLaneEdit} />;
+		return (
+			<LaneRow
+				key={lane.id}
+				lane={lane}
+				edit={handleLaneEdit}
+				delete={handleDeleteLane}
+			/>
+		);
 	});
 
 	const getUserInfo = () => {
@@ -289,6 +305,7 @@ const AddLaneComponent = (props: { add: (name: string) => void }) => {
 const LaneRow = (props: {
 	lane: Lane;
 	edit: (lane: Lane, name: string, usable: boolean) => void;
+	delete: (id: string) => void;
 }) => {
 	const [name, setName] = useState(props.lane.name);
 	const [usable, setUsable] = useState(props.lane.usable);
@@ -324,6 +341,13 @@ const LaneRow = (props: {
 				onClick={() => props.edit(props.lane, name, usable)}
 			>
 				Muokkaa
+			</Button>
+			<Button
+				className="laneButton"
+				variant="dark"
+				onClick={() => props.delete(props.lane.id)}
+			>
+				Poista
 			</Button>
 		</div>
 	);
