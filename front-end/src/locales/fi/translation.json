@@ -47,12 +47,22 @@
 		"current-logged-in": "Olet kirjautunut sisään käyttäjänä"
 	},
 	"register-form": {
-		"username": "Username",
-		"password": "Password",
-		"password-again": "Password again",
-		"email": "Email",
-		"phone-number": "Phone number",
-		"address": "Address"
+		"username": "Käyttäjänimi",
+		"password": "Salasana",
+		"password-again": "Salasana uudelleen",
+		"email": "Sähköposti",
+		"phone-number": "Puhelinnumero",
+		"address": "Osoite",
+		"title": "Luo tili",
+		"success": "Tili luotu onnistuneesti!",
+		"register": "Rekisteröidy",
+		"set-username":"Aseta käyttäjänimi",
+		"set-password" : "Aseta salasana",
+		"repeat-password" :"Toista salasana",
+		"give-email": "Anna sähköpostiosoite",
+		"give-phone": "Anna puhelinnumero",
+		"passwords-do-not-match": "Salasanat eivät täsmää",
+		"duplicate-email-error": "Tällä sähköpostilla on jo käyttäjä"
 	},
 	"reservation-calendar-page": {
 		"reservation-calendar": "Ajanvarauskalenteri",

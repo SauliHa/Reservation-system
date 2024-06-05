@@ -88,20 +88,20 @@ const RegisterForm = (props: { registerMode:boolean,
 								: 
 								<div className="accountForm">
 									{showPasswordMatchingError ? (
-										<p style={{ color: "red" }}>Passwords do not match</p>
+										<p style={{ color: "red" }}>{t("register-form.passwords-do-not-match")}</p>
 									) : (
 										""
 									)}
 									{showDuplicateEmailError ? (
 										<p style={{ color: "red" }}>
-					User with this email already exists
+											{t("register-form.duplicate-email-error")}
 										</p>
 									) : (
 										""
 									)}
 									<Form noValidate validated={validated} onSubmit={validateForm}>
 										<Form.Group className="mb-3">
-											<Form.Label>Username</Form.Label>
+											<Form.Label>{t("register-form.username")}</Form.Label>
 											<Form.Control
 												required
 												value={username}
@@ -111,11 +111,11 @@ const RegisterForm = (props: { registerMode:boolean,
 												type="text"
 											/>
 											<Form.Control.Feedback type="invalid">
-						Please set a username.
+												{t("register-form.set-username")}
 											</Form.Control.Feedback>
 										</Form.Group>
 										<Form.Group className="mb-3">
-											<Form.Label>Password</Form.Label>
+											<Form.Label>{t("register-form.password")}</Form.Label>
 											<Form.Control
 												required
 												value={password}
@@ -126,11 +126,11 @@ const RegisterForm = (props: { registerMode:boolean,
 												type="password"
 											/>
 											<Form.Control.Feedback type="invalid">
-						Please give a password.
+												{t("register-form.set-password")}
 											</Form.Control.Feedback>
 										</Form.Group>
 										<Form.Group className="mb-3">
-											<Form.Label>Password again</Form.Label>
+											<Form.Label>{t("register-form.password-again")}</Form.Label>
 											<Form.Control
 												required
 												value={passwordRepeat}
@@ -141,11 +141,11 @@ const RegisterForm = (props: { registerMode:boolean,
 												type="password"
 											/>
 											<Form.Control.Feedback type="invalid">
-						Please repeat the password.
+												{t("register-form.repeat-password")}
 											</Form.Control.Feedback>
 										</Form.Group>
 										<Form.Group className="mb-3">
-											<Form.Label>Email</Form.Label>
+											<Form.Label>{t("register-form.email")}</Form.Label>
 											<Form.Control
 												required
 												value={email}
@@ -156,11 +156,11 @@ const RegisterForm = (props: { registerMode:boolean,
 												type="email"
 											/>
 											<Form.Control.Feedback type="invalid">
-						Please set the email address.
+												{t("register-form.give-email")}
 											</Form.Control.Feedback>
 										</Form.Group>
 										<Form.Group className="mb-3">
-											<Form.Label>Phone number</Form.Label>
+											<Form.Label>{t("register-form.phone-number")}</Form.Label>
 											<Form.Control
 												required
 												value={phone}
@@ -170,11 +170,11 @@ const RegisterForm = (props: { registerMode:boolean,
 												type="text"
 											/>
 											<Form.Control.Feedback type="invalid">
-						Please give the phone number.
+												{t("register-form.give-phone")}
 											</Form.Control.Feedback>
 										</Form.Group>
 										<Form.Group className="mb-3">
-											<Form.Label>Address</Form.Label>
+											<Form.Label>{t("register-form.address")}</Form.Label>
 											<Form.Control
 												value={address}
 												onChange={(e) => {
@@ -183,7 +183,7 @@ const RegisterForm = (props: { registerMode:boolean,
 												type="text"
 											/>
 										</Form.Group>
-										<Button type="submit">Register</Button>
+										<Button type="submit">{t("register-form.register")}</Button>
 									</Form>
 								</div>
 							}

@@ -54,7 +54,15 @@
 		"phone-number": "Phone number",
 		"address": "Address",
 		"title": "Create account",
-		"success": "Account created successfully!"
+		"success": "Account created successfully!",
+		"register": "Register",
+		"set-username":"Please set a username",
+		"set-password" : "Please give a password",
+		"repeat-password" :"Please repeat the password",
+		"give-email": "Please set the email address",
+		"give-phone": "Please give a phone number",
+		"passwords-do-not-match": "Passwords do not match",
+		"duplicate-email-error": "User with this email already exists"
 	},
 	"reservation-calendar-page": {
 		"reservation-calendar": "Reservation Calendar",
