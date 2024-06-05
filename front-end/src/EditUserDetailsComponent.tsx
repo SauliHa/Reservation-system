@@ -9,7 +9,7 @@ const EditUserDetailsComponent = (props: {
 	userData: User;
 	changeEditMode: (mode: boolean) => void;
 }) => {
-	const {t} = useTranslation();
+	const { t } = useTranslation();
 	const [username, setUsername] = useState(props.userData.username);
 	const [password, setPassword] = useState("");
 	const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -71,13 +71,15 @@ const EditUserDetailsComponent = (props: {
 	return (
 		<div className="editUserForm">
 			{showPasswordMatchingError ? (
-				<p style={{ color: "red" }}>{t("passwords-do-not-match")}</p>
+				<p style={{ color: "red" }}>
+					{t("edit-user-details.passwords-do-not-match")}
+				</p>
 			) : (
 				""
 			)}
 			{showDuplicateEmailError ? (
 				<p style={{ color: "red" }}>
-					{t("duplicate-email-error")}
+					{t("edit-user-details.duplicate-email-error")}
 				</p>
 			) : (
 				""
@@ -114,7 +116,9 @@ const EditUserDetailsComponent = (props: {
 					</Form.Control.Feedback>
 				</Form.Group>
 				<Form.Group className="mb-3">
-					<Form.Label>{t("edit-user-details.phone-number")}</Form.Label>
+					<Form.Label>
+						{t("edit-user-details.phone-number")}
+					</Form.Label>
 					<Form.Control
 						required
 						value={phone}
@@ -149,7 +153,9 @@ const EditUserDetailsComponent = (props: {
 					/>
 				</Form.Group>
 				<Form.Group className="mb-3">
-					<Form.Label>{t("edit-user-details.password-again")}</Form.Label>
+					<Form.Label>
+						{t("edit-user-details.password-again")}
+					</Form.Label>
 					<Form.Control
 						value={passwordRepeat}
 						onChange={(e) => {
@@ -159,7 +165,9 @@ const EditUserDetailsComponent = (props: {
 						type="password"
 					/>
 				</Form.Group>
-				<Button type="submit" variant="dark">{t("edit-user-details.confirm-changes")}</Button>
+				<Button type="submit" variant="dark">
+					{t("edit-user-details.confirm-changes")}
+				</Button>
 			</Form>
 		</div>
 	);
