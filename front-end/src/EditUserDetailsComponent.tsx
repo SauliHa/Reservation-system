@@ -71,13 +71,13 @@ const EditUserDetailsComponent = (props: {
 	return (
 		<div className="editUserForm">
 			{showPasswordMatchingError ? (
-				<p style={{ color: "red" }}>{t("passwords-do-not-match")}</p>
+				<p style={{ color: "red" }}>{t("edit-user-details.passwords-do-not-match")}</p>
 			) : (
 				""
 			)}
 			{showDuplicateEmailError ? (
 				<p style={{ color: "red" }}>
-					{t("duplicate-email-error")}
+					{t("edit-user-details.duplicate-email-error")}
 				</p>
 			) : (
 				""
