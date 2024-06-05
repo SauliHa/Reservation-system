@@ -10,7 +10,12 @@ const findReservation = async (id: string) => {
 };
 
 const findAllReservations = async () => {
-	const query = "SELECT * FROM reservations";
+	const query = `SELECT reservations.id, reservations.date, reservations.start_time, 
+				reservations.end_time, reservations.amount_of_players, reservations.additional_info,
+					l.name, u.username	
+				 FROM reservations 
+				 JOIN lanes AS l on reservations.lane_id = l.id
+				 JOIN users as u on reservations.user_id = u.id`;
 	const result = await executeQuery(query);
 	return result;
 };
@@ -23,7 +28,12 @@ const deleteReservation = async (id: string) => {
 	return result;
 };
 
-const checkTime = async (lane_id: string, date: string, start_time: string, end_time: string) => {
+const checkTime = async (
+	lane_id: string,
+	date: string,
+	start_time: string,
+	end_time: string
+) => {
 	const params = [date, start_time, end_time, lane_id];
 	const query = `SELECT * FROM reservations
 	WHERE date = $1
@@ -41,7 +51,7 @@ const checkTime = async (lane_id: string, date: string, start_time: string, end_
 const getUserEmail = async (id: string) => {
 	const params = [id];
 	const query = "SELECT email FROM users WHERE id=$1";
-	try { 
+	try {
 		const result = await executeQuery(query, params);
 		return result.rows[0];
 	} catch (error) {
@@ -50,11 +60,27 @@ const getUserEmail = async (id: string) => {
 	}
 };
 
-const createReservation = async (user_id: string, lane_id: string, date:string ,start_time: string, end_time: string, amount_of_players: number, additional_info: string) => {
+const createReservation = async (
+	user_id: string,
+	lane_id: string,
+	date: string,
+	start_time: string,
+	end_time: string,
+	amount_of_players: number,
+	additional_info: string
+) => {
 	const id = uuidv4();
-	const params = [id, user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info];
-	const query = 
-    `INSERT INTO reservations (id, user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info) 
+	const params = [
+		id,
+		user_id,
+		lane_id,
+		date,
+		start_time,
+		end_time,
+		amount_of_players,
+		additional_info,
+	];
+	const query = `INSERT INTO reservations (id, user_id, lane_id, date, start_time, end_time, amount_of_players, additional_info) 
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8) 
     RETURNING id`;
 	console.log(`Inserting a new reservation ${params[0]}...`);
@@ -68,12 +94,20 @@ const createReservation = async (user_id: string, lane_id: string, date:string ,
 	}
 };
 
-export const updateReservation = async (id: string, lane_id: string, date:string ,start_time: string, end_time: string, amount_of_players: number, additional_info: string) => {
+export const updateReservation = async (
+	id: string,
+	lane_id: string,
+	date: string,
+	start_time: string,
+	end_time: string,
+	amount_of_players: number,
+	additional_info: string
+) => {
 	console.log(`Updating reservation with id ${id}...`);
 
 	const updates: string[] = [];
 	const params: (string | number)[] = [id];
-  
+
 	if (lane_id) {
 		updates.push(`lane_id = $${updates.length + 2}`);
 		params.push(lane_id);
@@ -101,7 +135,7 @@ export const updateReservation = async (id: string, lane_id: string, date:string
 	if (updates.length === 0) {
 		throw new Error("No valid fields provided for update.");
 	}
-  
+
 	const query = `UPDATE reservations SET ${updates.join(", ")} WHERE id = $1`;
 
 	try {
@@ -118,4 +152,11 @@ export const updateReservation = async (id: string, lane_id: string, date:string
 	}
 };
 
-export { findReservation, deleteReservation, createReservation, checkTime, getUserEmail, findAllReservations };
+export {
+	findReservation,
+	deleteReservation,
+	createReservation,
+	checkTime,
+	getUserEmail,
+	findAllReservations,
+};
