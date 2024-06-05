@@ -125,5 +125,35 @@
 		"cancel-reservation": "Peruuta varaus",
 		"edit-reservation": "Muokkaa",
 		"save-reservation": "Tallenna"
-	}
+	},
+	"adminpage":{
+		"lanes-tab": "Radat",
+		"users-tab": "Käyttäjät",
+		"reservations-tab" : "Varaukset",
+		"lanes" : "Radat",
+		"lane-name" : "Radan nimi",
+		"lane-usable": "Rata käytettävissä?",
+		"save-button" : "Tallenna",
+		"delete-button":"Poista",
+		"users" :"Käyttäjät",
+		"user-id" : "ID",
+		"username" : "Käyttäjänimi",
+		"email" : "Sähköposti",
+		"phone-numer" : "Puhelinnumero",
+		"address" : "Osoite",
+		"admin" : "Admin",
+		"users-actions" : "Toiminnot",
+		"make-admin" : "Tee admin",
+		"user-delete" : "Poista",
+		"future-reservations" : "Tulevat varaukset",
+		"past-reservations" : "Menneet varaukset",
+		"reservation-id" : "ID",
+		"reservation-user-id":"käyttäjän ID",
+		"lane" : "Rata",
+		"date" : "Päivämäärä",
+		"start-time" : "Aloitusaika",
+		"end-time" : "Lopetusaika",
+		"reservation-actions": "Toiminnot",
+		"reservation-delete":"Poista"
+	}	
 }
