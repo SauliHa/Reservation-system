@@ -17,24 +17,24 @@ Both the front and back end code use TypeScript and are made with the Node packa
 
 ## backend endpoints
 
-/bowling/ router
-GET /bowling/ returns all the lanes in the database
-GET /bowling/:id requires a lane by the id given
-GET /bowling/date/:date returns the state of the lanes for the given day
-POST /bowling/create adds a lane with the information given in the post data. Requires authentication as an administrator.
-DELETE /bowling/:id deletes a lane by the given id. Requires authentication as an administrator.
-PUT /bowling/:id modifies the lanes data. Requires authentication as an administrator.
+- /bowling/ router
+- GET /bowling/ returns all the lanes in the database
+- GET /bowling/:id requires a lane by the id given
+- GET /bowling/date/:date returns the state of the lanes for the given day
+- POST /bowling/create adds a lane with the information given in the post data. Requires authentication as an administrator.
+- DELETE /bowling/:id deletes a lane by the given id. Requires authentication as an administrator.
+- PUT /bowling/:id modifies the lanes data. Requires authentication as an administrator.
 
 /user/ router
 
-GET /user/ Gets all users. Requires admin authentication.
-GET /user/:id Gets the users info. requires user level authentication
-POST /user/ Creates a new user. needs "username, password, email, phone_number and address"
-POST /login/ logs the user in, requires email and password. returns a token to authenticate the user
-DELETE /user/:id deletes the user, requires authentication.
-PUT /user/:id changes any of the users information, requires authentication
-GET /user/token/:token verifys the users json web token for authentication purposes
-GET /user/:id/reservations returns the users reservations
+- GET /user/ Gets all users. Requires admin authentication.
+- GET /user/:id Gets the users info. requires user level authentication
+- POST /user/ Creates a new user. needs "username, password, email, phone_number and address"
+- POST /login/ logs the user in, requires email and password. returns a token to authenticate the user
+- DELETE /user/:id deletes the user, requires authentication.
+- PUT /user/:id changes any of the users information, requires authentication
+- GET /user/token/:token verifys the users json web token for authentication purposes
+- GET /user/:id/reservations returns the users reservations
 
 /reservations/ router
 
@@ -44,6 +44,8 @@ POST /reservations/create creates a new reseration, requires "user_id, lane_id, 
 DELETE /reservations/:id deletes a reservation by the given id
 PUT /reservations/:id edits the reservation info. used for changing additional information on the user page.
 
+### mobile view of the user page
+![mobile view of the user page](image-3.png)
 
 ## Installation
 To use this project download the contents and run npm install on both front-end and back-end folders to install the required dependencies. You also need to install postgres sql https://www.postgresql.org/ and create an ENV file in the back-end folder that includes PORT, SECRET and PG_HOST, PG_PORT, PG_USERNAME, PG_PASSWORD, PG_DATABASE envs for your database. You can also run npm build on the front-end and tlc -b in the back-end to make a build out of the project folders.
