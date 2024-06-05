@@ -9,6 +9,12 @@ const findReservation = async (id: string) => {
 	return result;
 };
 
+const findAllReservations = async () => {
+	const query = "SELECT * FROM reservations";
+	const result = await executeQuery(query);
+	return result;
+};
+
 const deleteReservation = async (id: string) => {
 	console.log(`Requesting a reservation with id ${id}...`);
 	const query = "DELETE FROM reservations WHERE id = $1";
@@ -112,4 +118,4 @@ export const updateReservation = async (id: string, lane_id: string, date:string
 	}
 };
 
-export { findReservation, deleteReservation, createReservation, checkTime, getUserEmail };
+export { findReservation, deleteReservation, createReservation, checkTime, getUserEmail, findAllReservations };
