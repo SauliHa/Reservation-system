@@ -7,6 +7,7 @@ import {
 	sendDeleteUserRequest,
 	getAllReservations,
 	deleteReservation,
+	createLane,
 } from "./BackendService";
 import "./styles/adminpage.css";
 import { Button, Form, Table, Tab, Tabs } from "react-bootstrap";
@@ -69,6 +70,14 @@ const AdminPage = () => {
 				}
 			});
 		}
+	};
+
+	const handleAddLane = (laneName: string) => {
+		createLane(laneName).then((response) => {
+			if (response === 201) {
+				getLaneInfo();
+			}
+		});
 	};
 
 	const laneRows = lanes.map((lane) => {
@@ -212,6 +221,7 @@ const AdminPage = () => {
 			<Tab eventKey="lanes" title="Lanes">
 				<div className="adminPageContainer">
 					<h3>Radat</h3>
+					<AddLaneComponent add={handleAddLane} />
 					{laneRows}
 				</div>
 			</Tab>
@@ -245,6 +255,34 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
+
+const AddLaneComponent = (props: { add: (name: string) => void }) => {
+	const [laneName, setLaneName] = useState("");
+
+	return (
+		<div className="laneRow mb-3">
+			<Form.Group className="me-3">
+				<Form.Label>Radan nimi</Form.Label>
+				<Form.Control
+					required
+					value={laneName}
+					onChange={(e) => {
+						setLaneName(e.target.value);
+					}}
+					type="text"
+					className="me-3"
+				/>
+			</Form.Group>
+			<Button
+				onClick={() => props.add(laneName)}
+				className="laneButton"
+				variant="dark"
+			>
+				Lisää rata
+			</Button>
+		</div>
+	);
+};
 
 const LaneRow = (props: {
 	lane: Lane;
