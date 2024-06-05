@@ -23,7 +23,7 @@ interface Lane {
 
 interface User {
 	id: string;
-	username?: string;
+	username: string;
 	password?: string;
 	email?: string;
 	phone_number?: string;
@@ -55,7 +55,10 @@ const AdminPage = () => {
 
 	const getLaneInfo = () => {
 		getLanes().then((response) => {
-			setLanes(response.data);
+			const sortedLanes = response.data.sort((a: Lane, b: Lane) => {
+				return Number(a.name) - Number(b.name);
+			});
+			setLanes(sortedLanes);
 		});
 	};
 
@@ -104,7 +107,10 @@ const AdminPage = () => {
 
 	const getUserInfo = () => {
 		getAllUsers().then((response) => {
-			setUsers(response.data);
+			const sortedUsers = response.data.sort((a: User, b: User) => {
+				return a.username.localeCompare(b.username);
+			});
+			setUsers(sortedUsers);
 		});
 	};
 
@@ -255,7 +261,7 @@ const AdminPage = () => {
 			<Tab eventKey="reservations" title="Reservations">
 				<div className={!isTabletOrMobile ? "adminPageContainer" : ""}>
 					<h3>Tulevat varaukset</h3>
-					<Table striped bordered responsive>
+					<Table className="my-3" striped bordered responsive>
 						<ReservationsTableHead />
 						<tbody>{upcomingReservationRows}</tbody>
 					</Table>
@@ -344,7 +350,7 @@ const LaneRow = (props: {
 			</Button>
 			<Button
 				className="laneButton"
-				variant="dark"
+				variant="danger"
 				onClick={() => props.delete(props.lane.id)}
 			>
 				Poista
@@ -402,7 +408,7 @@ const UsersRow = (props: {
 				</Button>
 				<Button
 					className="tableButton"
-					variant="dark"
+					variant="danger"
 					onClick={deleteUser}
 				>
 					Delete
@@ -447,7 +453,7 @@ const ReservationRow = (props: {
 			<td className="tableButtons">
 				<Button
 					className="tableButton"
-					variant="dark"
+					variant="danger"
 					onClick={deleteReservation}
 				>
 					Delete
