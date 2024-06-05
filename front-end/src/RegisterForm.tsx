@@ -65,7 +65,7 @@ const RegisterForm = (props: { registerMode:boolean,
 			if (response === 401) {
 				setShowDuplicateEmailError(true);
 			}
-			if (response === 200) {
+			if (response === 201) {
 				setSuccess(true);
 			}
 		});

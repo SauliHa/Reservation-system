@@ -46,7 +46,7 @@ bowlingRouter.post("/create", adminAuthenticate, async (req, res, next) => {
 	}
 	try {
 		const result = await createLane(name);
-		res.send(result.rows[0]);
+		res.status(204).send(result.rows[0]);
 	} catch (error) {
 		next(error); 
 	}
