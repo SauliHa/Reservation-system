@@ -14,6 +14,7 @@ import "./styles/adminpage.css";
 import { Button, Form, Table, Tab, Tabs } from "react-bootstrap";
 import { AppContext } from "./App";
 import { useMediaQuery } from "react-responsive";
+import { useTranslation } from "react-i18next";
 
 interface Lane {
 	id: string;
@@ -44,6 +45,7 @@ interface Reservation {
 }
 
 const AdminPage = () => {
+	const {t} = useTranslation();
 	const isTabletOrMobile = useMediaQuery({ maxWidth: 900 });
 	const [lanes, setLanes] = useState<Lane[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
@@ -242,30 +244,30 @@ const AdminPage = () => {
 			id="admintabs"
 			className="adminTabs mb-3 justify-content-center"
 		>
-			<Tab eventKey="lanes" title="Lanes">
+			<Tab eventKey="lanes" title={t("adminpage.lanes-tab")}>
 				<div className="adminPageContainer">
-					<h3>Radat</h3>
+					<h3>{t("adminpage.lanes")}</h3>
 					<AddLaneComponent add={handleAddLane} />
 					{laneRows}
 				</div>
 			</Tab>
-			<Tab eventKey="users" title="Users">
+			<Tab eventKey="users" title={t("adminpage.users-tab")}>
 				<div className={!isTabletOrMobile ? "adminPageContainer" : ""}>
-					<h3>Käyttäjät</h3>
+					<h3>{t("adminpage.users")}</h3>
 					<Table striped bordered responsive>
 						<UsersTableHead />
 						<tbody>{usersTable}</tbody>
 					</Table>
 				</div>
 			</Tab>
-			<Tab eventKey="reservations" title="Reservations">
+			<Tab eventKey="reservations" title={t("adminpage.reservations-tab")}>
 				<div className={!isTabletOrMobile ? "adminPageContainer" : ""}>
-					<h3>Tulevat varaukset</h3>
+					<h3>{t("adminpage.future-reservations")}</h3>
 					<Table className="my-3" striped bordered responsive>
 						<ReservationsTableHead />
 						<tbody>{upcomingReservationRows}</tbody>
 					</Table>
-					<h3>Menneet varaukset</h3>
+					<h3>{t("adminpage.past-reservations")}</h3>
 					<Table striped bordered responsive>
 						<ReservationsTableHead />
 						<tbody>{pastReservationRows}</tbody>
@@ -282,11 +284,12 @@ export default AdminPage;
 
 const AddLaneComponent = (props: { add: (name: string) => void }) => {
 	const [laneName, setLaneName] = useState("");
-
+	const {t} = useTranslation();
+	
 	return (
 		<div className="laneRow mb-3">
 			<Form.Group className="me-3">
-				<Form.Label>Radan nimi</Form.Label>
+				<Form.Label>{t("adminpage.lane-name")}</Form.Label>
 				<Form.Control
 					required
 					value={laneName}
@@ -302,7 +305,7 @@ const AddLaneComponent = (props: { add: (name: string) => void }) => {
 				className="laneButton"
 				variant="dark"
 			>
-				Lisää rata
+				{t("adminpage.add-lane")}
 			</Button>
 		</div>
 	);
@@ -315,11 +318,12 @@ const LaneRow = (props: {
 }) => {
 	const [name, setName] = useState(props.lane.name);
 	const [usable, setUsable] = useState(props.lane.usable);
+	const {t} = useTranslation();
 
 	return (
 		<div className="laneRow mb-3">
 			<Form.Group className="me-3">
-				<Form.Label>Radan nimi</Form.Label>
+				<Form.Label>{t("adminpage.lane-name")}</Form.Label>
 				<Form.Control
 					required
 					value={name}
@@ -332,7 +336,7 @@ const LaneRow = (props: {
 			</Form.Group>
 
 			<Form.Group>
-				<Form.Label>Rata käytettävissä?</Form.Label>
+				<Form.Label>{t("adminpage.lane-usable")}</Form.Label>
 				<Form.Check
 					type="checkbox"
 					checked={usable}
@@ -346,30 +350,31 @@ const LaneRow = (props: {
 				variant="dark"
 				onClick={() => props.edit(props.lane, name, usable)}
 			>
-				Muokkaa
+				{t("adminpage.edit-button")}
 			</Button>
 			<Button
 				className="laneButton"
 				variant="danger"
 				onClick={() => props.delete(props.lane.id)}
 			>
-				Poista
+				{t("adminpage.delete-button")}
 			</Button>
 		</div>
 	);
 };
 
 const UsersTableHead = () => {
+	const {t} = useTranslation();
 	return (
 		<thead>
 			<tr>
-				<th>id</th>
-				<th>username</th>
-				<th>email</th>
-				<th>phone number</th>
-				<th>address</th>
-				<th>admin?</th>
-				<th>actions</th>
+				<th>{t("adminpage.user-id")}</th>
+				<th>{t("adminpage.username")}</th>
+				<th>{t("adminpage.email")}</th>
+				<th>{t("adminpage.phone-number")}</th>
+				<th>{t("adminpage.address")}</th>
+				<th>{t("adminpage.admin")}</th>
+				<th>{t("adminpage.users-actions")}</th>
 			</tr>
 		</thead>
 	);
@@ -389,7 +394,7 @@ const UsersRow = (props: {
 	const deleteUser = () => {
 		props.delete(props.user);
 	};
-
+	const {t} = useTranslation();
 	return (
 		<tr>
 			<td>{props.user.id}</td>
@@ -404,7 +409,7 @@ const UsersRow = (props: {
 					variant="dark"
 					onClick={toggleAdmin}
 				>
-					{admin ? "Undo admin" : "Make admin"}
+					{admin ? t("adminpage.undo-admin") : t("adminpage.make-admin")}
 				</Button>
 				<Button
 					className="tableButton"
@@ -419,16 +424,17 @@ const UsersRow = (props: {
 };
 
 const ReservationsTableHead = () => {
+	const {t} = useTranslation();
 	return (
 		<thead>
 			<tr>
-				<th>id</th>
-				<th>Username</th>
-				<th>Lane</th>
-				<th>Date</th>
-				<th>Start time</th>
-				<th>End time</th>
-				<th>Actions</th>
+				<th>{t("adminpage.reservation-id")}</th>
+				<th>{t("adminpage.reservation-username")}</th>
+				<th>{t("adminpage.lane")}</th>
+				<th>{t("adminpage.date")}</th>
+				<th>{t("adminpage.start-time")}</th>
+				<th>{t("adminpage.end-time")}</th>
+				<th>{t("adminpage.reservation-actions")}</th>
 			</tr>
 		</thead>
 	);
