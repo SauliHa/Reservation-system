@@ -199,7 +199,13 @@ const ReservationCalendarPage = () => {
 				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
 				setOpen(true);
 				return;
-			} else if(startDate.toLocaleDateString() < currentDate.toLocaleDateString()){
+			} else if(currentDate.getUTCFullYear() > startDate.getUTCFullYear() ||
+			currentDate.getUTCFullYear() === startDate.getUTCFullYear() && 
+			currentDate.getUTCMonth() > startDate.getUTCMonth() ||
+			currentDate.getUTCFullYear() === startDate.getUTCFullYear() &&
+			currentDate.getUTCMonth() === startDate.getUTCMonth() &&
+			currentDate.getUTCDate() > startDate.getUTCDate()
+			){
 				setWarningText({title:t("reservation-calendar-page.warning"), message:t("reservation-calendar-page.timeWarningMessage")});
 				setOpen(true);
 				return;
