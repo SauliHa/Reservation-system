@@ -1,3 +1,9 @@
+# Revervation system - kommentti
+
+Tämä repositorio on tehty ryhmätyönä Buutti Oy:n koulutuksen aikana.
+Tämä versio on GitHub kopio alkuperäisestä projektista, joka löytyy täältä:
+https://gitlab.com/blue1165520/reservation-system
+
 # reservation-system - Super-sports bowling
 
 ![front page](image-2.png)
